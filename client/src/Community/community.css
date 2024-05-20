@@ -1,0 +1,70 @@
+.navigation {
+    position: absolute; /* 상단 바를 고정시킴 */
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 72px; /* 상단 바의 높이 조정 */
+    background-color: #ffffff; /* 상단 바의 배경색 설정 */
+    color: #EB944D; /* 상단 바의 텍스트 색상 설정 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
+    border-bottom: #EB944D 1px solid; /* 상단 바의 아래쪽에 1px 두께의 테두리를 설정 */
+    line-height: 72px; /* 상단 바의 높이와 같은 값으로 설정 */
+  }
+
+  .header {
+    position: absolute;
+    top: 72px;
+    right: 0;
+    left: 0;
+    height: 166px;
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* Flex 방향을 세로로 지정 */
+    justify-content: space-between; /* 요소들을 상하로 나눠 배치 */
+}
+
+.header-nickname {
+    height: 72px;
+    text-align: center;
+    border-bottom: #f5f5f5 1px solid;
+    box-sizing: border-box;
+}
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 94px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-bottom: #f5f5f5 12px solid;
+}
+
+  .navigation-bar {
+    display: flex; /* 요소들을 가로로 나열 */
+    justify-content: space-between; /* 요소들을 좌우로 정렬 */
+    align-items: center; /* 요소들을 수직 가운데 정렬 */
+    padding: 0 20px; /* 상단 바의 좌우 여백을 설정 */
+    height: 56px; /* 높이를 56px로 설정 */
+    position: absolute; /* 부모 요소를 기준으로 절대 위치 */
+    bottom: 0; /* 부모 요소의 맨 아래에 위치 */
+    left: 0; /* 좌측에 위치 */
+    right: 0; /* 우측에 위치 */
+    background-color: #fff; /* 배경색 설정 (필요시) */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* 그림자 설정 (필요시) */
+}
+.floating-button {
+    position: absolute;
+    bottom: 70px; /* 네비게이션 바 위에 위치하도록 설정 */
+    right: 16px; /* 오른쪽 여백 설정 */
+    background: none; /* 기본 버튼 배경 제거 */
+    border: none; /* 기본 버튼 테두리 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    cursor: pointer; /* 커서 변경 */
+    z-index: 1000; /* 다른 요소보다 위에 표시되도록 설정 */
+}
+
+.floating-button img {
+    width: 48px; /* 필요에 따라 이미지 크기 조정 */
+    height: 48px; /* 필요에 따라 이미지 크기 조정 */
+}
