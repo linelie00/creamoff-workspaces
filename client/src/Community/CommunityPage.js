@@ -27,17 +27,12 @@ const CommunityPage = () => {
         <div className='navigation' lang='ko'>
           커뮤니티
         </div>
-        {/* 헤더 컴포넌트를 사용합니다. */}
         <Header
           nickname={nickname}
           onProfilClick={onProfilClick}
         />
-        <div className='list'>
-            <CommunityList />
-        </div>
-        <div className='navigation-bar'>
-            <NButtonContainer />
-        </div>
+        <CommunityList />
+        <NButtonContainer />
         <button className='floating-button'>
             <img src={floatingButtonUrl} alt="Floating Button" />
         </button>

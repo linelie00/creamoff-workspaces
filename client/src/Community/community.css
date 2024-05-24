@@ -73,6 +73,11 @@ a {
     background-color: #ffffff;
     box-sizing: border-box;
     border-bottom: #f5f5f5 12px solid;
+    overflow-x: auto;
+}
+
+.header-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera에서 네이티브 스크롤바 숨기기 */
 }
 
 .navigation-bar {
@@ -87,7 +92,7 @@ a {
     right: 0; /* 우측에 위치 */
     background-color: #fff; /* 배경색 설정 (필요시) */
     justify-content: space-between;
-    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 설정 */
+    overflow: hidden;
 }
 .floating-button {
     position: absolute;
@@ -110,7 +115,7 @@ a {
     top: 238px;
     left: 0;
     right: 0;
-    height: calc(100% - 238px);
+    height: calc(100% - 294px);
     align-items: center;
     overflow-y: auto;
     box-sizing: border-box;

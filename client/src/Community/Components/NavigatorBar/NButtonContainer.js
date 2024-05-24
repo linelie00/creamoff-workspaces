@@ -9,7 +9,7 @@ const NButtonContainer = ({ buttons }) => {
     const myPageUrl = `${process.env.PUBLIC_URL}/images/community/myPage.svg`;
     
     return (
-        <>
+        <div className='navigation-bar'>
             <button className='header-nickname-button'>
                 <img src={reservationUrl} alt="profil" />
             </button>
@@ -25,7 +25,7 @@ const NButtonContainer = ({ buttons }) => {
             <button className='header-nickname-button'>
                 <img src={myPageUrl} alt="ic" />
             </button>
-        </>
+        </div>
     );
 }
 
