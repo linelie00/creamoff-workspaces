@@ -3,14 +3,11 @@ import './community.css';
 import '../font.css';
 import CommunityList from './Components/List/CommunityList';
 import NButtonContainer from './Components/NavigatorBar/NButtonContainer';
+import Header from './Components/Header/Header'; // Header 컴포넌트를 임포트합니다.
 
 const CommunityPage = () => {
   const [nickname, setNickname] = useState('');
   const floatingButtonUrl = `${process.env.PUBLIC_URL}/images/community/floatingButton.svg`;
-  const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
-  const trailingUrl = `${process.env.PUBLIC_URL}/images/community/Trailing.svg`;
-  const icUrl = `${process.env.PUBLIC_URL}/images/community/alarm.svg`;
-
 
   useEffect(() => {
     const fetchNickname = async () => {
@@ -30,24 +27,11 @@ const CommunityPage = () => {
         <div className='navigation' lang='ko'>
           커뮤니티
         </div>
-        <div className='header'>
-            <div className='header-nickname'>
-                <a href="/edit-user">{nickname}</a>
-                <div classNamm='header-nickname-button-container'>
-                    <button className='header-nickname-button' onClick={onProfilClick}>
-                        <img src={profilUrl} alt="profil" />
-                    </button>
-                    <button className='header-nickname-button'>
-                        <img src={trailingUrl} alt="trailing" />
-                    </button>
-                    <button className='header-nickname-button'>
-                        <img src={icUrl} alt="ic" />
-                    </button>
-                </div>
-            </div>
-            <div className='header-bar'>
-            </div>
-        </div>
+        {/* 헤더 컴포넌트를 사용합니다. */}
+        <Header
+          nickname={nickname}
+          onProfilClick={onProfilClick}
+        />
         <div className='list'>
             <CommunityList />
         </div>
