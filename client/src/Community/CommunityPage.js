@@ -12,6 +12,7 @@ const CommunityPage = () => {
         </div>
         <div className='header'>
             <div className='header-nickname'>
+                <a href="/edit-user">닉네임</a>
             </div>
             <div className='header-bar'>
             </div>

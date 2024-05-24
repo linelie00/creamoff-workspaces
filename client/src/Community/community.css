@@ -10,7 +10,8 @@
     z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
     border-bottom: #EB944D 1px solid; /* 상단 바의 아래쪽에 1px 두께의 테두리를 설정 */
     line-height: 72px; /* 상단 바의 높이와 같은 값으로 설정 */
-    font-weight: 700;
+    font-weight: 400;
+    font-size: 20px;
   }
 
   .header {
@@ -24,11 +25,19 @@
     justify-content: space-between; /* 요소들을 상하로 나눠 배치 */
 }
 
+a {
+    color: inherit; /* 부모 요소의 색상을 상속 */
+    text-decoration: none; /* 밑줄 제거 */
+  }
+
 .header-nickname {
     height: 72px;
-    text-align: center;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 700;
     border-bottom: #f5f5f5 1px solid;
     box-sizing: border-box;
+    padding: 16px 16px 8px 16px;
 }
 
 .header-bar {
