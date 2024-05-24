@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './community.css';
 import '../font.css';
 import CommunityList from './Components/List/CommunityList';
+import NButtonContainer from './Components/NavigatorBar/NButtonContainer';
 
 const CommunityPage = () => {
   const [nickname, setNickname] = useState('');
@@ -50,7 +51,9 @@ const CommunityPage = () => {
         <div className='list'>
             <CommunityList />
         </div>
-        <div className='navigation-bar'></div>
+        <div className='navigation-bar'>
+            <NButtonContainer />
+        </div>
         <button className='floating-button'>
             <img src={floatingButtonUrl} alt="Floating Button" />
         </button>
