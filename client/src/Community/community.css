@@ -86,6 +86,7 @@ a {
     left: 0; /* 좌측에 위치 */
     right: 0; /* 우측에 위치 */
     background-color: #fff; /* 배경색 설정 (필요시) */
+    justify-content: space-between;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 설정 */
 }
 .floating-button {

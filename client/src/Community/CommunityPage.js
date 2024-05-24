@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './community.css';
 import '../font.css';
-import CommunityList from './Components/CommunityList';
+import CommunityList from './Components/List/CommunityList';
 
 const CommunityPage = () => {
   const [nickname, setNickname] = useState('');
