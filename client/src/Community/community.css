@@ -67,17 +67,35 @@ a {
 
 .header-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 94px;
     background-color: #ffffff;
     box-sizing: border-box;
     border-bottom: #f5f5f5 12px solid;
     overflow-x: auto;
+    white-space: nowrap; /* 내부 요소들이 줄 바꿈되지 않도록 설정 */
+    padding: 0 16px;
 }
 
 .header-bar::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera에서 네이티브 스크롤바 숨기기 */
+}
+
+.header-bar-item {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    flex-shrink: 0; /* 내부 요소가 컨테이너를 넘어서도 스크롤이 생성될 수 있도록 함 */
+    border-radius: 8px; /* 모서리가 둥근 네모 */
+    margin-right: 24px; /* 태그 간격 설정 */
+    display: flex; /* 자식 요소들을 가로로 나열 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    padding: 4px 8px; /* 좌우 여백 설정 */
+    min-width: 29px;
+    min-height: 26px;
+    text-align: center; /* 텍스트 정렬 설정 */
+    border: #f5f5f5 1px solid;
 }
 
 .navigation-bar {

@@ -17,10 +17,10 @@ const NButtonContainer = ({ buttons }) => {
                 <img src={noticeUrl} alt="trailing" />
             </button>
             <button className='header-nickname-button'>
-                <img src={communityUrl} alt="ic" />
+                <img src={homeUrl} alt="ic" />
             </button>
             <button className='header-nickname-button'>
-                <img src={homeUrl} alt="ic" />
+                <img src={communityUrl} alt="ic" />
             </button>
             <button className='header-nickname-button'>
                 <img src={myPageUrl} alt="ic" />

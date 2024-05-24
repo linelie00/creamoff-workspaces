@@ -21,7 +21,17 @@ const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
                     </button>
                 </div>
             </div>
-            <div className='header-bar'></div>
+            <div className='header-bar'>
+                <div className='header-bar-item'>전체</div>
+                <div className='header-bar-item'>인기</div>
+                <div className='header-bar-item'>건강</div>
+                <div className='header-bar-item'>훈련</div>
+                <div className='header-bar-item'>먹이</div>
+                <div className='header-bar-item'>맛집</div>
+                <div className='header-bar-item'>소소한</div>
+                <div className='header-bar-item'>소소한</div>
+                <div className='header-bar-item'>소소한</div>
+            </div>
         </div>
     );
 };
