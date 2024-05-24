@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './community.css';
 import '../font.css';
+import CommunityList from './Components/CommunityList';
 
 const CommunityPage = () => {
   const [nickname, setNickname] = useState('');
-  const floatingButtonUrl = `${process.env.PUBLIC_URL}/images/floatingButton.svg`;
+  const floatingButtonUrl = `${process.env.PUBLIC_URL}/images/community/floatingButton.svg`;
+  const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
+  const trailingUrl = `${process.env.PUBLIC_URL}/images/community/Trailing.svg`;
+  const icUrl = `${process.env.PUBLIC_URL}/images/community/alarm.svg`;
 
 
   useEffect(() => {
@@ -30,13 +34,13 @@ const CommunityPage = () => {
                 <a href="/edit-user">{nickname}</a>
                 <div classNamm='header-nickname-button-container'>
                     <button className='header-nickname-button' onClick={onProfilClick}>
-                        <img src={`${process.env.PUBLIC_URL}/images/profil.svg`} alt="profil" />
+                        <img src={profilUrl} alt="profil" />
                     </button>
                     <button className='header-nickname-button'>
-                        <img src={`${process.env.PUBLIC_URL}/images/Trailing.svg`} alt="profil" />
+                        <img src={trailingUrl} alt="trailing" />
                     </button>
                     <button className='header-nickname-button'>
-                        <img src={`${process.env.PUBLIC_URL}/images/ic.svg`} alt="profil" />
+                        <img src={icUrl} alt="ic" />
                     </button>
                 </div>
             </div>
@@ -44,6 +48,7 @@ const CommunityPage = () => {
             </div>
         </div>
         <div className='list'>
+            <CommunityList />
         </div>
         <div className='navigation-bar'></div>
         <button className='floating-button'>

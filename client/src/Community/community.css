@@ -49,7 +49,6 @@ a {
     justify-content: space-between;
     align-items: left;
     padding: 0 16px;
-    background-color: aqua;
     width: 144px;
     height: 48px;
 }
@@ -76,7 +75,7 @@ a {
     border-bottom: #f5f5f5 12px solid;
 }
 
-  .navigation-bar {
+.navigation-bar {
     display: flex; /* 요소들을 가로로 나열 */
     justify-content: space-between; /* 요소들을 좌우로 정렬 */
     align-items: center; /* 요소들을 수직 가운데 정렬 */
@@ -87,6 +86,7 @@ a {
     left: 0; /* 좌측에 위치 */
     right: 0; /* 우측에 위치 */
     background-color: #fff; /* 배경색 설정 (필요시) */
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 설정 */
 }
 .floating-button {
     position: absolute;
@@ -113,6 +113,8 @@ a {
     align-items: center;
     overflow-y: auto;
     box-sizing: border-box;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .list::-webkit-scrollbar {
