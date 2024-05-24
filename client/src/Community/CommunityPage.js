@@ -1,13 +1,14 @@
 import React from 'react';
 import './community.css';
+import '../font.css';
 
 const CommunityPage = () => {
   const floatingButtonUrl = `${process.env.PUBLIC_URL}/images/floatingButton.svg`;
 
   return (
     <div>
-        <div className='navigation'>
-            커뮤니티
+        <div className='navigation' lang='ko'>
+          커뮤니티
         </div>
         <div className='header'>
             <div className='header-nickname'>

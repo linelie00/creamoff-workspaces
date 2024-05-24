@@ -10,6 +10,7 @@
     z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
     border-bottom: #EB944D 1px solid; /* 상단 바의 아래쪽에 1px 두께의 테두리를 설정 */
     line-height: 72px; /* 상단 바의 높이와 같은 값으로 설정 */
+    font-weight: 700;
   }
 
   .header {
