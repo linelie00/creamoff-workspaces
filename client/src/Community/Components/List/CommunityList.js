@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './../components.css';
 import '../../../font.css';
 import Event from './Events';
 
@@ -37,9 +36,9 @@ const CommunityList = () => {
             tags: ['강아지', '고양이'],
             title: '제목4',
             content: '내용4',
-            timeAgo: '4시간 전',
-            views: 400,
-            comments: 20
+            timeAgo: '3시간 전',
+            views: 300,
+            comments: 15
         },
         // 다른 리스트 이벤트들 추가 가능
     ]);

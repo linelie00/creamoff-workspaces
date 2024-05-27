@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import './community.css';
+import '../styles/page.css';
 import '../font.css';
 import CommunityList from './Components/List/CommunityList';
-import NButtonContainer from './Components/NavigatorBar/NButtonContainer';
+import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import Header from './Components/Header/Header'; // Header 컴포넌트를 임포트합니다.
+import { useNavigate } from 'react-router-dom';
 
 const CommunityPage = () => {
+  const Navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const floatingButtonUrl = `${process.env.PUBLIC_URL}/images/community/floatingButton.svg`;
 
@@ -19,7 +21,7 @@ const CommunityPage = () => {
   }, []);
 
   const onProfilClick = () => {
-    window.location.href = '/edit-user';
+    Navigate('/edit-user');
   }
 
   return (

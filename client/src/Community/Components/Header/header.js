@@ -1,14 +1,20 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({ nickname, onProfilClick}) => {
+const Header = ({ nickname}) => {
+const Navigate = useNavigate();
 const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
   const trailingUrl = `${process.env.PUBLIC_URL}/images/community/Trailing.svg`;
   const icUrl = `${process.env.PUBLIC_URL}/images/community/alarm.svg`;
 
+  const onProfilClick = () => {
+    Navigate('/my-page');
+  }
+
     return (
         <div className='header'>
             <div className='header-nickname'>
-                <a href="/edit-user">{nickname}</a>
+                <Link to="/edit-user">{nickname}</Link>
                 <div classNamm='header-nickname-button-container'>
                     <button className='header-nickname-button' onClick={onProfilClick}>
                         <img src={profilUrl} alt="profil" />
