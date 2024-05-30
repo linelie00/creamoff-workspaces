@@ -26,7 +26,7 @@ const CommunityPage = () => {
 
   return (
     <div>
-        <div className='navigation' lang='ko'>
+        <div className='navigation'>
           커뮤니티
         </div>
         <Header
