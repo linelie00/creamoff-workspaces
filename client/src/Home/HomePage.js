@@ -14,9 +14,11 @@ const MainPage = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
 
   const startDrag = (e) => {
-    setIsDragging(true);
-    setStartX(e.pageX - containerRef.current.offsetLeft);
-    setScrollLeft(containerRef.current.scrollLeft);
+    if (containerRef.current) {
+      setIsDragging(true);
+      setStartX(e.pageX - containerRef.current.offsetLeft);
+      setScrollLeft(containerRef.current.scrollLeft);
+    }
   };
 
   const stopDrag = () => {
@@ -60,6 +62,7 @@ const MainPage = () => {
           onMouseUp={stopDrag}
           onMouseMove={onDrag}
         >
+          <div className="margin"></div>
           {imageNumbers.map((number) => (
             <div className="home-container3-img" key={number}>
               <div className="img-number">
@@ -69,9 +72,36 @@ const MainPage = () => {
           ))}
         </div>
         <div className="category">
-          카테고리
+        <div className="text">카테고리</div>
+        <div className="button-grid">
+        <div className="button-grid-con">
+        <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
         </div>
-        <div className="home-container4"></div>
+        <div className="button-grid-con">
+            <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
+            <div className="button-item">
+            </div>
+        </div>
+      </div>
+      </div>
+        <div className="home-container4">
+          <div className="margin"></div>
+          <div className="home-container4-img"></div>
+          <div className="home-container4-img"></div>
+          <div className="home-container4-img"></div>
+        </div>
       </div>
       <NButtonContainer />
     </div>
