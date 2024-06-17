@@ -7,7 +7,7 @@ const CommunityList = () => {
         {
             id: 1,
             tags: ['강아지', '고양이'],
-            title: '제목이 들어가는 텍스트 박스',
+            title: '제목이 들어가는 박스',
             content: '내용이 들어가는 텍스트 박스 본문이 들어가는 곳',
             timeAgo: '1시간 전',
             views: 100,

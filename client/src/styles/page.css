@@ -224,6 +224,10 @@ a {
     overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
+.list-mid::-webkit-scrollbar {
+  display: none;
+}
+
 .mid {
     position: absolute;
     display: flex;

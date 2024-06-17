@@ -1,5 +1,6 @@
 import React from 'react';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
+import List from './List';
 
 const ListPage = () => {
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
@@ -25,6 +26,7 @@ const ListPage = () => {
             <img src={mapUrl} alt='arrow'/>
           </button>
         </div>
+        <List />
         <NButtonContainer />
     </div>
   );
