@@ -1,33 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import List from './List';
+import { useNavigate } from "react-router-dom";
 
 const ListPage = () => {
+  const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
   const arrowUrl = `${process.env.PUBLIC_URL}/images/list/arrow_fill_down.svg`;
   const mapUrl = `${process.env.PUBLIC_URL}/images/list/map.svg`;
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   return (
     <div>
       <div className='navigation'>
         <button>
-          <img src={arrowButtonUrl} alt=''/>
+          <img src={arrowButtonUrl} alt='' onClick={() => navigate('/home')}/>
         </button>
-          미용
-        </div>
-        <div className='list-header'>
-          <div className='list-header-item'>
+        미용
+      </div>
+      <div className={`list-header ${isDropdownOpen ? 'open' : ''}`}>
+        <div className='list-header-i'>
+          <div className='list-header-item' onClick={toggleDropdown}>
             거리 순
             <button>
               <img src={arrowUrl} alt='arrow'/>
             </button>
           </div>
           <button>
-            <img src={mapUrl} alt='arrow'/>
-          </button>
+          <img src={mapUrl} alt='map' onClick={() => navigate('/list-map')}/>
+        </button>
         </div>
-        <List />
-        <NButtonContainer />
+        {isDropdownOpen && (
+          <div className='dropdown-menu'>
+            <div className='dropdown-item'>평점 오름차 순</div>
+            <div className='dropdown-item'>평점 내림차 순</div>
+            <div className='dropdown-item'>가격 오름차 순</div>
+            <div className='dropdown-item'>가격 내림차 순</div>
+            <div className='dropdown-item'>쌓인 후기 오름차 순</div>
+            <div className='dropdown-item'>쌓인 후기 내림차 순</div>
+          </div>
+        )}
+      </div>
+      <List />
+      <NButtonContainer />
     </div>
   );
 };

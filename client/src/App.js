@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './Home/HomePage';
 import ListPage from './List/ListPage';
+import ListMapPage from './List/ListMapPage';
 import CommunityPage from './Community/CommunityPage';
 import EditUserPage from './EditUser/EditUserPage';
 import MyPage from './MyPage/MyPage';
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/edit-user" element={<EditUserPage />} />
                 <Route path="/my-page" element={<MyPage />} />
+                <Route path="/list-map" element={<ListMapPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

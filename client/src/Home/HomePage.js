@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import '../styles/page.css';
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+  const navigate = useNavigate();
   const locationUrl = `${process.env.PUBLIC_URL}/images/home/location.svg`;
   const arrowUrl = `${process.env.PUBLIC_URL}/images/home/arrow.svg`;
   const footArrowUrl = `${process.env.PUBLIC_URL}/images/home/footArrow.svg`;
@@ -91,7 +93,7 @@ const MainPage = () => {
         <div className="text">카테고리</div>
         <div className="button-grid">
         <div className="button-grid-con">
-            <div className="button-item">
+            <div className="button-item" onClick={() => navigate('/list')}>
               <img src={b1Url} alt=""/>
             </div>
             <div className="button-item">
