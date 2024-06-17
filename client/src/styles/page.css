@@ -14,6 +14,17 @@
     font-size: 20px;
   }
 
+  .navigation button {
+    position: absolute;
+    top: 50%; /* 세로 중앙 정렬 */
+    transform: translateY(-50%); /* 세로 중앙 정렬을 위한 변형 */
+    left: 16px; /* 왼쪽 여백 설정 */
+    background: none; /* 기본 버튼 배경 제거 */
+    border: none; /* 기본 버튼 테두리 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    cursor: pointer; /* 커서 변경 */
+  }
+
   .header {
     position: absolute;
     top: 72px;
@@ -145,6 +156,41 @@ a {
     display: none; /* Chrome, Safari, Opera에서 네이티브 스크롤바 숨기기 */
 }
 
+.list-header {
+  position: absolute;
+  top: 72px;
+  right: 0;
+  left: 0;
+  height: 48px;
+  text-align: center;
+  display: flex; /* Flexbox 사용 */
+  flex-direction: row; /* Flex 방향을 가로로 지정 */
+  justify-content: space-between; /* 요소들을 좌우로 나눠 배치 */
+  align-items: center; /* 세로로 중앙 정렬 */
+  background-color: #FDF3E2;
+  padding: 0 16px;
+}
+
+.list-header-item {
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  text-align: center;
+  display: flex; /* Flexbox 사용 */
+  flex-direction: row; /* Flex 방향을 가로로 지정 */
+  align-items: center; /* 세로로 중앙 정렬 */
+}
+
+
+  .list-header button {
+    background: none; /* 기본 버튼 배경 제거 */
+    border: none; /* 기본 버튼 테두리 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    cursor: pointer; /* 커서 변경 */
+    width: 48px;
+    height: 48px;
+  }
+
 .home-header {
     display: flex;
     justify-content: space-between;
@@ -153,6 +199,29 @@ a {
     width: 100%;
     background-color: #f0663f;
     color: #ffffff;
+}
+
+.home-header button {
+    background: none; /* 기본 버튼 배경 제거 */
+    border: none; /* 기본 버튼 테두리 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    cursor: pointer; /* 커서 변경 */
+    width: 48px;
+    height: 48px;
+}
+
+.list-mid {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: calc(100vh - 176px);
+    width: 100%; /* 너비를 고정 */
+    left: 0;
+    right: 0;
+    top: 120px;
+    overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
 .mid {
@@ -345,7 +414,8 @@ a {
     flex-shrink: 0;
     justify-content: space-between;
     align-items: flex-start; /* 세로 정렬을 위해 추가 */
-    overflow-y: scroll; /* 가로 스크롤 활성화 */
+    overflow-y: hidden; /* 가로 스크롤 활성화 */
+    overflow-x: auto; /* 세로 스크롤 비활성화 */
   }
   
 
@@ -364,7 +434,6 @@ a {
     width: 126px;
     height: 126px;
     position: relative;
-    background-color: #c4c4c4;
     border-radius: 16px;
     box-sizing: border-box;
     margin-right: 10px;
@@ -376,3 +445,130 @@ a {
     border-radius: 16px;
     object-fit: cover;
   }
+
+  .tail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #f5f5f5;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 400;
+    justify-content: space-between;
+    padding: 25px 0;
+  }
+
+  .tail-item { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 87.2%;
+    color: #c4c4c4;
+    font-size: 9px;
+    font-weight: 400;
+    justify-content: space-between;
+    padding-top: 11.16%;
+    padding-bottom: 5.58%;
+  }
+
+  .tail-text {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: #262626;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 3.72% 0;
+    cursor: default;
+  }
+
+  .tail-number {
+    display: inline-flex; /* Use inline-flex to size the element based on its content */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #262626;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: default;
+    width: 160px;
+    height: 34px;
+    border: 1px solid #262626; /* Adds a border with the color #262626 */
+    border-radius: 16px; /* Adjust the radius value as needed */
+}
+
+.tail-a {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #262626;
+    font-size: 10px;
+    font-weight: 400;
+    cursor: pointer;
+    margin: 1.86% 0;
+}
+
+.tail-accordion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: #262626;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 1.86% 0;
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+
+.tail-accordion img {
+  margin-left: 10px; /* Adjust the margin as needed for spacing */
+  transition: transform 0.3s ease; /* Smooth transition for flipping */
+}
+
+.tail-accordion.open img {
+  transform: rotate(180deg); /* Flip the image when .open class is added */
+}
+
+.hidden-content {
+  max-height: 0; /* Initially hide the content */
+  overflow: hidden;
+  transition: max-height 0.3s ease; /* Smooth transition for showing content */
+  color: #7b7b7b;
+  font-size: 10px;
+  font-weight: 400;
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  display: flex; /* Flexbox 설정 */
+  flex-direction: row; /* 자식 요소들을 가로로 배치 */
+  width: 260px;
+}
+
+.hidden-item {
+  margin: 1.86% 0;
+  margin-right: 7.44%; /* 간격을 적절히 조정하세요 */
+}
+
+.hidden-item2 {
+  margin: 1.86% 0;
+}
+
+.hidden-item2 > div {
+  margin-top: 5px; /* 간격을 적절히 조정하세요 */
+  white-space: nowrap; /* 텍스트 줄바꿈 금지 */
+}
+
+.hidden-item > div {
+  margin-top: 5px; /* 간격을 적절히 조정하세요 */
+  white-space: nowrap; /* 텍스트 줄바꿈 금지 */
+}
+
+.hidden-content.open {
+  max-height: 1000px; /* 콘텐츠가 펼쳐질 최대 높이 */
+}
+
+.tail-co {
+  margin-top: 1.86%;
+}
