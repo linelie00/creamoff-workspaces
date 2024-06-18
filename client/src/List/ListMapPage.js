@@ -14,11 +14,15 @@ const ListMapPage = () => {
     setActiveDiv(divName);
   };
 
+  const goBack = () => {
+    navigate(-1); // 뒤로 가기
+    };
+
   return (
     <div>
       <div className='navigation'>
         <button>
-          <img src={arrowButtonUrl} alt='' onClick={() => navigate('/list')}/>
+          <img src={arrowButtonUrl} alt='' onClick={goBack}/>
         </button>
         지도에서 찾기
       </div>

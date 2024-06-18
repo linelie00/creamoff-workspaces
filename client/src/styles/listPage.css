@@ -274,3 +274,19 @@
     border-radius: 12px;
     border: #fae0b7 solid 1px;
 }
+
+.pet-list-mid {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    right: 0;
+    height: calc(100% - 114px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #262626;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 16px;
+}

@@ -14,11 +14,15 @@ const ListPage = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const goBack = () => {
+    navigate(-1); // 뒤로 가기
+  };
+
   return (
     <div>
       <div className='navigation'>
         <button>
-          <img src={arrowButtonUrl} alt='' onClick={() => navigate('/home')}/>
+          <img src={arrowButtonUrl} alt='' onClick={goBack}/>
         </button>
         미용
       </div>
