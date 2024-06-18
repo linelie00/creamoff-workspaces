@@ -6,6 +6,9 @@ import ListMapPage from './List/ListMapPage';
 import CommunityPage from './Community/CommunityPage';
 import EditUserPage from './EditUser/EditUserPage';
 import MyPage from './MyPage/MyPage';
+import EventDetailPage from './List/EventDetailPage'; 
+import LoginPage from './Login/LoginPage';
+import PetListPage from './List/PetListPage';
 import './App.css';
 
 function App() {
@@ -20,6 +23,9 @@ function App() {
                 <Route path="/edit-user" element={<EditUserPage />} />
                 <Route path="/my-page" element={<MyPage />} />
                 <Route path="/list-map" element={<ListMapPage />} />
+                <Route path="/events/:id" element={<EventDetailPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/pet-list" element={<PetListPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

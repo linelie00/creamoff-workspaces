@@ -225,6 +225,43 @@ a {
     height: 48px;
   }
 
+  .list-map-mid {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 316px;
+    width: 100%; /* 너비를 고정 */
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .list-map-mid.active {
+    flex: 2;
+    height: 500px;
+  }
+
+  .list-map-mid-mid {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%; /* 너비를 고정 */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    top: 56px;
+    background-color: #ffffff;
+  }
+
+  .list-map-mid-mid.active {
+    flex: 3;
+  }
+
 .home-header {
     display: flex;
     justify-content: space-between;
@@ -250,17 +287,54 @@ a {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: calc(100vh - 176px);
     width: 100%; /* 너비를 고정 */
     left: 0;
     right: 0;
-    top: 120px;
-    overflow-y: auto; /* 세로 스크롤 활성화 */
+    top: 0;
+    /*overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
-.list-mid::-webkit-scrollbar {
+.list-mid-h {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  right: 0;
+  height: calc(100vh - 176px);
+  overflow-y: auto;
+}
+
+.list-mid-h::-webkit-scrollbar {
   display: none;
 }
+
+.list-map-mid-mid::-webkit-scrollbar {
+  display: none;
+}
+
+.list-map {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  height: 500px;
+  overflow-y: auto;
+  background-color: antiquewhite;
+}
+
+.list-map.active {
+  flex: 2;
+  height: 500px; /* Increase height */
+}
+
+.list-map, .list-map-mid {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.list-map::-webkit-scrollbar {
+  display: none;
+}
+
 
 .mid {
     position: absolute;
@@ -363,6 +437,7 @@ a {
         overflow-y: auto;
         overflow-x: none;
         margin-bottom: 16px;
+
         scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
         -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
     }

@@ -156,3 +156,19 @@
     height: 26px;
     text-overflow: ellipsis;
 }
+
+.Nbutton {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    background-color: #f0663f;
+    font-size: 20px;
+    font-weight: 400;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #ffffff;
+    user-select: none;
+}

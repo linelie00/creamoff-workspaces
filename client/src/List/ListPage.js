@@ -45,7 +45,9 @@ const ListPage = () => {
           </div>
         )}
       </div>
-      <List />
+      <div className="list-mid-h">
+        <List />
+      </div>
       <NButtonContainer />
     </div>
   );
