@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './Home/HomePage';
+import NoticePage from './Notice/NoticePage';
+import ReviewPage from './Notice/ReviewPage';
+import ViewDetailsPage from './Notice/ViewDetailsPage';
 import ListPage from './List/ListPage';
 import ListMapPage from './List/ListMapPage';
 import CommunityPage from './Community/CommunityPage';
@@ -26,6 +29,9 @@ function App() {
                 <Route path="/events/:id" element={<EventDetailPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/pet-list" element={<PetListPage />} />
+                <Route path="/notice" element={<NoticePage />} />
+                <Route path="/events/:id/review" element={<ReviewPage />} />
+                <Route path="/events/:id/view-details" element={<ViewDetailsPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

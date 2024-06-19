@@ -12,6 +12,8 @@
     line-height: 72px; /* 상단 바의 높이와 같은 값으로 설정 */
     font-weight: 400;
     font-size: 20px;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .navigation button {
@@ -40,7 +42,6 @@
     top: 72px;
     right: 0;
     left: 0;
-    height: 166px;
     display: flex; /* Flexbox 사용 */
     flex-direction: column; /* Flex 방향을 세로로 지정 */
     justify-content: space-between; /* 요소들을 상하로 나눠 배치 */
