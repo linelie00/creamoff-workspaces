@@ -25,6 +25,7 @@ const ListMapPage = () => {
           <img src={arrowButtonUrl} alt='' onClick={goBack}/>
         </button>
         지도에서 찾기
+        <div></div>
       </div>
       <div 
         className={`list-map ${activeDiv === 'map' ? 'active' : ''}`} 

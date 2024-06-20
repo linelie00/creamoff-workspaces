@@ -1,8 +1,12 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PetInfo from './PetInfo';
 
 const PetListPage = () => {
     const navigate = useNavigate();
     const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
+    const noteUrl = `${process.env.PUBLIC_URL}/images/list/note_ic.svg`;
+    const petUrl = `${process.env.PUBLIC_URL}/images/pet/pet_img.png`;
 
     const goBack = () => {
         navigate(-1);
@@ -15,11 +19,11 @@ const PetListPage = () => {
                     <img src={arrowButtonUrl} alt='' onClick={goBack} />
                 </button>
                 등록 펫 목록
+                <button className='note'>
+                    <img src={noteUrl} alt='' />
+                </button>
             </div>
-            <div className='pet-list-mid'>
-
-            </div>
-            <div className='Nbutton' onClick={() => navigate('/pet-list')}>다음</div>
+            <PetInfo isSelectable={false}/>
         </div>
     );
 };

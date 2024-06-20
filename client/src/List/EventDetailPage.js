@@ -68,6 +68,7 @@ const EventDetailPage = () => {
                         <img src={arrowButtonUrl} alt='' onClick={() => navigate('/list')}/>
                     </button>
                     상세보기
+                    <div></div>
                 </div>
                 <div className='event-img'>
                     <img src={eventImgUrl} alt='event' />
@@ -252,7 +253,7 @@ const EventDetailPage = () => {
                     </div>
                 </div>
             </div>
-            <div className='Nbutton' onClick={() => navigate('/pet-list')}>예약하기</div>
+            <div className='Nbutton' onClick={() => navigate('/pet-select')}>예약하기</div>
         </div>
     );
 };

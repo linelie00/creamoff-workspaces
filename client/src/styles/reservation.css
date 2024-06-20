@@ -1,0 +1,87 @@
+.reservation-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 84px;
+    background-color: #f0663f;
+    box-sizing: border-box;
+    width: 100%;
+    flex-direction: row;
+    flex-shrink: 0;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.reservation-mid {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%; /* 너비를 고정 */
+    left: 0;
+    right: 0;
+    top: 72px;
+    height: calc(100% - 128px); /* 높이를 계산하여 설정 */
+    overflow: auto;
+}
+
+.reservation-mid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera에서 네이티브 스크롤바 숨기기 */
+}
+
+.payment-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 129px;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    border-top: 4px solid #f5f5f5; 
+    background-color: #ffffff;
+}
+
+.payment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.row h1 {
+    font-size: 24px;
+    font-weight: 400;
+    color: #262626;
+    margin: 0;
+    padding: 0;
+}
+
+.payment h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #262626;
+    margin: 0;
+    padding: 0;
+}
+
+.payment p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #262626;
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

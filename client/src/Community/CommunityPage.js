@@ -27,7 +27,9 @@ const CommunityPage = () => {
   return (
     <div>
         <div className='navigation'>
+          <div></div>
           커뮤니티
+          <div></div>
         </div>
         <Header
           nickname={nickname}

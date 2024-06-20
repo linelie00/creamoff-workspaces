@@ -25,6 +25,7 @@ const ListPage = () => {
           <img src={arrowButtonUrl} alt='' onClick={goBack}/>
         </button>
         미용
+        <div></div>
       </div>
       <div className={`list-header ${isDropdownOpen ? 'open' : ''}`}>
         <div className='list-header-i'>

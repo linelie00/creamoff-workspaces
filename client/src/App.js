@@ -11,7 +11,10 @@ import EditUserPage from './EditUser/EditUserPage';
 import MyPage from './MyPage/MyPage';
 import EventDetailPage from './List/EventDetailPage'; 
 import LoginPage from './Login/LoginPage';
-import PetListPage from './List/PetListPage';
+import PetListPage from './Pet/PetListPage';
+import PetSelectPage from './Pet/PetSelectPage';
+import ReservationRequestPage from './Reservation/ReservationRequestPage';
+import SelectDatePage from './Reservation/SelectDatePage';
 import './App.css';
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
                 <Route path="/notice" element={<NoticePage />} />
                 <Route path="/events/:id/review" element={<ReviewPage />} />
                 <Route path="/events/:id/view-details" element={<ViewDetailsPage />} />
+                <Route path="/pet-select" element={<PetSelectPage />} />
+                <Route path="/reservation-request" element={<ReservationRequestPage />} />
+                <Route path="/select-date" element={<SelectDatePage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

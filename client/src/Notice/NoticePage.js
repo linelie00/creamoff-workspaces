@@ -16,7 +16,9 @@ const NoticePage = () => {
     return (
         <div>
             <div className='navigation'>
+                <div></div>
                 알림장목록
+                <div></div>
             </div>
             <div className='header'>
                 <div className='notice-header-bar'>

@@ -59,6 +59,7 @@ const Review = () => {
                         <img src={arrowButtonUrl} alt='' onClick={goBack} />
                     </button>
                     후기쓰기
+                    <div></div>
                 </div>
                 <div className='review-mid'>
                     <div className='review-text'>
