@@ -13,13 +13,13 @@ const PetListPage = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='navigation'>
                 <button>
                     <img src={arrowButtonUrl} alt='' onClick={goBack} />
                 </button>
                 등록 펫 목록
-                <button className='note'>
+                <button className='note' onClick={()=>navigate('/pet-registration')}>
                     <img src={noteUrl} alt='' />
                 </button>
             </div>

@@ -16,6 +16,7 @@
     justify-content: space-between;
     display: flex;
     box-sizing: border-box;
+    align-items: center;
     padding: 0 16px;
   }
 
@@ -24,6 +25,10 @@
     border: none; /* 기본 버튼 테두리 제거 */
     padding: 0; /* 기본 패딩 제거 */
     cursor: pointer; /* 커서 변경 */
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
   }
 
   .navigation > div {
@@ -340,7 +345,6 @@ a {
   right: 0;
   height: 500px;
   overflow-y: auto;
-  background-color: antiquewhite;
 }
 
 .list-map.active {
@@ -373,6 +377,23 @@ a {
 
 .mid::-webkit-scrollbar {
     display: none;
+}
+
+.r-mid {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%; /* 너비를 고정 */
+  left: 0;
+  right: 0;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+
+.r-mid::-webkit-scrollbar {
+  display: none;
 }
 
 .home-location {

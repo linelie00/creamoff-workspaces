@@ -173,6 +173,20 @@
     user-select: none;
 }
 
+.Nbutton3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    width: 100%;
+    background-color: #f0663f;
+    font-size: 20px;
+    font-weight: 400;
+    color: #ffffff;
+    user-select: none;
+    flex-shrink: 0;
+}
+
 .Nbutton2 {
     position: absolute;
     display: flex;

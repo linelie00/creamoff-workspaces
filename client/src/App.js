@@ -9,14 +9,17 @@ import ListMapPage from './List/ListMapPage';
 import CommunityPage from './Community/CommunityPage';
 import EditUserPage from './EditUser/EditUserPage';
 import MyPage from './MyPage/MyPage';
+import SavedPage from './MyPage/SavedPage';
 import EventDetailPage from './List/EventDetailPage'; 
 import LoginPage from './Login/LoginPage';
 import PetListPage from './Pet/PetListPage';
 import PetSelectPage from './Pet/PetSelectPage';
+import PetRegistrationPage from './Pet/PetRegistrationPage';
 import ReservationRequestPage from './Reservation/ReservationRequestPage';
 import SelectDatePage from './Reservation/SelectDatePage';
 import ReservatinConfirm from './Reservation/ReservationConfirmPage';
 import ReservationPage from './Reservation/ReservationPage';
+import CancleReservationPage from './Reservation/CancleReservationPage';
 import './App.css';
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
                 <Route path="/select-date" element={<SelectDatePage />} />
                 <Route path="/reservation-confirm" element={<ReservatinConfirm />} />
                 <Route path="/reservation" element={<ReservationPage />} />
+                <Route path="/cancle-reservation" element={<CancleReservationPage />} />
+                <Route path="/pet-registration" element={<PetRegistrationPage />} />
+                <Route path="/saved" element={<SavedPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

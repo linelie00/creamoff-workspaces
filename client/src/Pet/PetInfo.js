@@ -5,12 +5,12 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
 
     const dogPets = [
         { id: 1, name: '누렁이', breed: '리트리버', weight: '7kg', gender: '남', age: '2살' },
-        { id: 2, name: '망고', breed: '골든 리트리버', weight: '5kg', gender: '여', age: '3살' },
+        { id: 2, name: '망고', breed: '골든리트리버', weight: '5kg', gender: '여', age: '3살' },
     ];
 
     const catPets = [
-        { id: 3, name: '야옹이', breed: '샴 고양이', weight: '4kg', gender: '남', age: '1살' },
-        { id: 4, name: '초코', breed: '페르시안 고양이', weight: '3kg', gender: '여', age: '2살' },
+        { id: 3, name: '야옹이', breed: '샴', weight: '4kg', gender: '남', age: '1살' },
+        { id: 4, name: '초코', breed: '페르시안', weight: '3kg', gender: '여', age: '2살' },
     ];
 
     const [accordionState, setAccordionState] = useState({

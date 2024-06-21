@@ -52,7 +52,7 @@ const Review = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>
@@ -61,7 +61,7 @@ const Review = () => {
                     후기쓰기
                     <div></div>
                 </div>
-                <div className='review-mid' lang='ko'>
+                <div className='review-mid'>
                     <div className='review-text'>
                         <h1>한라마운틴미용실</h1>
                         <p>제주특별자치도 제주시 한라읍 한라동 387-8번지 101호 백록담 호수 안</p>

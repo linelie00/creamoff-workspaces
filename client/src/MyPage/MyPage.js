@@ -39,19 +39,19 @@ const MyPage = () => {
                         <div className='event-button-text'>마이펫</div>
                     </div>
                     <div className='event-button'>
-                        <button>
+                        <button onClick={() => navigate('/notice')}>
                             <img src={noteUrl} alt='' />
                         </button>
                         <div className='event-button-text'>알림창</div>
                     </div>
                     <div className='event-button'>
-                        <button>
+                        <button onClick={() => navigate('/reservation')}>
                             <img src={calendarUrl} alt='' />
                         </button>
                         <div className='event-button-text'>예약내역</div>
                     </div>
                     <div className='event-button'>
-                        <button>
+                        <button onClick={() => navigate('/saved')}>
                             <img src={heartUrl} alt='' />
                         </button>
                         <div className='event-button-text'>찜한내역</div>

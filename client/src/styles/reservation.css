@@ -92,7 +92,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 20%;
+    margin-top: 15%;
 }
 
 .confirm h1 {
@@ -112,4 +112,87 @@
     padding: 0;
     width: 66%;
     margin-top: 37px;
+}
+
+.reservation-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    height: 154px;
+    box-sizing: border-box;
+    padding: 16px;
+    border-bottom: #c4c4c4 solid 1px;
+}
+
+.reservation-content h1 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #262626;
+    margin: 0;
+    padding: 0;
+}
+
+.reservation-content p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #7b7b7b;
+    margin: 0;
+    padding: 0;
+}
+
+.reservation-content > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 24px;
+}
+
+.cancel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65.13px;
+    height: 24px;
+    background-color: #ffffff;
+    color: #7b7b7b;
+    border-radius: 20px;
+    border: #7b7b7b solid 1px;
+    font-size: 12px;
+    font-weight: 400;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.cancle-info {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    height: 121px;
+    box-sizing: border-box;
+    padding: 16px;
+    bottom: 0;
+    border-top: #c4c4c4 solid 1px;
+}
+
+.cancle-info h1 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #262626;
+    margin: 0;
+    padding: 0;
+}
+
+.cancle-info p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #7b7b7b;
+    margin: 0;
+    padding: 0;
 }
