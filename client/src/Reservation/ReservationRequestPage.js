@@ -101,7 +101,7 @@ const ReservationRequestPage = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='navigation'>
                 <button onClick={goBack}>
                     <img src={`${process.env.PUBLIC_URL}/images/list/arrow_left.svg`} alt='뒤로가기' />

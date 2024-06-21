@@ -11,7 +11,7 @@ const Review = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>
@@ -23,7 +23,7 @@ const Review = () => {
                 <div className='review-mid'>
                 </div>
             </div>
-            <div className='Nbutton' onClick={() => navigate('/reservation')}>예약등록</div>
+            <div className='Nbutton' onClick={() => navigate('/reservation-confirm')}>예약등록</div>
         </div>
     );
 };

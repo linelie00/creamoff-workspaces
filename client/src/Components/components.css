@@ -172,3 +172,46 @@
     color: #ffffff;
     user-select: none;
 }
+
+.Nbutton2 {
+    position: absolute;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 56px;
+    font-size: 20px;
+    font-weight: 400;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #ffffff;
+    flex-direction: row;
+    user-select: none;
+}
+
+.Nbutton2-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    font-size: 20px;
+    font-weight: 400;
+    color: #f0663f;
+    user-select: none;
+    box-sizing: border-box;
+    border: #f0663f solid 1px;
+}
+
+.Nbutton2-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    background-color: #f0663f;
+    font-size: 20px;
+    font-weight: 400;
+    color: #ffffff;
+    user-select: none;
+}

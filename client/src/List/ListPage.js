@@ -19,7 +19,7 @@ const ListPage = () => {
   };
 
   return (
-    <div>
+    <div lang='ko'>
       <div className='navigation'>
         <button>
           <img src={arrowButtonUrl} alt='' onClick={goBack}/>

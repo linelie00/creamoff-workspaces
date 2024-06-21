@@ -14,13 +14,13 @@ const NoticePage = () => {
     const searchUrl = `${process.env.PUBLIC_URL}/images/notice/search.svg`;
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='navigation'>
                 <div></div>
                 알림장목록
                 <div></div>
             </div>
-            <div className='header'>
+            <div className='header' lang='ko'>
                 <div className='notice-header-bar'>
                     <input className='notice-header-search' placeholder="검색어를 입력하세요..." />
                     <img src={searchUrl} alt="" />

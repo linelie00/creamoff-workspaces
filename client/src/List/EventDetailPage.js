@@ -61,7 +61,7 @@ const EventDetailPage = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>

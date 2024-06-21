@@ -29,7 +29,7 @@ const PetSelectPage = () => {
     };
 
     return (
-        <div>
+        <div lang='ko'>
             <div className='navigation'>
                 <button onClick={goBack}>
                     <img src={arrowButtonUrl} alt='뒤로가기' />

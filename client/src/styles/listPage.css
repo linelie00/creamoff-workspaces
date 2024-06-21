@@ -162,6 +162,7 @@
     margin-top: 32px;
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3개의 열, 각 열의 너비는 동일 */
+    flex-shrink: 0;
 }
 
 .grid-item {
@@ -199,18 +200,15 @@
 }
 
 .accordion-hidden-div {
-    position: relative;
     display: flex;
-    flex-direction: row; /* 가로 방향으로 배치 */
     width: 100%;
     flex-shrink: 0;
-    overflow-y: none;
-    overflow-x: none;
     margin-top: 16px;
     margin-bottom: 16px;
     scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
     -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
     cursor: grab; /* 기본 상태에서 커서를 손 모양으로 설정 */
+    flex-shrink: 0;
 }
 
 .accordion-hidden-div:active {
@@ -232,6 +230,8 @@
     width: 100%;
     min-width: 700px; /* 스크롤 유도를 위한 최소 너비 설정 */
     border: 1px solid #ccc; /* 테두리 설정 */
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .custom-table td, .custom-table th {

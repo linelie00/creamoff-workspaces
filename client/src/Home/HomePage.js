@@ -52,7 +52,7 @@ const MainPage = () => {
   };
 
   return (
-    <div>
+    <div lang='ko'>
       <div className="mid">
         <div className="home-header">
           <div className="home-location">

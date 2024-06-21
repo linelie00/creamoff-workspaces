@@ -11,7 +11,7 @@ const LoginPage = () => {
     const image4Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (4).png`;
     const image5Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (5).png`;
     return (
-      <div className='login'>
+      <div className='login' lang='ko'>
         <div className="login-title">
             <img src={logoUrl} alt="logo" />
         </div>

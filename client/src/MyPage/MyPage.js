@@ -14,7 +14,7 @@ const MyPage = () => {
     navigate(-1); // 뒤로 가기
   };
     return (
-      <div>
+      <div lang='ko'>
           <div className='mid'>
             <div className='navigation'>
                 <button>

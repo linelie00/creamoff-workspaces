@@ -15,6 +15,8 @@ import PetListPage from './Pet/PetListPage';
 import PetSelectPage from './Pet/PetSelectPage';
 import ReservationRequestPage from './Reservation/ReservationRequestPage';
 import SelectDatePage from './Reservation/SelectDatePage';
+import ReservatinConfirm from './Reservation/ReservationConfirmPage';
+import ReservationPage from './Reservation/ReservationPage';
 import './App.css';
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
                 <Route path="/pet-select" element={<PetSelectPage />} />
                 <Route path="/reservation-request" element={<ReservationRequestPage />} />
                 <Route path="/select-date" element={<SelectDatePage />} />
+                <Route path="/reservation-confirm" element={<ReservatinConfirm />} />
+                <Route path="/reservation" element={<ReservationPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
