@@ -3,7 +3,7 @@ import '../styles/page.css';
 import '../font.css';
 import CommunityList from './Components/List/CommunityList';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
-import Header from './Components/Header/Header'; // Header 컴포넌트를 임포트합니다.
+import Header from './Components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 
 const CommunityPage = () => {
