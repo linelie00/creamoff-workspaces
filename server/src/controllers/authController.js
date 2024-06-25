@@ -5,7 +5,7 @@ dotenv.config(); // .env 파일의 환경 변수 로드
 
 const router = express.Router();
 
-router.get('/kakao', async (req, res) => {
+router.get('/auth/kakao', async (req, res) => {
   try {
     const code = req.query.code;
     
@@ -22,8 +22,8 @@ router.get('/kakao', async (req, res) => {
       },
       data: new URLSearchParams({
         grant_type: 'authorization_code',
-        client_id: process.env.KAKAO_CLIENT_ID, // .env 파일에 설정된 클라이언트 ID 사용
-        redirect_uri: 'http://localhost:8282/auth/kakao', // Redirect URI 설정 필요
+        client_id: process.env.KAKAO_CLIENT_ID,
+        redirect_uri: 'http://localhost:8282/auth/kakao', // 백엔드에서 설정한 리다이렉트 URI
         code: code,
       }).toString(),
     });
