@@ -21,6 +21,8 @@ const MainPage = () => {
 
   const imageNumbers = Array.from({ length: 9 }, (_, index) => index + 1);
   const containerRef = useRef(null);
+  const containerRef2 = useRef(null);
+  const containerRef3 = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -32,17 +34,51 @@ const MainPage = () => {
       setScrollLeft(containerRef.current.scrollLeft);
     }
   };
-
   const stopDrag = () => {
     setIsDragging(false);
   };
-
   const onDrag = (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - containerRef.current.offsetLeft;
     const walk = (x - startX); // 스크롤 속도 조정
     containerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const startDrag2 = (e) => {
+    if (containerRef2.current) {
+      setIsDragging(true);
+      setStartX(e.pageX - containerRef2.current.offsetLeft);
+      setScrollLeft(containerRef2.current.scrollLeft);
+    }
+  };
+  const stopDrag2 = () => {
+    setIsDragging(false);
+  };
+  const onDrag2 = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - containerRef2.current.offsetLeft;
+    const walk = (x - startX); // 스크롤 속도 조정
+    containerRef2.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const startDrag3 = (e) => {
+    if (containerRef3.current) {
+      setIsDragging(true);
+      setStartX(e.pageX - containerRef3.current.offsetLeft);
+      setScrollLeft(containerRef3.current.scrollLeft);
+    }
+  };
+  const stopDrag3 = () => {
+    setIsDragging(false);
+  };
+  const onDrag3 = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - containerRef3.current.offsetLeft;
+    const walk = (x - startX); // 스크롤 속도 조정
+    containerRef3.current.scrollLeft = scrollLeft - walk;
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -89,9 +125,17 @@ const MainPage = () => {
             </div>
           ))}
         </div>
+        
         <div className="category">
         <div className="text">카테고리</div>
-        <div className="button-grid">
+        <div 
+          className="button-grid"
+          ref={containerRef2}
+          onMouseDown={startDrag2}
+          onMouseLeave={stopDrag2}
+          onMouseUp={stopDrag2}
+          onMouseMove={onDrag2}
+        >
         <div className="button-grid-con">
             <div className="button-item" onClick={() => navigate('/list')}>
               <img src={b1Url} alt=""/>
@@ -121,8 +165,16 @@ const MainPage = () => {
             </div>
         </div>
       </div>
+
       </div>
-        <div className="home-container4">
+        <div 
+          className="home-container4"
+          ref={containerRef3}
+          onMouseDown={startDrag3}
+          onMouseLeave={stopDrag3}
+          onMouseUp={stopDrag3}
+          onMouseMove={onDrag3}
+        >
           <div className="margin"></div>
           <div className="home-container4-img"></div>
           <div className="home-container4-img"></div>

@@ -3,7 +3,7 @@ import '../styles/page.css';
 import '../font.css';
 import CommunityList from './Components/List/CommunityList';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
-import Header from './Components/Header/Header';
+import Header from './Components/Header/header';
 import { useNavigate } from 'react-router-dom';
 
 const CommunityPage = () => {
