@@ -1,13 +1,7 @@
-// models/User.js
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize({
-  dialect: 'mysql',
-  username: 'your_mysql_username',
-  password: 'your_mysql_password',
-  database: 'your_database_name',
-});
+const sequelize = require('../models').sequelize; // sequelize 인스턴스 임포트
 
-const User = sequelize.define('TB_USER', {
+const User = sequelize.define('TB_USERS', {
   user_id: {
     type: DataTypes.STRING(20),
     primaryKey: true,
@@ -47,7 +41,7 @@ const User = sequelize.define('TB_USER', {
     onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
 }, {
-  timestamps: false, // 이 옵션이 설정되면 자동으로 created_at, updated_at을 관리하지 않습니다.
+  timestamps: false,
 });
 
 module.exports = User;
