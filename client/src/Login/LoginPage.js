@@ -13,12 +13,20 @@ const LoginPage = () => {
     const image5Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (5).png`;
 
     const kakao_key = process.env.REACT_APP_KAKAO_CLIENT_ID; // 카카오 클라이언트 ID 설정
-    const redirect_uri = process.env.REACT_APP_KAKAO_REDIRECT_URI; // 카카오 리다이렉트 URI 설정
+    const redirect_uri_kakao = process.env.REACT_APP_KAKAO_REDIRECT_URI; // 카카오 리다이렉트 URI 설정
 
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_key}&redirect_uri=${redirect_uri}&response_type=code`;
+    const naver_key = process.env.REACT_APP_NAVER_CLIENT_ID; // 네이버 클라이언트 ID 설정
+    const redirect_uri_naver = process.env.REACT_APP_NAVER_REDIRECT_URI; // 네이버 리다이렉트 URI 설정
+
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_key}&redirect_uri=${redirect_uri_kakao}&response_type=code`;
+    const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_key}&redirect_uri=${redirect_uri_naver}&state=STATE_STRING`;
 
     const handleKakao = () => {
         window.location.href = kakaoURL;
+    };
+
+    const handleNaver = () => {
+        window.location.href = naverURL;
     };
 
     return (
@@ -65,7 +73,7 @@ const LoginPage = () => {
                 <button onClick={handleKakao}>
                     <img src={kakaoUrl} alt="kakao" />
                 </button>
-                <button>
+                <button onClick={handleNaver}>
                     <img src={naverUrl} alt="naver" />
                 </button>
             </div>
