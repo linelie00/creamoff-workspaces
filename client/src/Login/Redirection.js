@@ -3,22 +3,34 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Redirection = () => {
-    const code = window.location.search;
+    const code = new URLSearchParams(window.location.search).get('code'); // URL 쿼리에서 인가 코드 추출
     const navigate = useNavigate();
-  
+
     useEffect(() => {
-      console.log(process.env.REACT_APP_URL);
-      axios.post(`${process.env.REACT_APP_URL}kakaoLogin${code}`).then((r) => {
-        console.log(r.data);
-  
-        // 토큰을 받아서 localStorage같은 곳에 저장하는 코드를 여기에 쓴다.
-        localStorage.setItem('name', r.data.user_name); // 일단 이름만 저장했다.
-        
-        navigate('/loginSuccess');
-      });
-    }, []);
-  
+        const fetchUserInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8282/api/auth/kakao?code=${code}`);
+                console.log(response.data);
+
+                // 사용자 정보를 로컬 스토리지에 저장하는 예시 (필요에 따라 변경)
+                localStorage.setItem('user', JSON.stringify(response.data));
+
+                // 로그인 성공 후 이동할 경로로 리디렉션
+                navigate('/loginSuccess');
+            } catch (error) {
+                console.error('Kakao login error:', error);
+                // 오류 처리 로직 추가
+            }
+        };
+
+        if (code) {
+            fetchUserInfo();
+        } else {
+            console.error('Authorization code not found.');
+        }
+    }, [code, navigate]);
+
     return <div>로그인 중입니다.</div>;
-  };
-  
-  export default Redirection;
+};
+
+export default Redirection;

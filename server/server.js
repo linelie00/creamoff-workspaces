@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // authRoutes 추가
-app.use('/', authRoutes);
+app.use('/api', authRoutes);
 
 app.listen(app.get('port'), () => {
   console.log(`${app.get('port')}번 포트에서 서버가 실행 중입니다.`);
