@@ -16,7 +16,7 @@ const Redirection = () => {
                 localStorage.setItem('user', JSON.stringify(response.data));
 
                 // 로그인 성공 후 이동할 경로로 리디렉션
-                navigate('/loginSuccess');
+                navigate('/login-success');
             } catch (error) {
                 console.error('Kakao login error:', error);
                 // 오류 처리 로직 추가
