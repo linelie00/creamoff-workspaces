@@ -28,7 +28,7 @@ router.get('/kakao', async (req, res) => {
         params: {
           grant_type: 'authorization_code',
           client_id: process.env.KAKAO_CLIENT_ID,
-          redirect_uri: 'http://localhost:3000/auth/kakao', // 백엔드에서 설정한 리다이렉트 URI
+          redirect_uri: process.env.KAKAO_REDIRECT_URI, // 백엔드에서 설정한 리다이렉트 URI
           code: code,
         },
       });

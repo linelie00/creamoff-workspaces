@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-
 import '../styles/auth.css';
 
 const LoginPage = () => {
@@ -14,8 +12,8 @@ const LoginPage = () => {
     const image4Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (4).png`;
     const image5Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (5).png`;
 
-    const kakao_key = '950c9a7e09d0d6c00b27d8e80bb61133'; // 카카오 클라이언트 ID 설정
-    const redirect_uri = 'http://localhost:3000/auth/kakao'; // 카카오 리다이렉트 URI 설정
+    const kakao_key = process.env.REACT_APP_KAKAO_CLIENT_ID; // 카카오 클라이언트 ID 설정
+    const redirect_uri = process.env.REACT_APP_KAKAO_REDIRECT_URI; // 카카오 리다이렉트 URI 설정
 
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
