@@ -51,6 +51,7 @@ function App() {
                 <Route path="/pet-registration" element={<PetRegistrationPage />} />
                 <Route path="/saved" element={<SavedPage />} />
                 <Route path="/auth/*" element={<Redirection />} />
+
                 <Route path="/login-success" element={<KoginSuccess />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>

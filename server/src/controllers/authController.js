@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const dotenv = require('dotenv');
-dotenv.config(); // .env 파일의 환경 변수 로드
+dotenv.config();
 
 const router = express.Router();
 
@@ -75,8 +75,8 @@ router.get('/naver', async (req, res) => {
         params: {
           grant_type: 'authorization_code',
           client_id: '_tC1KH67sVI6XsYidFe_',
-          client_secret: 'f1Ro8lrCXM',
-          redirect_uri: 'http://localhost:3000/auth/naver', // 백엔드에서 설정한 리다이렉트 URI
+          client_secret: process.env.NAVER_CLIENT_SECRET,
+          redirect_uri: process.env.NAVER_REDIRECT_URI, // 백엔드에서 설정한 리다이렉트 URI
           code: code,
         },
       });
