@@ -1,3 +1,4 @@
+import React from 'react';
 import '../styles/auth.css';
 
 const LoginPage = () => {
@@ -10,57 +11,75 @@ const LoginPage = () => {
     const image3Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (3).png`;
     const image4Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (4).png`;
     const image5Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (5).png`;
+
+    const kakao_key = process.env.REACT_APP_KAKAO_CLIENT_ID; // 카카오 클라이언트 ID 설정
+    const redirect_uri_kakao = process.env.REACT_APP_KAKAO_REDIRECT_URI; // 카카오 리다이렉트 URI 설정
+
+    const naver_key = process.env.REACT_APP_NAVER_CLIENT_ID; // 네이버 클라이언트 ID 설정
+    const redirect_uri_naver = process.env.REACT_APP_NAVER_REDIRECT_URI; // 네이버 리다이렉트 URI 설정
+
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_key}&redirect_uri=${redirect_uri_kakao}&response_type=code`;
+    const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_key}&redirect_uri=${redirect_uri_naver}&state=STATE_STRING`;
+
+    const handleKakao = () => {
+        window.location.href = kakaoURL;
+    };
+
+    const handleNaver = () => {
+        window.location.href = naverURL;
+    };
+
     return (
-      <div className='login' lang='ko'>
-        <div className="login-title">
-            <img src={logoUrl} alt="logo" />
-        </div>
-        <div className="login-pictures">
-            <table>
-                <tbody>
-                <tr>
-                    <td colSpan="2" rowSpan="2">
-                    <img src={image1Url} alt="" />
-                    </td>
-                    <td rowSpan="2">
-                    <img src={image2Url} alt="" />
-                    </td>
-                </tr>
-                <tr></tr>
-                <tr>
-                    <td colSpan="2" rowSpan="2">
-                    <img src={image3Url} alt="" />
-                    </td>
-                    <td>
-                    <img src={image4Url} alt="" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    <img src={image5Url} alt="" />
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-          <div className="login-text">
+        <div className='login' lang='ko'>
+            <div className="login-title">
+                <img src={logoUrl} alt="logo" />
+            </div>
+            <div className="login-pictures">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colSpan="2" rowSpan="2">
+                                <img src={image1Url} alt="" />
+                            </td>
+                            <td rowSpan="2">
+                                <img src={image2Url} alt="" />
+                            </td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td colSpan="2" rowSpan="2">
+                                <img src={image3Url} alt="" />
+                            </td>
+                            <td>
+                                <img src={image4Url} alt="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src={image5Url} alt="" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className="login-text">
                 우리 아이를 위한 특별한 곳,<br></br>
                 여기에서 시작해요
-          </div>
-          <div className="login-button-container">
+            </div>
+            <div className="login-button-container">
                 <button>
                     <img src={googleUrl} alt="google" />
                 </button>
-                <button>
+                <button onClick={handleKakao}>
                     <img src={kakaoUrl} alt="kakao" />
                 </button>
-                <button>
+                <button onClick={handleNaver}>
                     <img src={naverUrl} alt="naver" />
                 </button>
-          </div>
-          <a>간편로그인</a>
-      </div>
+            </div>
+            <a>간편로그인</a>
+        </div>
     );
-  };
-  
-  export default LoginPage;
+};
+
+export default LoginPage;
