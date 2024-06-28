@@ -19,15 +19,24 @@ const Redirection = () => {
                 } else if (window.location.pathname === '/auth/naver') {
                     authProvider = 'naver';
                     authCode = code;
+                } else if (window.location.pathname === '/auth/google') {
+                    authProvider = 'google';
+                    authCode = code;
                 }
 
                 if (!authCode) {
                     throw new Error('Authorization code not found.');
                 }
 
-                const endpoint = authProvider === 'kakao'
-                    ? `http://localhost:8282/api/auth/kakao?code=${authCode}`
-                    : `http://localhost:8282/api/auth/naver?code=${authCode}`;
+                let endpoint = '';
+
+                if (authProvider === 'kakao') {
+                    endpoint = `http://localhost:8282/api/auth/kakao?code=${authCode}`;
+                } else if (authProvider === 'naver') {
+                    endpoint = `http://localhost:8282/api/auth/naver?code=${authCode}`;
+                } else if (authProvider === 'google') {
+                    endpoint = `http://localhost:8282/api/auth/google?code=${authCode}`;
+                }
 
                 const response = await axios.get(endpoint);
 
@@ -49,7 +58,11 @@ const Redirection = () => {
         }
     }, [code, navigate]);
 
-    return <div>로그인 중입니다.</div>;
+    return (
+        <div>
+            로그인 중입니다.
+        </div>
+    );
 };
 
 export default Redirection;
