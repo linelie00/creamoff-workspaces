@@ -32,7 +32,6 @@ const Redirection = () => {
                 const response = await axios.get(endpoint);
 
                 const token = response.data.token;
-                console.log('Received token:', token); // 토큰 콘솔에 출력
 
                 localStorage.setItem('token', token); // 토큰 저장
 
