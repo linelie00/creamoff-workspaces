@@ -1,7 +1,4 @@
-// LoginPage.jsx
-
 import React from 'react';
-import axios from 'axios';
 import '../styles/auth.css';
 
 const LoginPage = () => {
@@ -88,7 +85,7 @@ const LoginPage = () => {
                     <img src={naverUrl} alt="naver" />
                 </button>
             </div>
-            <a>간편로그인</a>
+            <p>간편로그인</p>
         </div>
     );
 };

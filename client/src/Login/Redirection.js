@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Redirection = () => {
     const code = new URLSearchParams(window.location.search).get('code');
     const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         let authProvider = '';
@@ -31,11 +32,11 @@ const Redirection = () => {
                 let endpoint = '';
 
                 if (authProvider === 'kakao') {
-                    endpoint = `http://localhost:8282/api/auth/kakao?code=${authCode}`;
+                    endpoint = `${apiUrl}/api/auth/kakao?code=${authCode}`;
                 } else if (authProvider === 'naver') {
-                    endpoint = `http://localhost:8282/api/auth/naver?code=${authCode}`;
+                    endpoint = `${apiUrl}/api/auth/naver?code=${authCode}`;
                 } else if (authProvider === 'google') {
-                    endpoint = `http://localhost:8282/api/auth/google?code=${authCode}`;
+                    endpoint = `${apiUrl}/api/auth/google?code=${authCode}`;
                 }
 
                 const response = await axios.get(endpoint);
@@ -56,7 +57,7 @@ const Redirection = () => {
         } else {
             console.error('Authorization code not found.');
         }
-    }, [code, navigate]);
+    }, [code, navigate, apiUrl]);
 
     return (
         <div>

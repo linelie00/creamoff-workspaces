@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = ({ nickname}) => {
 const Navigate = useNavigate();
 const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
-  const trailingUrl = `${process.env.PUBLIC_URL}/images/community/Trailing.svg`;
-  const icUrl = `${process.env.PUBLIC_URL}/images/community/alarm.svg`;
+const trailingUrl = `${process.env.PUBLIC_URL}/images/community/Trailing.svg`;
+const icUrl = `${process.env.PUBLIC_URL}/images/community/alarm.svg`;
+
+const containerRef = useRef(null);
+const [isDragging, setIsDragging] = useState(false);
+const [startX, setStartX] = useState(0);
+const [scrollLeft, setScrollLeft] = useState(0);
+
+const startDrag = (e) => {
+    if (containerRef.current) {
+      setIsDragging(true);
+      setStartX(e.pageX - containerRef.current.offsetLeft);
+      setScrollLeft(containerRef.current.scrollLeft);
+    }
+  };
+  const stopDrag = () => {
+    setIsDragging(false);
+  };
+  const onDrag = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - containerRef.current.offsetLeft;
+    const walk = (x - startX); // 스크롤 속도 조정
+    containerRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   const onProfilClick = () => {
     Navigate('/my-page');
@@ -27,7 +50,14 @@ const profilUrl = `${process.env.PUBLIC_URL}/images/community/profil.svg`;
                     </button>
                 </div>
             </div>
-            <div className='header-bar'>
+            <div 
+                className='header-bar'
+                ref={containerRef}
+                onMouseDown={startDrag}
+                onMouseLeave={stopDrag}
+                onMouseUp={stopDrag}
+                onMouseMove={onDrag}
+            >
                 <div className='header-bar-item'>전체</div>
                 <div className='header-bar-item'>인기</div>
                 <div className='header-bar-item'>건강</div>
