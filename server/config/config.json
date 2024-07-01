@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "0408",
+    "password": "1234",
     "database": "creamoff",
     "host": "127.0.0.1",
     "dialect": "mariadb"
   },
   "test": {
     "username": "root",
-    "password": "0408",
+    "password": "1234",
     "database": "creamoff",
     "host": "127.0.0.1",
     "dialect": "mariadb"
   },
   "production": {
     "username": "root",
-    "password": "0408",
+    "password": "1234",
     "database": "creamoff",
     "host": "127.0.0.1",
     "dialect": "mariadb"
