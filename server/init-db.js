@@ -1,6 +1,8 @@
 const sequelize = require('./models').sequelize;
 const User = require('./models/User');
 const Authority = require('./models/Authority');
+const UserAuthority = require('./models/UserAuthority');
+const PetSpecies = require('./models/PetSpecies');
 
 async function initializeDatabase() {
   try {

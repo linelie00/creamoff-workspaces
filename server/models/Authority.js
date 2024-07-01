@@ -3,29 +3,20 @@ const sequelize = require('../models').sequelize; // sequelize 인스턴스 임�
 
 const Authority = sequelize.define('TB_AUTHORITIES', {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(8),
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
     },
     authority: {
         type: DataTypes.STRING(10),
         allowNull: false,
         defaultValue: '',
     },
-    is_user: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: 0,
-    },
-    is_entrepreneur: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: 0,
-    },
-    is_admin: {
-        type: DataTypes.BOOLEAN,
+    authority_code: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
     },
 })
+
+module.exports = Authority;
