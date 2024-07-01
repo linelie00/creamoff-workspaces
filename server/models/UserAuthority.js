@@ -1,11 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../models').sequelize; // sequelize 인스턴스 임포트
+const sequelize = require('../models').sequelize;
 const User = require('./User');
 const Authority = require('./Authority');
 
-
-// 이녀석이 문제예요 선생님!!!!!!!!!!!!! 
-const UserAuthority = sequelize.define('TB_USER_AUTHORITIES', {
+const UserAuthority = sequelize.define('TB_USER_AUTHS', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -15,39 +13,36 @@ const UserAuthority = sequelize.define('TB_USER_AUTHORITIES', {
     platform_id: {
         type: DataTypes.STRING(200),
         allowNull: false,
-        references: {
-            model: User,
-            key: 'platform_id',
-        },
     },
     platform: {
         type: DataTypes.STRING(20),
         allowNull: false,
         references: {
-            model: User,
-            key: 'platform',
-        },
+            model: 'TB_USERS',
+            key: 'platform'
+        }
     },
-    authority: {
+    authority_id: {
         type: DataTypes.STRING(8),
         allowNull: false,
         references: {
-            model: Authority,
-            key: 'id',
-        },
+            model: 'tb_authorities',
+            key: 'id'
+        }
     },
 }, {
     timestamps: false,
     indexes: [
         {
             unique: true,
-            fields: ['platform_id', 'platform', 'authority'],
+            fields: ['platform_id', 'platform', 'authority_id'],
         },
     ],
 });
 
+// 외래 키 관계 설정
 UserAuthority.belongsTo(User, { foreignKey: 'platform_id', targetKey: 'platform_id' });
 UserAuthority.belongsTo(User, { foreignKey: 'platform', targetKey: 'platform' });
-UserAuthority.belongsTo(Authority, { foreignKey: 'authority', targetKey: 'id' });
+UserAuthority.belongsTo(Authority, { foreignKey: 'authority_id', targetKey: 'id' });
 
 module.exports = UserAuthority;
