@@ -10,8 +10,6 @@
 .mypage-nickname {
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
-    justify-content: space-between;
-    width: 157px;
     padding: 0;
     margin: 0;
 }
@@ -26,7 +24,8 @@
     height: 51px;
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
-    justify-content: center;
+    justify-content: flex-start;
+    min-width: 100px;
 }
 
 .mypage-nickname p {
@@ -34,7 +33,7 @@
     font-weight: 400;
     color: #7b7b7b;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 15px;
     width: 46px;
     height: 19px;
     border-radius: 12px;
@@ -42,6 +41,7 @@
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
     justify-content: center;
+    cursor: pointer; /* 손가락 모양 커서 설정 */
 }
 
 .mypage-button-container {

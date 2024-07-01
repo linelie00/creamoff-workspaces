@@ -12,14 +12,18 @@ const LoginPage = () => {
     const image4Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (4).png`;
     const image5Url = `${process.env.PUBLIC_URL}/images/auth/pictures/img (5).png`;
 
-    const kakao_key = process.env.REACT_APP_KAKAO_CLIENT_ID; // 카카오 클라이언트 ID 설정
-    const redirect_uri_kakao = process.env.REACT_APP_KAKAO_REDIRECT_URI; // 카카오 리다이렉트 URI 설정
+    const kakao_key = process.env.REACT_APP_KAKAO_CLIENT_ID;
+    const redirect_uri_kakao = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
-    const naver_key = process.env.REACT_APP_NAVER_CLIENT_ID; // 네이버 클라이언트 ID 설정
-    const redirect_uri_naver = process.env.REACT_APP_NAVER_REDIRECT_URI; // 네이버 리다이렉트 URI 설정
+    const naver_key = process.env.REACT_APP_NAVER_CLIENT_ID;
+    const redirect_uri_naver = process.env.REACT_APP_NAVER_REDIRECT_URI;
+
+    const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const redirect_uri_google = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
 
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_key}&redirect_uri=${redirect_uri_kakao}&response_type=code`;
     const naverURL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_key}&redirect_uri=${redirect_uri_naver}&state=STATE_STRING`;
+    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google_client_id}&redirect_uri=${redirect_uri_google}&response_type=code&scope=profile%20email`;
 
     const handleKakao = () => {
         window.location.href = kakaoURL;
@@ -27,6 +31,10 @@ const LoginPage = () => {
 
     const handleNaver = () => {
         window.location.href = naverURL;
+    };
+
+    const handleGoogle = () => {
+        window.location.href = googleURL;
     };
 
     return (
@@ -68,7 +76,7 @@ const LoginPage = () => {
             </div>
             <div className="login-button-container">
                 <button>
-                    <img src={googleUrl} alt="google" />
+                    <img src={googleUrl} alt="google" onClick={handleGoogle} />
                 </button>
                 <button onClick={handleKakao}>
                     <img src={kakaoUrl} alt="kakao" />
@@ -77,7 +85,7 @@ const LoginPage = () => {
                     <img src={naverUrl} alt="naver" />
                 </button>
             </div>
-            <a>간편로그인</a>
+            <p>간편로그인</p>
         </div>
     );
 };

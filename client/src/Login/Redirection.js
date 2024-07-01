@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Redirection = () => {
     const code = new URLSearchParams(window.location.search).get('code');
     const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         let authProvider = '';
@@ -19,20 +20,28 @@ const Redirection = () => {
                 } else if (window.location.pathname === '/auth/naver') {
                     authProvider = 'naver';
                     authCode = code;
+                } else if (window.location.pathname === '/auth/google') {
+                    authProvider = 'google';
+                    authCode = code;
                 }
 
                 if (!authCode) {
                     throw new Error('Authorization code not found.');
                 }
 
-                const endpoint = authProvider === 'kakao'
-                    ? `http://localhost:8282/api/auth/kakao?code=${authCode}`
-                    : `http://localhost:8282/api/auth/naver?code=${authCode}`;
+                let endpoint = '';
+
+                if (authProvider === 'kakao') {
+                    endpoint = `${apiUrl}/api/auth/kakao?code=${authCode}`;
+                } else if (authProvider === 'naver') {
+                    endpoint = `${apiUrl}/api/auth/naver?code=${authCode}`;
+                } else if (authProvider === 'google') {
+                    endpoint = `${apiUrl}/api/auth/google?code=${authCode}`;
+                }
 
                 const response = await axios.get(endpoint);
 
                 const token = response.data.token;
-                console.log('Received token:', token); // 토큰 콘솔에 출력
 
                 localStorage.setItem('token', token); // 토큰 저장
 
@@ -48,9 +57,13 @@ const Redirection = () => {
         } else {
             console.error('Authorization code not found.');
         }
-    }, [code, navigate]);
+    }, [code, navigate, apiUrl]);
 
-    return <div>로그인 중입니다.</div>;
+    return (
+        <div>
+            로그인 중입니다.
+        </div>
+    );
 };
 
 export default Redirection;

@@ -6,8 +6,8 @@ const { getUserById } = require('../services/userService'); // 사용자 서비�
 // 사용자 프로필 정보 가져오기
 const getUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // JWT 미들웨어를 통해 인증된 사용자 ID를 가져옴
-    const user = await getUserById(userId); // 사용자 정보를 데이터베이스에서 가져옴
+    const { id, platform } = req.user; // JWT 미들웨어를 통해 인증된 사용자 정보를 가져옴
+    const user = await getUserById(id, platform); // 사용자 정보를 데이터베이스에서 가져옴
     
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });

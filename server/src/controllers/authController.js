@@ -11,6 +11,7 @@ const secretKey = process.env.SECRET_KEY;
 // 인가 코드 저장을 위한 변수
 let kakaoAuthCodes = new Set(); // 카카오 간편로그인 인가 코드 저장용 Set
 let naverAuthCodes = new Set(); // 네이버 간편로그인 인가 코드 저장용 Set
+let googleAuthCodes = new Set(); // 구글 간편로그인 인가 코드 저장용 Set
 
 // 클라이언트에게 jwt 토큰을 전달하는 함수
 const sendTokenResponse = (user, res) => {
@@ -159,6 +160,68 @@ router.get('/naver', async (req, res) => {
     if (code) {
       naverAuthCodes.delete(code);
     }
+  }
+});
+
+router.get('/google', async (req, res) => {
+  let code;
+
+  try {
+      code = req.query.code;
+
+      if (!code) {
+          return res.status(400).json({ message: 'Authorization code not found.' });
+      }
+
+      if (googleAuthCodes.has(code)) {
+          return res.status(400).json({ message: 'Authorization code already used.' });
+      }
+
+      googleAuthCodes.add(code);
+
+      const tokenRequest = await axios({
+          method: 'POST',
+          url: 'https://oauth2.googleapis.com/token',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          params: {
+              client_id: process.env.GOOGLE_CLIENT_ID,
+              client_secret: process.env.GOOGLE_CLIENT_SECRET,
+              redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+              grant_type: 'authorization_code',
+              code: code,
+          },
+      });
+
+      const accessToken = tokenRequest.data.access_token;
+
+      const userInfoRequest = await axios({
+          method: 'GET',
+          url: 'https://www.googleapis.com/oauth2/v1/userinfo',
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      });
+
+      const userInfo = userInfoRequest.data;
+
+      const user = await findOrCreateUser({
+          platform_id: userInfo.id.toString(),
+          user_email: userInfo.email || '',
+          user_name: userInfo.name,
+          user_nickname: userInfo.name,
+          platform: 'google',
+      });
+
+      sendTokenResponse(user, res);
+  } catch (error) {
+      console.error('Google login error:', error.response ? error.response.data : error.message);
+      res.status(500).json({ message: 'Google login failed.' });
+  } finally {
+      if (code) {
+          googleAuthCodes.delete(code);
+      }
   }
 });
 
