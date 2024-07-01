@@ -16,6 +16,9 @@ const EditUserPage = () => {
         email: ''
     });
 
+    const [isEditingNickname, setIsEditingNickname] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -46,6 +49,40 @@ const EditUserPage = () => {
         fetchUserData();
     }, []);
 
+    const handleNicknameChange = (e) => {
+        setUserInfo({ ...userInfo, nickname: e.target.value });
+    };
+
+    const handleNicknameBlur = () => {
+        setIsEditingNickname(false);
+        // API 호출 또는 로컬 스토리지 업데이트 등을 수행할 수 있음
+    };
+
+    const handleSave = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No token found.');
+            }
+
+            const response = await axios.put('http://localhost:8282/api/user/profile', userInfo, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.status === 200) {
+                alert('User information updated successfully');
+                // 필요한 경우, 추가적인 로직을 여기에 추가
+            } else {
+                throw new Error('Failed to update user information');
+            }
+        } catch (error) {
+            console.error('Error updating user information:', error);
+            alert('Failed to update user information');
+        }
+    };
+
     const goBack = () => {
         navigate(-1);
     };
@@ -53,12 +90,12 @@ const EditUserPage = () => {
     return (
         <div lang='ko' className='mid'>
             <div className='navigation'>
-                <button>
-                    <img src={arrowButtonUrl} alt='' onClick={goBack} />
+                <button onClick={goBack}>
+                    <img src={arrowButtonUrl} alt='' />
                 </button>
                 개인정보수정
-                <button>
-                    <img src={fileUrl} alt='' onClick={goBack}/>
+                <button onClick={handleSave}>
+                    <img src={fileUrl} alt='' />
                 </button>
             </div>
             <div className='edit-mid'>
@@ -76,7 +113,17 @@ const EditUserPage = () => {
                         <div className='edit-textbox'>
                             <div className='edit-text'>
                                 <p>닉네임</p>
-                                <p>{userInfo.nickname}</p>
+                                {isEditingNickname ? (
+                                    <input
+                                        type="text"
+                                        value={userInfo.nickname}
+                                        onChange={handleNicknameChange}
+                                        onBlur={handleNicknameBlur}
+                                        autoFocus
+                                    />
+                                ) : (
+                                    <p onClick={() => setIsEditingNickname(true)}>{userInfo.nickname}</p>
+                                )}
                             </div>
                         </div>
                         <div className='edit-textbox'>
@@ -84,14 +131,22 @@ const EditUserPage = () => {
                                 <p>전화번호</p>
                                 <p>{userInfo.phoneNumber}</p>
                             </div>
-                            <button>인증완료</button>
+                            {isVerified ? (
+                                <button className='verified'>
+                                    인증완료
+                                </button>
+                            ) : (
+                                <button className='not-verified'>
+                                    인증하기
+                                </button>
+                            )}
                         </div>
                         <div className='edit-textbox'>
                             <div className='edit-text'>
                                 <p>주소</p>
                                 <p>{userInfo.address || '주소를 입력해주세요.'}</p>
                             </div>
-                            <img src={rightUrl} alt=''/>
+                            <img src={rightUrl} alt='' />
                         </div>
                     </div>
                 </div>
@@ -103,7 +158,7 @@ const EditUserPage = () => {
                         <div className='edit-textbox2'>
                             <p>이메일</p>
                             <p>{userInfo.email}</p>
-                            <img src={rightUrl} alt=''/>
+                            <img src={rightUrl} alt='' />
                         </div>
                         <div className='edit-textbox2'>
                             <p>개인정보 유효기간</p>
