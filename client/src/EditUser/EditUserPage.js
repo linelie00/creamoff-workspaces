@@ -64,7 +64,7 @@ const EditUserPage = () => {
             if (!token) {
                 throw new Error('No token found.');
             }
-
+            console.log('userInfo:', userInfo);
             const response = await axios.put('http://localhost:8282/api/user/profile', userInfo, {
                 headers: {
                     Authorization: `Bearer ${token}`
