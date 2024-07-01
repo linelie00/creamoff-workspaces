@@ -12,6 +12,8 @@ import MyPage from './MyPage/MyPage';
 import SavedPage from './MyPage/SavedPage';
 import EventDetailPage from './List/EventDetailPage'; 
 import LoginPage from './Login/LoginPage';
+import KoginSuccess from './Login/LoginSuccessPage';
+import Redirection from './Login/Redirection';
 import PetListPage from './Pet/PetListPage';
 import PetSelectPage from './Pet/PetSelectPage';
 import PetRegistrationPage from './Pet/PetRegistrationPage';
@@ -48,6 +50,9 @@ function App() {
                 <Route path="/cancle-reservation" element={<CancleReservationPage />} />
                 <Route path="/pet-registration" element={<PetRegistrationPage />} />
                 <Route path="/saved" element={<SavedPage />} />
+                <Route path="/auth/*" element={<Redirection />} />
+
+                <Route path="/login-success" element={<KoginSuccess />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

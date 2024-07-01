@@ -15,7 +15,7 @@
     display: none; /* 스크롤바 숨김 */
 }
 
-.login a {
+.login p {
     text-decoration: none; /* 링크 밑줄 제거 */
     color: #262626;
     font-size: 12px;
