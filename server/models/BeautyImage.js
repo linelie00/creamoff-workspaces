@@ -1,19 +1,20 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 
-const PetSpecies = sequelize.define('TB_PET_SPECIES', {
-    id: {
+const BeautyImage = sequelize.define('TB_BEAUTY_IMAGES', {
+    image_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
     },
-    species: {
-        type: DataTypes.STRING(20),
+    image_url: {
+        type: DataTypes.TEXT,
         allowNull: false,
+        defaultValue: '',
     },
 }, {
     timestamps: false,
 });
 
-module.exports = PetSpecies;
+module.exports = BeautyImage;

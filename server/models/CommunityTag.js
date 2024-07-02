@@ -1,19 +1,20 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 
-const PetSpecies = sequelize.define('TB_PET_SPECIES', {
-    id: {
+const CommunityTag = sequelize.define('TB_COMMUNITY_TAGS', {
+    tag_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
     },
-    species: {
-        type: DataTypes.STRING(20),
+    tag_name: {
+        type: DataTypes.STRING(10),
         allowNull: false,
+        defaultValue: '',
     },
 }, {
     timestamps: false,
 });
 
-module.exports = PetSpecies;
+module.exports = CommunityTag;

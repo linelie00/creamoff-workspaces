@@ -3,6 +3,17 @@ const User = require('./models/User');
 const Authority = require('./models/Authority');
 const UserAuthority = require('./models/UserAuthority');
 const PetSpecies = require('./models/PetSpecies');
+const PetBreed = require('./models/PetBreed');
+const Pet = require('./models/Pet');
+const PetDetailInfo = require('./models/PetDetailInfo');
+const PetSpeciesInfoRS = require('./models/PetSpeciesInfoRS');
+const PetDetailInfoStatus = require('./models/PetDetailInfoStatus');
+const Community = require('./models/Community');
+const CommunityTag = require('./models/CommunityTag');
+const CommunityTagRS = require('./models/CommunityTagRS');
+const Comment = require('./models/Comment');
+const BeautyImage = require('./models/BeautyImage');
+const Beauty = require('./models/Beauty');
 
 async function initializeDatabase() {
   try {

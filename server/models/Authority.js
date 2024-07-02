@@ -17,6 +17,8 @@ const Authority = sequelize.define('TB_AUTHORITIES', {
         allowNull: false,
         defaultValue: 0,
     },
-})
+}, {
+    timestamps: false,
+});
 
 module.exports = Authority;
