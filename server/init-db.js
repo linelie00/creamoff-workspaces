@@ -27,6 +27,10 @@ const Reservation = require('./models/Reservation');
 const ReservationPriceRS = require('./models/ReservationPriceRS');
 const PetSpeciesSpecialNote = require('./models/PetSpeciesSpecialNote');
 const ReservationSpeciesSpecialNote = require('./models/ReservationSpeciesSpecialNote');
+const NoticePart = require('./models/NoticePart');
+const NoticeStatus = require('./models/NoticeStatus');
+const NoticeStatusOfPart = require('./models/NoticeStatusOfPart');
+const Notice = require('./models/Notice');
 
 async function initializeDatabase() {
   try {
