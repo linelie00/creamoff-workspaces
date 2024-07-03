@@ -31,6 +31,9 @@ const NoticePart = require('./models/NoticePart');
 const NoticeStatus = require('./models/NoticeStatus');
 const NoticeStatusOfPart = require('./models/NoticeStatusOfPart');
 const Notice = require('./models/Notice');
+const LogLogin = require('./models/LogLogin');
+const PathList = require('./models/PathList');
+const LogVisitPath = require('./models/LogVisitPath');
 
 async function initializeDatabase() {
   try {
