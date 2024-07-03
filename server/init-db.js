@@ -14,6 +14,19 @@ const CommunityTagRS = require('./models/CommunityTagRS');
 const Comment = require('./models/Comment');
 const BeautyImage = require('./models/BeautyImage');
 const Beauty = require('./models/Beauty');
+const Saved = require('./models/Saved');
+const BeautyTag = require('./models/BeautyTag');
+const BeautyTagRS = require('./models/BeautyTagRS');
+const BeautyImageRS = require('./models/BeautyImageRS');
+const BeautyReview = require('./models/BeautyReview');
+const BeautyWeight = require('./models/BeautyWeight');
+const BeautyStyle = require('./models/BeautyStyle');
+const BeautyPrice = require('./models/BeautyPrice');
+const ReservationSpecialNote = require('./models/ReservationSpecialNote');
+const Reservation = require('./models/Reservation');
+const ReservationPriceRS = require('./models/ReservationPriceRS');
+const PetSpeciesSpecialNote = require('./models/PetSpeciesSpecialNote');
+const ReservationSpeciesSpecialNote = require('./models/ReservationSpeciesSpecialNote');
 
 async function initializeDatabase() {
   try {
