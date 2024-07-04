@@ -39,7 +39,32 @@ const findOrCreateUser = async (userInfo) => {
   return user;
 };
 
+const updateUserProfile = async (id, platform, userInfo) => {
+  try {
+    const updatedFields = {
+      user_name: userInfo.name,
+      user_nickname: userInfo.nickname,
+      user_address: userInfo.address,
+      updated_at: new Date(), // Assuming `updated_at` should be updated automatically
+    };
+
+    const [rowsUpdated, [updatedUser]] = await User.update(updatedFields, {
+      where: { platform_id: id, platform },
+      returning: true,
+    });
+
+    if (rowsUpdated === 0 || !updatedUser) {
+      throw new Error('User not found or not updated.');
+    }
+
+    return updatedUser;
+  } catch (error) {
+    throw new Error(`Error updating user profile: ${error.message}`);
+  }
+}
+
 module.exports = {
   findOrCreateUser,
   getUserById,
+  updateUserProfile,
 };
