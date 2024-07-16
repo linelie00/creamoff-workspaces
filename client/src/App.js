@@ -8,6 +8,7 @@ import ListPage from './List/ListPage';
 import ListMapPage from './List/ListMapPage';
 import CommunityPage from './Community/CommunityPage';
 import EditUserPage from './EditUser/EditUserPage';
+import EditAdressPage from './EditUser/EditAddressPage';
 import MyPage from './MyPage/MyPage';
 import SavedPage from './MyPage/SavedPage';
 import EventDetailPage from './List/EventDetailPage'; 
@@ -51,8 +52,9 @@ function App() {
                 <Route path="/pet-registration" element={<PetRegistrationPage />} />
                 <Route path="/saved" element={<SavedPage />} />
                 <Route path="/auth/*" element={<Redirection />} />
-
                 <Route path="/login-success" element={<KoginSuccess />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/edit-address" element={<EditAdressPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

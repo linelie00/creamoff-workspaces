@@ -48,20 +48,29 @@ const updateUserProfile = async (id, platform, userInfo) => {
       updated_at: new Date(), // Assuming `updated_at` should be updated automatically
     };
 
-    const [rowsUpdated, [updatedUser]] = await User.update(updatedFields, {
+    const [rowsUpdated] = await User.update(updatedFields, {
       where: { platform_id: id, platform },
-      returning: true,
     });
 
-    if (rowsUpdated === 0 || !updatedUser) {
+    if (rowsUpdated === 0) {
       throw new Error('User not found or not updated.');
     }
 
+    // 업데이트된 사용자 정보를 조회합니다.
+    const updatedUser = await User.findOne({
+      where: { platform_id: id, platform },
+    });
+
+    if (!updatedUser) {
+      throw new Error('Failed to retrieve updated user.');
+    }
+
+    console.log('User profile updated successfully:', updatedUser);
     return updatedUser;
   } catch (error) {
     throw new Error(`Error updating user profile: ${error.message}`);
   }
-}
+};
 
 module.exports = {
   findOrCreateUser,

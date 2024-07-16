@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const EditUserPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
     const fileUrl = `${process.env.PUBLIC_URL}/images/user/file.svg`;
     const rightUrl = `${process.env.PUBLIC_URL}/images/user/right.svg`;
@@ -49,6 +50,15 @@ const EditUserPage = () => {
         fetchUserData();
     }, []);
 
+    useEffect(() => {
+        if (location.state?.address) {
+            setUserInfo(prevUserInfo => ({
+                ...prevUserInfo,
+                address: location.state.address
+            }));
+        }
+    }, [location.state]);
+
     const handleNicknameChange = (e) => {
         setUserInfo({ ...userInfo, nickname: e.target.value });
     };
@@ -64,7 +74,7 @@ const EditUserPage = () => {
             if (!token) {
                 throw new Error('No token found.');
             }
-            console.log('userInfo:', userInfo);
+
             const response = await axios.put('http://localhost:8282/api/user/profile', userInfo, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -85,6 +95,10 @@ const EditUserPage = () => {
 
     const goBack = () => {
         navigate(-1);
+    };
+
+    const navigateToEditAddress = () => {
+        navigate('/edit-address', { state: { prevPath: '/edit-user' } });
     };
 
     return (
@@ -146,7 +160,7 @@ const EditUserPage = () => {
                                 <p>주소</p>
                                 <p>{userInfo.address || '주소를 입력해주세요.'}</p>
                             </div>
-                            <img src={rightUrl} alt='' />
+                            <img src={rightUrl} alt='' onClick={navigateToEditAddress}/>
                         </div>
                     </div>
                 </div>

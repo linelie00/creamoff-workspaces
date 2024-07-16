@@ -26,19 +26,24 @@ const updateUserProfileHandler = async (req, res) => {
     const { id, platform } = req.user;
     const { name, nickname, phoneNumber, address } = req.body;
 
+    console.log('Received request to update user profile:', { id, platform, name, nickname, phoneNumber, address });
+
     // 서비스 계층을 통해 사용자 정보 업데이트
-    const updatedUser = await updateUserProfile(id, platform, { name, nickname, phoneNumber, address });
+    const updatedUser = await updateUserProfile({ id, platform, name, nickname, phoneNumber, address });
 
     if (!updatedUser) {
+      console.log('User not found for ID:', id);
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    res.json({ message: 'User profile updated successfully.', user: updatedUser });
+    console.log('User profile updated successfully:', updatedUser);
+    return res.json({ message: 'User profile updated successfully.', user: updatedUser });
   } catch (error) {
     console.error('Error updating user profile:', error);
-    res.status(500).json({ message: 'Failed to update user profile.' });
+    return res.status(500).json({ message: 'Failed to update user profile.', error: error.message });
   }
 };
+
 
 // 프로필 조회 API
 router.get('/profile', authMiddleware, getUserProfile);
