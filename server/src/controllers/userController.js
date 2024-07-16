@@ -29,7 +29,7 @@ const updateUserProfileHandler = async (req, res) => {
     console.log('Received request to update user profile:', { id, platform, name, nickname, phoneNumber, address });
 
     // 서비스 계층을 통해 사용자 정보 업데이트
-    const updatedUser = await updateUserProfile({ id, platform, name, nickname, phoneNumber, address });
+    const updatedUser = await updateUserProfile( id, platform, {name, nickname, phoneNumber, address });
 
     if (!updatedUser) {
       console.log('User not found for ID:', id);
