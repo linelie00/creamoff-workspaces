@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pet.css';
+import '../styles/autoComplete.css';
+import axios from 'axios';
 import RadioButton from './RadioButton'; // RadioButton 컴포넌트 import
 
 const PetRegistration = () => {
@@ -12,6 +14,7 @@ const PetRegistration = () => {
 
     const [formData, setFormData] = useState({
         name: '',
+        species: '',
         breed: '',
         birthDate: '',
         weight: '',
@@ -24,6 +27,55 @@ const PetRegistration = () => {
         additionalInfo: '',
         etc: ''
     });
+
+    const [petSpecies, setPetSpecies] = useState([]);
+    useEffect(() => {
+        const fetchPetSpecies = async () => {
+          try {
+            const response = await axios.get('http://localhost:8282/api/pet/pet-species');
+            console.log(response.data);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+        fetchPetSpecies();
+    }, []);
+
+    // =================== 여기서부터 Species - AutoComplete Component ===================
+    const [speciesInputValue, setSpeciesInputValue] = useState(''); // 품종 입력값
+    const [speciesSuggestions, setSpeciesSuggestions] = useState([]); // 품종 자동완성 리스트
+    const [allSpecies, setAllSpecies] = useState([]);
+
+    useEffect(() => {
+        const fetchAllSpecies = async() => {
+            try {
+                const response = await axios.get('http://localhost:8282/api/pet/auto-complete/species');
+                setAllSpecies(response.data);
+            } catch (error) {
+                console.error('Error fetching all species: ', error);
+            }
+        };
+        fetchAllSpecies();
+    }, []);
+
+    const handleSpeciesInputChange = (e) => {
+        const value = e.target.value;
+        setSpeciesInputValue(value);
+        if (value.trim().length === 0) {
+            setSpeciesSuggestions([]);
+        } else {
+            const filteredSpecies = allSpecies.filter(species =>
+                species.toLowerCase().includes(value.toLowerCase())
+            );
+            setSpeciesSuggestions(filteredSpecies);
+        }
+    };
+
+    const handleSuggestionClick = (species) => {
+        setSpeciesInputValue(species);
+        setSpeciesSuggestions([]);
+    };
+    // =================== 여기까지 Species - AutoComplete Component ===================
 
     const goBack = () => {
         navigate(-1); // 뒤로 가기
@@ -111,15 +163,39 @@ const PetRegistration = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='PetRegistration-container'>
+                    <div className='PetRegistration-container2'>
+                        <p>종류</p>
+                        <div style={{ position: 'relative', zIndex: 1 }} className='PetRegistration-container'>
                         <input
                             type="text"
                             className="textbox-gray"
+                            value={speciesInputValue}
                             placeholder="종을 적어주세요"
+                            onChange={handleSpeciesInputChange}
+                        />
+                        {speciesSuggestions.length > 0 && (
+                        <ul style={{ zIndex: -1 }} className="auto-complete-component">
+                            {speciesSuggestions.map((species, index) => (
+                                <li key={index} onClick={() => handleSuggestionClick(species)}>
+                                    {species}
+                                </li>
+                            ))}
+                        </ul>
+                        )}
+                        </div>
+                    </div>
+                    <div className='PetRegistration-container2'>
+                        <p>품종</p>
+                        <div className='PetRegistration-container'>
+                        <input
+                            type="text"
+                            className="textbox-gray"
+                            placeholder="품종을 적어주세요"
                             name="breed"
                             value={formData.breed}
                             onChange={handleInputChange}
                         />
+                        </div>
                     </div>
                     <div className='PetRegistration-container2'>
                         <p>태어난 날</p>
