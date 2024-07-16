@@ -26,7 +26,7 @@ const sendTokenResponse = (user, res) => {
     jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '1h' }, // 토큰 만료 시간 설정
+        { expiresIn: '4h' }, // 토큰 만료 시간 설정
         (err, token) => {
             if (err) throw err;
             res.json({ token });

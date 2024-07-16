@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const { sequelize } = require('./models');
 const authRoutes = require('./src/routes/authRoutes');
+const petRoutes = require('./src/routes/petRoutes');
 
 dotenv.config(); // .env 파일의 환경 변수 로드
 
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // 라우트 설정
 app.use('/api', authRoutes);
+app.use('/api', petRoutes);
 
 // 서버 실행
 app.listen(app.get('port'), () => {
