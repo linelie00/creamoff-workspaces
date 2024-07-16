@@ -1,14 +1,14 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../models').sequelize; // sequelize 인스턴스 임포트
+const sequelize = require('../models').sequelize;
 
 const User = sequelize.define('TB_USERS', {
   platform_id: {
     type: DataTypes.STRING(200),
-    allowNull: false, // 복합 키로 사용하기 위해 필수로 설정
+    allowNull: false,
   },
   platform: {
     type: DataTypes.STRING(20),
-    allowNull: false, // 복합 키로 사용하기 위해 필수로 설정
+    allowNull: false,
   },
   user_name: {
     type: DataTypes.STRING(20),
@@ -25,8 +25,8 @@ const User = sequelize.define('TB_USERS', {
     allowNull: false,
   },
   user_phone: {
-    type: DataTypes.STRING(20), // 예: 문자열 형태로 저장, 필요에 따라 데이터 타입을 조정할 수 있음
-    allowNull: true, // 전화번호는 선택적 정보일 수 있음
+    type: DataTypes.STRING(20),
+    allowNull: true,
     defaultValue: '',
   },
   user_address: {
@@ -50,7 +50,7 @@ const User = sequelize.define('TB_USERS', {
   indexes: [
     {
       unique: true,
-      fields: ['platform_id', 'platform'], // 복합 키 설정
+      fields: ['platform_id', 'platform'],
     },
   ],
 });
