@@ -61,7 +61,7 @@ const updateUserProfile = async (id, platform, userInfo) => {
   } catch (error) {
     throw new Error(`Error updating user profile: ${error.message}`);
   }
-}
+};
 
 module.exports = {
   findOrCreateUser,
