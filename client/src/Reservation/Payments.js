@@ -21,6 +21,16 @@ function Payments({ closePaymentModal, confirmPayment }) {
     var milliseconds = today.getMilliseconds();
     var makeMerchantUid = hours + minutes + seconds + milliseconds;
 
+    const handlePaymentResponse = (rsp) => {
+        if (rsp.success) {
+            console.log(rsp);
+            window.location.href = 'http://localhost:3000/reservation-confirm';
+        } else {
+            console.log(rsp);
+            alert('결제에 실패하였습니다. 다시 시도해주세요.');
+        }
+    };
+
     const kakaoPay = () => {
         window.IMP.request_pay({
             pg: 'kakaopay.TC0ONETIME',
@@ -33,13 +43,7 @@ function Payments({ closePaymentModal, confirmPayment }) {
             buyer_addr: '서울특별시 강남구 삼성동',
             buyer_postcode: '123-456',
             m_redirect_url: 'http://localhost:3000/reservation-confirm'
-        }, function (rsp) {
-            if (rsp.success) {
-                console.log(rsp);
-            } else {
-                console.log(rsp);
-            }
-        });
+        }, handlePaymentResponse);
     };
 
     const tossPay = () => {
@@ -55,13 +59,7 @@ function Payments({ closePaymentModal, confirmPayment }) {
             buyer_addr: '서울특별시 강남구 삼성동',
             buyer_postcode: '123-456',
             m_redirect_url: 'http://localhost:3000/reservation-confirm'
-        }, function (rsp) {
-            if (rsp.success) {
-                console.log(rsp);
-            } else {
-                console.log(rsp);
-            }
-        });
+        }, handlePaymentResponse);
     };
 
     const KGPay = () => {
@@ -77,13 +75,7 @@ function Payments({ closePaymentModal, confirmPayment }) {
             buyer_addr: '서울특별시 강남구 삼성동',
             buyer_postcode: '123-456',
             m_redirect_url: 'http://localhost:3000/reservation-confirm'
-        }, function (rsp) {
-            if (rsp.success) {
-                console.log(rsp);
-            } else {
-                console.log(rsp);
-            }
-        });
+        }, handlePaymentResponse);
     };
 
     const naverPay = () => {
@@ -125,13 +117,7 @@ function Payments({ closePaymentModal, confirmPayment }) {
                     "count": 1
                 }
             ]
-        }, function (rsp) {
-            if (rsp.success) {
-                console.log(rsp);
-            } else {
-                console.log(rsp);
-            }
-        });
+        }, handlePaymentResponse);
     };
 
     return (
@@ -161,7 +147,7 @@ function Payments({ closePaymentModal, confirmPayment }) {
                 </div>
                 <div className='modal-footer'>
                     <button className='modal-button' onClick={closePaymentModal}>취소</button>
-                    <button className='modal-button' onClick={confirmPayment}>결제</button>
+                    <button className='modal-button'>결제</button>
                 </div>
             </div>
         </div>
