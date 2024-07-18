@@ -200,6 +200,7 @@
     margin-right: 24px;
     min-width: 92px;
     text-align: left;
+    max-width: 200px;
 }
 
 .edit-text input {
