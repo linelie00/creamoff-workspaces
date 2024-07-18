@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Payments from './Payments';
 
 const Review = () => {
     const navigate = useNavigate();
@@ -179,21 +180,7 @@ const Review = () => {
             </div>
             <div className='Nbutton' onClick={openPaymentModal}>예약등록</div>
             {showPaymentModal && (
-                    <div className='modal-overlay'>
-                        <div className='modal'>
-                            <div className='modal-header'>
-                                결제
-                                <button className='close-button' onClick={closePaymentModal}>X</button>
-                            </div>
-                            <div className='modal-body'>
-                                결제 정보를 입력하세요.
-                            </div>
-                            <div className='modal-footer'>
-                                <button className='modal-button' onClick={closePaymentModal}>취소</button>
-                                <button className='modal-button' onClick={confirmPayment}>결제</button>
-                            </div>
-                        </div>
-                    </div>
+                <Payments closePaymentModal={closePaymentModal} confirmPayment={confirmPayment} />
                 )}
         </div>
     );
