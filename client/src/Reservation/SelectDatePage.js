@@ -11,6 +11,7 @@ const Review = () => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showCalendar, setShowCalendar] = useState(false);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -21,20 +22,19 @@ const Review = () => {
     };
 
     const clearDate = (event) => {
-        event.preventDefault(); // Prevent default action
+        event.preventDefault();
         setSelectedDate(null);
         setShowCalendar(false);
     };
 
     const cancelSelection = (event) => {
-        event.preventDefault(); // Prevent default action
+        event.preventDefault();
         setShowCalendar(false);
     };
 
     const confirmSelection = (event) => {
-        event.preventDefault(); // Prevent default action
+        event.preventDefault();
         setShowCalendar(false);
-        // Additional logic for confirming the selected date, if needed
     };
 
     const CustomHeader = ({
@@ -88,9 +88,22 @@ const Review = () => {
 
     const customDayClassNames = (date) => {
         if (date.getMonth() !== selectedDate.getMonth()) {
-            return 'outside-month'; // Apply gray style to dates outside the current month
+            return 'outside-month';
         }
         return undefined;
+    };
+
+    const openPaymentModal = () => {
+        setShowPaymentModal(true);
+    };
+
+    const closePaymentModal = () => {
+        setShowPaymentModal(false);
+    };
+
+    const confirmPayment = () => {
+        setShowPaymentModal(false);
+        navigate('/reservation-confirm');
     };
 
     return (
@@ -164,7 +177,24 @@ const Review = () => {
                     </div>
                 </div>
             </div>
-            <div className='Nbutton' onClick={() => navigate('/reservation-confirm')}>예약등록</div>
+            <div className='Nbutton' onClick={openPaymentModal}>예약등록</div>
+            {showPaymentModal && (
+                    <div className='modal-overlay'>
+                        <div className='modal'>
+                            <div className='modal-header'>
+                                결제
+                                <button className='close-button' onClick={closePaymentModal}>X</button>
+                            </div>
+                            <div className='modal-body'>
+                                결제 정보를 입력하세요.
+                            </div>
+                            <div className='modal-footer'>
+                                <button className='modal-button' onClick={closePaymentModal}>취소</button>
+                                <button className='modal-button' onClick={confirmPayment}>결제</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
         </div>
     );
 };
