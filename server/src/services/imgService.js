@@ -15,18 +15,16 @@ const getSignatureKey = (key, dateStamp, regionName, serviceName) => {
     return kSigning;
 };
 
-const uploadImage = async (fileBuffer, originalName) => {
-    const objectName = generateUniqueFileName(originalName);
+const uploadImageToBucket = async (fileBuffer, objectName) => {
     const t = new Date();
     const amzDate = t.toISOString().replace(/[:-]|\.\d{3}/g, '');
     const dateStamp = amzDate.substr(0, 8);
 
     const canonicalUri = `/${bucketName}/${objectName}`;
-    const canonicalQuerystring = '';
     const payloadHash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
     const canonicalHeaders = `host:${endpoint}\nx-amz-content-sha256:${payloadHash}\nx-amz-date:${amzDate}\n`;
     const signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
-    const canonicalRequest = `PUT\n${canonicalUri}\n${canonicalQuerystring}\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
+    const canonicalRequest = `PUT\n${canonicalUri}\n\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
     const algorithm = 'AWS4-HMAC-SHA256';
     const credentialScope = `${dateStamp}/${region}/${service}/aws4_request`;
     const stringToSign = `${algorithm}\n${amzDate}\n${credentialScope}\n${crypto.createHash('sha256').update(canonicalRequest, 'utf8').digest('hex')}`;
@@ -49,16 +47,30 @@ const uploadImage = async (fileBuffer, originalName) => {
     const url = `https://${endpoint}${canonicalUri}`;
     const response = await axios.put(url, fileStream, { headers });
 
-    // DB에 이미지 정보 저장
-    const image = await Image.create({
-        filename: objectName,
-        endpoint: url,
-        uploadDate: new Date()
-    });
+    return url;
+};
 
-    return { status: response.status, url: url, imageId: image.id };
+const uploadMultipleImages = async (files) => {
+    const results = [];
+
+    for (const file of files) {
+        const folder = file.fieldname === 'main' ? 'main' : 'detail';
+        const objectName = `${folder}/${generateUniqueFileName(file.originalname)}`;
+        const url = await uploadImageToBucket(file.buffer, objectName);
+
+        // DB에 이미지 정보 저장
+        const image = await Image.create({
+            filename: objectName,
+            endpoint: url,
+            uploadDate: new Date()
+        });
+
+        results.push({ url, imageId: image.id });
+    }
+
+    return results;
 };
 
 module.exports = {
-    uploadImage
+    uploadMultipleImages
 };
