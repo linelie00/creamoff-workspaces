@@ -1,8 +1,10 @@
+// src/services/imgService.js
 const crypto = require('crypto');
 const axios = require('axios');
 const { PassThrough } = require('stream');
 const { generateUniqueFileName } = require('../utils/fileUtils');
 const { accessKey, secretKey, region, service, endpoint, bucketName } = require('../config/awsConfig');
+const Image = require('../../models/Image'); // Sequelize 모델 임포트
 
 const sign = (key, msg) => crypto.createHmac('sha256', key).update(msg, 'utf8').digest();
 const getSignatureKey = (key, dateStamp, regionName, serviceName) => {
@@ -47,7 +49,14 @@ const uploadImage = async (fileBuffer, originalName) => {
     const url = `https://${endpoint}${canonicalUri}`;
     const response = await axios.put(url, fileStream, { headers });
 
-    return { status: response.status, url: url };
+    // DB에 이미지 정보 저장
+    const image = await Image.create({
+        filename: objectName,
+        endpoint: url,
+        uploadDate: new Date()
+    });
+
+    return { status: response.status, url: url, imageId: image.id };
 };
 
 module.exports = {

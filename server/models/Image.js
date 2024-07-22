@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 
-const Image = sequelize.define('Image', {
+const Image = sequelize.define('TB_IMAGES', {
   filename: {
     type: DataTypes.STRING,
     allowNull: false

@@ -13,8 +13,8 @@ router.post('/upload', upload.single('file'), async (req, res) => {
             return res.status(400).send('No file uploaded.');
         }
 
-        const { status, url } = await uploadImage(file.buffer, file.originalname);
-        res.status(status).send({ message: 'File uploaded successfully', fileUrl: url });
+        const { status, url, imageId } = await uploadImage(file.buffer, file.originalname);
+        res.status(status).send({ message: 'File uploaded successfully', fileUrl: url, imageId: imageId });
     } catch (error) {
         console.error('Error uploading file:', error.message);
         res.status(500).send('Error uploading file');
@@ -22,4 +22,3 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 module.exports = router;
-
