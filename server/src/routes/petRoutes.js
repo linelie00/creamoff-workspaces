@@ -3,6 +3,7 @@ const petController = require('../controllers/petController');
 
 const router = express.Router();
 
-router.use('/pet', petController);
+router.get('/pet-species', petController.getAllPetSpeciesHandler);
+router.get('/auto-complete/species', petController.getAllPetSpeciesHandler);
 
 module.exports = router;

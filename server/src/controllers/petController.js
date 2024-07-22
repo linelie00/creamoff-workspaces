@@ -13,7 +13,6 @@ const getAllPetSpeciesHandler = async (req, res) => {
     }
 };
 
-router.get('/pet-species', getAllPetSpeciesHandler);
-router.get('/auto-complete/species', getAllPetSpeciesHandler);
-
-module.exports = router;
+module.exports = {
+    getAllPetSpeciesHandler,
+};
