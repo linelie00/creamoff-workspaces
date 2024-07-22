@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const Community = require('./community');
+const Community = require('./Community');
 const CommunityTag = require('./CommunityTag');
 const sequelize = require('../models').sequelize;
 

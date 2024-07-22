@@ -23,6 +23,7 @@ import SelectDatePage from './Reservation/SelectDatePage';
 import ReservatinConfirm from './Reservation/ReservationConfirmPage';
 import ReservationPage from './Reservation/ReservationPage';
 import CancleReservationPage from './Reservation/CancleReservationPage';
+import UploadPage from './File/UploadPage';
 import './App.css';
 
 function App() {
@@ -53,8 +54,9 @@ function App() {
                 <Route path="/saved" element={<SavedPage />} />
                 <Route path="/auth/*" element={<Redirection />} />
                 <Route path="/login-success" element={<KoginSuccess />} />
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<LoginPage />} />
                 <Route path="/edit-address" element={<EditAdressPage />} />
+                <Route path="/upload" element={<UploadPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const Community = require('./community');
+const Community = require('./Community');
 
 const Comment = sequelize.define('TB_COMMENTS', {
     id: {
