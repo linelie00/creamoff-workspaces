@@ -6,6 +6,7 @@ const FileUpload = () => {
     const [previewUrls, setPreviewUrls] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(null);
     const [fileInputKey, setFileInputKey] = useState(Date.now());
+    const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -38,7 +39,7 @@ const FileUpload = () => {
         });
 
         try {
-            const response = await axios.post('http://localhost:8282/api/img/upload', formData, {
+            const response = await axios.post(`${apiUrl}/api/img/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
