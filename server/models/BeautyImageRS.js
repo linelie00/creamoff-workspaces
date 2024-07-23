@@ -23,7 +23,7 @@ const BeautyImageRS = sequelize.define('TB_BEAUTY_IMAGE_RS', {
         allowNull: false,
         references: {
             model: 'TB_BEAUTY_IMAGES',
-            key: 'image_id',
+            key: 'id',
         },
     },
 }, {
@@ -32,6 +32,6 @@ const BeautyImageRS = sequelize.define('TB_BEAUTY_IMAGE_RS', {
 
 // 외래 키 관계 정의
 BeautyImageRS.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'beauty_id' });
-BeautyImageRS.belongsTo(BeautyImage, { foreignKey: 'image_id', targetKey: 'image_id' });
+BeautyImageRS.belongsTo(BeautyImage, { foreignKey: 'image_id', targetKey: 'id' });
 
 module.exports = BeautyImageRS;

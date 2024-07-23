@@ -2,16 +2,23 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 
 const BeautyImage = sequelize.define('TB_BEAUTY_IMAGES', {
-    image_id: {
+    id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
     },
-    image_url: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        defaultValue: '',
+    filename: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+    endpoint: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    uploadDate: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
     },
 }, {
     timestamps: false,

@@ -22,7 +22,7 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
         allowNull: false,
         references: {
             model: 'TB_BEAUTY_IMAGES',
-            key: 'image_id',
+            key: 'id',
         },
     },
     beauty_name: {
@@ -79,6 +79,6 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
     timestamps: false,
 });
 
-Beauty.belongsTo(BeautyImage, { foreignKey: 'title_image', targetKey: 'image_id' });
+Beauty.belongsTo(BeautyImage, { foreignKey: 'title_image', targetKey: 'id' });
 
 module.exports = Beauty;
