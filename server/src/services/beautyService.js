@@ -45,7 +45,32 @@ const getBusinessById = async (id) => {
     }
 };
 
+// 업체 생성
+const createBusiness = async (businessInfo) => {
+    try {
+        const business = await Beauty.create({
+            beauty_name: businessInfo.beauty_name,
+            location: businessInfo.location,
+            grade: businessInfo.grade,
+            weekday_open_time: businessInfo.weekday_open_time,
+            weekday_close_time: businessInfo.weekday_close_time,
+            weekend_open_time: businessInfo.weekend_open_time,
+            weekend_close_time: businessInfo.weekend_close_time,
+            dayoff: businessInfo.dayoff,
+            phone: businessInfo.phone,
+            contact_number: businessInfo.contact_number,
+            description: businessInfo.description,
+            created_at: new Date(),
+            updated_at: new Date(),
+        });
+        return business;
+    } catch (error) {
+        throw new Error('Failed to create business');
+    }
+};
+
 module.exports = {
     getAllBusinesses,
     getBusinessById,
+    createBusiness,
 };
