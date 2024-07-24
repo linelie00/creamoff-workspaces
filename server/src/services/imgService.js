@@ -71,6 +71,12 @@ const uploadMultipleImages = async (files) => {
     return results;
 };
 
+const LookupImageById = async (id) => {
+    const image = await Image.findByPk(id);
+    return image;
+};
+
 module.exports = {
-    uploadMultipleImages
+    uploadMultipleImages,
+    LookupImageById
 };

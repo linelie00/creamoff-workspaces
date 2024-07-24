@@ -7,6 +7,7 @@ const { sequelize } = require('./models');
 const authRoutes = require('./src/routes/authRoutes');
 const petRoutes = require('./src/routes/petRoutes');
 const storageRoutes = require('./src/routes/storageRoutes');
+const beautyRoutes = require('./src/routes/beautyRoutes');
 
 dotenv.config(); // .env 파일의 환경 변수 로드
 
@@ -24,7 +25,7 @@ sequelize.sync({ force: false })
 
 // CORS 설정
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.BASE_URL, // 허용할 클라이언트 주소
   credentials: true  // 인증정보 (쿠키, 인증 헤더 등)를 전송할 수 있도록 허용
 }));
 
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api', authRoutes);
 app.use('/api', petRoutes);
 app.use('/api', storageRoutes);
+app.use('/api', beautyRoutes);
 
 // 서버 실행
 app.listen(app.get('port'), () => {
