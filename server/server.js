@@ -25,9 +25,18 @@ sequelize.sync({ force: false })
 
 // CORS 설정
 app.use(cors({
-  origin: process.env.BASE_URL, // 허용할 클라이언트 주소
+  origin: (origin, callback) => {
+    if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+      // 로컬호스트에서 모든 포트 허용
+      callback(null, true);
+    } else {
+      // 기타 도메인은 허용하지 않음
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true  // 인증정보 (쿠키, 인증 헤더 등)를 전송할 수 있도록 허용
 }));
+
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));

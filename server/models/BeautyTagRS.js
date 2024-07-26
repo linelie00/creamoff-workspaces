@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const Beauty = require('./Beauty');
+const Beauty = require('./Business');
 const BeautyTag = require('./BeautyTag');
 const sequelize = require('../models').sequelize;
 
@@ -11,11 +11,11 @@ const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
         autoIncrement: true,
     },
     beauty_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(200),
         allowNull: false,
         references: {
-            model: 'TB_BEAUTIES',
-            key: 'beauty_id',
+            model: 'TB_BUSINESSES',
+            key: 'id',
         },
     },
     tag_id: {
@@ -31,7 +31,7 @@ const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
 });
 
 // 외래 키 관계 정의
-BeautyTagRS.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'beauty_id' });
+BeautyTagRS.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'id' });
 BeautyTagRS.belongsTo(BeautyTag, { foreignKey: 'tag_id', targetKey: 'tag_id' });
 
 module.exports = BeautyTagRS;

@@ -1,8 +1,10 @@
 import React, { useEffect, useContext } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ImageContext } from '../../Contexts/ImageContext';
 
 function Register() {
+  const apiUrl = process.env.REACT_APP_API_BASE_URL;
   const { imageFiles } = useContext(ImageContext);
   const navigate = useNavigate();
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/button/arrow_left.svg`;
@@ -25,11 +27,12 @@ function Register() {
 
   const handleSave = async () => {
     try {
-      // 이미지 파일을 FormData에 추가
       const formData = new FormData();
+  
+      // 이미지 파일을 FormData에 추가
       Object.keys(imageFiles).forEach((key) => {
         imageFiles[key].forEach((file) => {
-          formData.append(`${key}[]`, file);
+          formData.append(key, file);
         });
       });
   
@@ -39,18 +42,19 @@ function Register() {
         formData.append(input.name, input.value);
       });
   
-      // 서버로 FormData를 전송
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      // formData를 디버깅용으로 확인
+      for (let pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
       }
   
-      const result = await response.json();
-      console.log('Upload successful:', result);
+      // 서버로 FormData를 전송
+      const response = await axios.post(`${apiUrl}/api/beauty/businesses`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
+      console.log('Upload successful:', response.data);
   
       // 성공적으로 업로드된 후 페이지를 이동하거나 추가 작업 수행
       navigate('/success'); // 성공 페이지로 이동
@@ -58,8 +62,8 @@ function Register() {
       console.error('Error during upload:', error);
       // 오류 처리
     }
-  };
-  
+  };  
+
   return (
     <div className='mid' lang='ko'>
       <div className='navigation'>
@@ -112,7 +116,7 @@ function Register() {
         </div>
         <div className='input-container'>
           <p>상호명</p>
-          <input type='text' name='beauty_name' placeholder='상호명을 입력해 주세요.' />
+          <input type='text' name='name' placeholder='상호명을 입력해 주세요.' />
         </div>
         <div className='input-container'>
           <p>주소</p>
@@ -138,11 +142,11 @@ function Register() {
         </div>
         <div className='input-container'>
           <p>사업자 등록명</p>
-          <input type='text' name='businessRegistrationName' placeholder='사업자 등록명' />
+          <input type='text' name='business_registration_name' placeholder='사업자 등록명' />
         </div>
         <div className='input-container'>
           <p>사업자 번호</p>
-          <input type='text' name='businessRegistrationNumber' placeholder='000-00-00000' />
+          <input type='text' name='business_registration_number' placeholder='000-00-00000' />
         </div>
         <div className='input-container'>
           <p>이메일</p>
@@ -150,11 +154,11 @@ function Register() {
         </div>
         <div className='input-container'>
           <p>대표번호</p>
-          <input type='text' name='phoneNumber' placeholder='010-0000-0000' />
+          <input type='text' name='phone' placeholder='010-0000-0000' />
         </div>
         <div className='input-container'>
           <p>영업점 번호</p>
-          <input type='text' name='storeNumber' placeholder='02-000-0000' />
+          <input type='text' name='store-number' placeholder='02-000-0000' />
         </div>
       </div>
     </div>

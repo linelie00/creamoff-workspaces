@@ -1,6 +1,6 @@
-const Beauty = require('../models/Beauty');
-const BeautyImage = require('../models/BeautyImage');
-const BeautyImageRS = require('../models/BeautyImageRS');
+const Beauty = require('../../models/Business');
+const BeautyImage = require('../../models/BeautyImage');
+const BeautyImageRS = require('../../models/BeautyImageRS');
 
 // 모든 업체의 이미지, 이름, 위치를 불러오는 기능
 const getAllBusinesses = async () => {

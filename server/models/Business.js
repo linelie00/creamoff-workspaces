@@ -1,13 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../models').sequelize;
-const BeautyImage = require('./BeautyImage');
+const sequelize = require('.').sequelize;
 
-const Beauty = sequelize.define('TB_BEAUTIES', {
-    beauty_id: {
-        type: DataTypes.INTEGER,
+const Business = sequelize.define('TB_BUSINESSES', {
+    id: {
+        type: DataTypes.STRING(200),
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
     },
     platform_id: {
         type: DataTypes.STRING(200),
@@ -17,15 +15,7 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
         type: DataTypes.STRING(20),
         allowNull: false,
     },
-    title_image: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'TB_BEAUTY_IMAGES',
-            key: 'id',
-        },
-    },
-    beauty_name: {
+    name: {
         type: DataTypes.STRING(30),
         allowNull: false,
         defaultValue: '',
@@ -38,7 +28,7 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
     grade: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue: 0.0,
+        defaultValue: 5.0,
     },
     weekday_open_time: {
         type: DataTypes.DATE,
@@ -60,18 +50,48 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
         allowNull: false,
         defaultValue: '00:00:00',
     },
+    dayon: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: '매일',
+    },
     dayoff: {
         type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: '연중무휴',
     },
-    contact_number: {
+    store_number: {
         type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: '',
     },
     contents: {
         type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: '',
+    },
+    business_registration_name: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+        defaultValue: '',
+    },
+    business_registration_number: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: '',
+    },
+    business_owner: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: '',
+    },
+    email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        defaultValue: '',
+    },
+    phone: {
+        type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: '',
     },
@@ -89,6 +109,4 @@ const Beauty = sequelize.define('TB_BEAUTIES', {
     timestamps: false,
 });
 
-Beauty.belongsTo(BeautyImage, { foreignKey: 'title_image', targetKey: 'id' });
-
-module.exports = Beauty;
+module.exports = Business;
