@@ -218,7 +218,7 @@ const PetRegistration = () => {
                             type="text"
                             className="textbox-gray"
                             value={speciesInputValue}
-                            placeholder="종을 적어주세요"
+                            placeholder="종을 적어주세요. (ex. 강아지, 고양이 등)"
                             onChange={handleSpeciesInputChange}
                         />
                         {speciesSuggestions.length > 0 && (
@@ -238,7 +238,7 @@ const PetRegistration = () => {
                         <input
                             type="text"
                             className="textbox-gray"
-                            placeholder="품종을 적어주세요"
+                            placeholder="품종을 적어주세요. (ex. 말티즈, 믹스 등)"
                             name="breed"
                             value={formData.breed}
                             onChange={handleInputChange}
