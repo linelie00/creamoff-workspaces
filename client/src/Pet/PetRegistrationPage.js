@@ -29,6 +29,19 @@ const PetRegistration = () => {
         etc: ''
     });
 
+    // species 종류
+    const [isDog, setIsDog] = useState(false);
+    const [isCat, setIsCat] = useState(false);
+    const [isHamster, setIsHamster] = useState(false);
+    const [isRabbit, setIsRabbit]  = useState(false);
+
+    useEffect(() => {
+        setIsDog(formData.species === '강아지');
+        setIsCat(formData.species === '고양이');
+        setIsHamster(formData.species === '햄스터');
+        setIsRabbit(formData.species === '토끼');
+    }, [formData.species]);
+
     const [petSpecies, setPetSpecies] = useState([]);
     useEffect(() => {
         const fetchPetSpecies = async () => {
@@ -121,6 +134,10 @@ const PetRegistration = () => {
     const handleSuggestionClick = (species) => {
         setSpeciesInputValue(species);
         setSpeciesSuggestions([]);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            species
+        }));
         fetchBreeds(species);
     };
     // =================== 여기까지 AutoComplete Component ===================
@@ -322,14 +339,16 @@ const PetRegistration = () => {
                                 onSelect={(value) => handleRadioSelect('biting', value)}
                             />
                         </div>
-                        <div className='PetRegistration-container2'>
-                            <p>슬개골탈구가</p>
-                            <RadioButton
-                                options={patellarLuxationOptions}
-                                selectedOption={formData.patellarLuxation}
-                                onSelect={(value) => handleRadioSelect('patellarLuxation', value)}
-                            />
-                        </div>
+                        {isDog && (
+                            <div className='PetRegistration-container2'>
+                                <p>슬개골탈구가</p>
+                                <RadioButton
+                                    options={patellarLuxationOptions}
+                                    selectedOption={formData.patellarLuxation}
+                                    onSelect={(value) => handleRadioSelect('patellarLuxation', value)}
+                                />
+                            </div>
+                        )}
                         <div className='PetRegistration-container2'>
                             <p>기타 추가 사항이</p>
                             <RadioButton
