@@ -8,7 +8,7 @@ const Business = sequelize.define('TB_BUSINESSES', {
         primaryKey: true,
     },
     category: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.ENUM('beauty', 'food', 'shopping', 'kindergarten', 'hotel', 'etc'),
         allowNull: false,
     },
     platform_id: {
