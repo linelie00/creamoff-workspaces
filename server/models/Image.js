@@ -2,10 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 
 const Image = sequelize.define('TB_IMAGES', {
-  filename: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
   endpoint: {
     type: DataTypes.STRING,
     allowNull: false
@@ -14,11 +10,15 @@ const Image = sequelize.define('TB_IMAGES', {
     type: DataTypes.ENUM('main', 'sub', 'album', 'review', 'pricing'),
     allowNull: false
   },
-  business_number: {
+  business_id: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  uploadDate: {
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updated_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   }

@@ -7,6 +7,10 @@ const Business = sequelize.define('TB_BUSINESSES', {
         allowNull: false,
         primaryKey: true,
     },
+    category: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+    },
     platform_id: {
         type: DataTypes.STRING(200),
         allowNull: false,
@@ -31,22 +35,22 @@ const Business = sequelize.define('TB_BUSINESSES', {
         defaultValue: 5.0,
     },
     weekday_open_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
         defaultValue: '00:00:00',
     },
     weekday_close_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
         defaultValue: '00:00:00',
     },
     weekend_open_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
         defaultValue: '00:00:00',
     },
     weekend_close_time: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
         defaultValue: '00:00:00',
     },

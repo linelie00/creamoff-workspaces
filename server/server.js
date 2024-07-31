@@ -7,7 +7,7 @@ const { sequelize } = require('./models');
 const authRoutes = require('./src/routes/authRoutes');
 const petRoutes = require('./src/routes/petRoutes');
 const storageRoutes = require('./src/routes/storageRoutes');
-const beautyRoutes = require('./src/routes/beautyRoutes');
+const businessRoutes = require('./src/routes/businessRoutes');
 
 dotenv.config(); // .env 파일의 환경 변수 로드
 
@@ -47,7 +47,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api', authRoutes);
 app.use('/api', petRoutes);
 app.use('/api', storageRoutes);
-app.use('/api', beautyRoutes);
+app.use('/api', businessRoutes);
 
 // 서버 실행
 app.listen(app.get('port'), () => {

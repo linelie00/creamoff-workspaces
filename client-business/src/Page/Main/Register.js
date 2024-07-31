@@ -28,41 +28,41 @@ function Register() {
   const handleSave = async () => {
     try {
       const formData = new FormData();
-  
+
       // 이미지 파일을 FormData에 추가
       Object.keys(imageFiles).forEach((key) => {
         imageFiles[key].forEach((file) => {
           formData.append(key, file);
         });
       });
-  
+
       // 추가 입력값들을 FormData에 추가
       const inputs = document.querySelectorAll('.input-container input, .input-container textarea');
       inputs.forEach((input) => {
         formData.append(input.name, input.value);
       });
-  
+
       // formData를 디버깅용으로 확인
       for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
+        console.log(pair[0] + ', ' + pair[1]);
       }
-  
+
       // 서버로 FormData를 전송
-      const response = await axios.post(`${apiUrl}/api/beauty/businesses`, formData, {
+      const response = await axios.post(`${apiUrl}/api/businesses`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-  
+
       console.log('Upload successful:', response.data);
-  
+
       // 성공적으로 업로드된 후 페이지를 이동하거나 추가 작업 수행
       navigate('/success'); // 성공 페이지로 이동
     } catch (error) {
       console.error('Error during upload:', error);
       // 오류 처리
     }
-  };  
+  };
 
   return (
     <div className='mid' lang='ko'>
@@ -158,7 +158,7 @@ function Register() {
         </div>
         <div className='input-container'>
           <p>영업점 번호</p>
-          <input type='text' name='store-number' placeholder='02-000-0000' />
+          <input type='text' name='store_number' placeholder='02-000-0000' />
         </div>
       </div>
     </div>

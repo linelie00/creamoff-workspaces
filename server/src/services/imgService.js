@@ -5,6 +5,7 @@ const { PassThrough } = require('stream');
 const { generateUniqueFileName } = require('../utils/fileUtils');
 const { accessKey, secretKey, region, service, endpoint, bucketName } = require('../config/awsConfig');
 const Image = require('../../models/Image'); // Sequelize 모델 임포트
+const { create } = require('domain');
 
 const sign = (key, msg) => crypto.createHmac('sha256', key).update(msg, 'utf8').digest();
 const getSignatureKey = (key, dateStamp, regionName, serviceName) => {
@@ -50,19 +51,22 @@ const uploadImageToBucket = async (fileBuffer, objectName) => {
     return url;
 };
 
-const uploadMultipleImages = async (files) => {
+const uploadMultipleImages = async (files, businessId) => {
     const results = [];
 
     for (const file of files) {
-        const folder = file.fieldname === 'main' ? 'main' : 'detail';
+        const folder = file.fieldname;
         const objectName = `${folder}/${generateUniqueFileName(file.originalname)}`;
         const url = await uploadImageToBucket(file.buffer, objectName);
+        console.log('Uploaded:', url);
 
         // DB에 이미지 정보 저장
         const image = await Image.create({
-            filename: objectName,
+            business_id: businessId,
+            image_type: folder,
             endpoint: url,
-            uploadDate: new Date()
+            create_at: new Date(),
+            update_at: new Date(),
         });
 
         results.push({ url, imageId: image.id });
