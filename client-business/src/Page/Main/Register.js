@@ -10,10 +10,6 @@ function Register() {
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/button/arrow_left.svg`;
   const keyButtonUrl = `${process.env.PUBLIC_URL}/images/icon/keyboard_return.svg`;
 
-  const goBack = () => {
-    navigate(-1); // 뒤로 가기
-  };
-
   useEffect(() => {
     const textarea = document.getElementById('greetingTextarea');
     const placeholderText = '간단한 인삿말\n30자 이내';
@@ -42,11 +38,6 @@ function Register() {
         formData.append(input.name, input.value);
       });
 
-      // formData를 디버깅용으로 확인
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
-
       // 서버로 FormData를 전송
       const response = await axios.post(`${apiUrl}/api/businesses`, formData, {
         headers: {
@@ -68,7 +59,7 @@ function Register() {
     <div className='mid' lang='ko'>
       <div className='navigation'>
         <button>
-          <img src={arrowButtonUrl} alt='' onClick={goBack} />
+          <img src={arrowButtonUrl} alt='' onClick={()=>navigate('/home')} />
         </button>
         등록자료 올리기
         <div onClick={handleSave}>저장</div>

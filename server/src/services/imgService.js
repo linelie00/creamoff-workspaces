@@ -64,9 +64,7 @@ const uploadMultipleImages = async (files, businessId) => {
         const image = await Image.create({
             business_id: businessId,
             image_type: folder,
-            endpoint: url,
-            create_at: new Date(),
-            update_at: new Date(),
+            endpoint: url
         });
 
         results.push({ url, imageId: image.id });

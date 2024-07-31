@@ -13,14 +13,6 @@ const Image = sequelize.define('TB_IMAGES', {
   business_id: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
   }
 });
 
