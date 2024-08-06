@@ -33,7 +33,7 @@ function App() {
             <Router>
               <Routes>
                 <Route path="/home" element={<HomePage />} />
-                <Route path="/list" element={<ListPage />} />
+                <Route path="/list/:id" element={<ListPage />} />
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/edit-user" element={<EditUserPage />} />
                 <Route path="/my-page" element={<MyPage />} />

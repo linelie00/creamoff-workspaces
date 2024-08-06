@@ -60,12 +60,17 @@ const EventDetailPage = () => {
         accordionRef.current.scrollLeft = scrollLeft - walk;
     };
 
+    // 뒤로 가기
+  const goBack = () => {
+    navigate(-1);
+  };
+
     return (
         <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>
-                        <img src={arrowButtonUrl} alt='' onClick={() => navigate('/list')}/>
+                        <img src={arrowButtonUrl} alt='' onClick={goBack}/>
                     </button>
                     상세보기
                     <div></div>

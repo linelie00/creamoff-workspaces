@@ -6,21 +6,81 @@ const BeautyTagRS = require('../../models/BeautyTagRS');
 // 특정 카테고리의 모든 업체의 이름, 위치, 메인 이미지를 가져오는 함수
 const getBusinessesByCategory = async (category) => {
     try {
+        // 비즈니스 데이터 가져오기
         const businesses = await Business.findAll({
             where: { category },
             attributes: ['id', 'name', 'location'],
-            include: [{
-                model: Image,
-                as: 'images',
-                where: { image_type: 'main' },
-                attributes: ['endpoint']
-            }]
         });
-        return businesses;
+
+        // 메인 이미지 가져오기
+        const images = await Image.findAll({
+            where: { image_type: 'main' },
+            attributes: ['endpoint', 'business_id'],
+        });
+
+        // 태그 데이터 가져오기
+        const tags = await getTagsForBusinesses();
+
+        // 비즈니스 데이터를 기준으로 결과 조합
+        const results = businesses.map((business) => {
+            // 비즈니스에 해당하는 이미지 찾기
+            const businessImage = images.find(
+                (image) => image.business_id === business.id
+            );
+
+            // 비즈니스에 해당하는 태그 찾기
+            const businessTags = tags
+                .filter((tag) => tag.businessId === business.id)
+                .map((tag) => tag.tagName);
+
+            // 최종 비즈니스 객체 생성
+            return {
+                id: business.id,
+                name: business.name,
+                location: business.location,
+                mainImage: businessImage ? businessImage.endpoint : null,
+                tags: businessTags,
+            };
+        });
+
+        return results;
     } catch (error) {
-        throw new Error('Failed to fetch businesses by category');
+        console.error('Error fetching businesses with details:', error);
+        throw new Error('Failed to fetch businesses with details');
     }
 };
+
+const getTagsForBusinesses = async () => {
+    try {
+        const tagRelations = await BeautyTagRS.findAll({
+            attributes: ['business_id', 'tag_id'],
+        });
+
+        // 각 태그 아이디에 대한 정보를 가져옵니다.
+        const tags = [];
+        for (const relation of tagRelations) {
+            const beautyTag = await BeautyTag.findOne({
+                where: { tag_id: relation.tag_id },
+                attributes: ['tag_name'],
+            });
+
+            // 태그가 존재하면 결과에 추가합니다.
+            if (beautyTag) {
+                tags.push({
+                    businessId: relation.business_id,
+                    tagName: beautyTag.tag_name,
+                });
+            }
+        }
+
+        return tags;
+    } catch (error) {
+        console.error('Error fetching tags:', error);
+        throw new Error('Failed to fetch tags');
+    }
+};
+
+
 
 // 특정 아이디의 사업자명, 사업자아이디, 대표명을 제외한 정보를 가지고 오는 함수
 const getBusinessDetailsById = async (id) => {
@@ -92,7 +152,7 @@ const updateBusiness = async (id, updateInfo) => {
     }
 };
 
-const processAndSaveTags = async (species, beautyId) => {
+const processAndSaveTags = async (species, business_id) => {
     try {
         // species 값을 띄어쓰기를 제거하고 쉼표로 나눕니다.
         const tags = species.replace(/\s/g, '').split(',');
@@ -108,7 +168,7 @@ const processAndSaveTags = async (species, beautyId) => {
 
             // 태그-업체 관계 저장
             await BeautyTagRS.create({
-                beauty_id: beautyId,
+                business_id: business_id,
                 tag_id: tag.tag_id,
             });
         }

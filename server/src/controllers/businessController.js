@@ -4,9 +4,12 @@ const imageService = require('../services/imgService');
 
 const getAllBusinesses = async (req, res) => {
     try {
-        const businesses = await businessService.getAllBusinesses();
+        const { category } = req.query;
+        const businesses = await businessService.getBusinessesByCategory(category);
+        console.log('businesses:', businesses);
         res.json(businesses);
     } catch (error) {
+        console.error('Error fetching businesses:', error.message);
         res.status(500).json({ error: error.message });
     }
 };

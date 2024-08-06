@@ -87,6 +87,10 @@ const MainPage = () => {
       setIsOpen(!isOpen);
   };
 
+  const handleItemClick = (id) => {
+    navigate(`/list/${id}`);
+  };
+
   return (
     <div lang='ko'>
       <div className="mid">
@@ -137,35 +141,34 @@ const MainPage = () => {
           onMouseMove={onDrag2}
         >
         <div className="button-grid-con">
-            <div className="button-item" onClick={() => navigate('/list')}>
-              <img src={b1Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b2Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b3Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b4Url} alt=""/>
-            </div>
+          <div className="button-item" onClick={() => handleItemClick('beauty')}>
+            <img src={b1Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(2)}>
+            <img src={b2Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(3)}>
+            <img src={b3Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(4)}>
+            <img src={b4Url} alt=""/>
+          </div>
         </div>
         <div className="button-grid-con">
-            <div className="button-item">
-              <img src={b5Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b6Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b7Url} alt=""/>
-            </div>
-            <div className="button-item">
-              <img src={b8Url} alt=""/>
-            </div>
+          <div className="button-item" onClick={() => handleItemClick(5)}>
+            <img src={b5Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(6)}>
+            <img src={b6Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(7)}>
+            <img src={b7Url} alt=""/>
+          </div>
+          <div className="button-item" onClick={() => handleItemClick(8)}>
+            <img src={b8Url} alt=""/>
+          </div>
         </div>
       </div>
-
       </div>
         <div 
           className="home-container4"
