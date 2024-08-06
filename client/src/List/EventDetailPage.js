@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import EventTags from './EventTags';
+import axios from 'axios';
 import '../styles/listPage.css';
 
 const EventDetailPage = () => {
@@ -24,6 +26,7 @@ const EventDetailPage = () => {
 
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const [business, setBusiness] = useState([]);
 
     const accordionRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -65,6 +68,39 @@ const EventDetailPage = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    const fetchBusiness = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No token found.');
+            }
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/businesses/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            setBusiness(response.data);
+        } catch (error) {
+            console.error('Error fetching business:', error);
+        }
+        };
+        fetchBusiness();
+    }, [id]);
+
+    // 주어진 시간 데이터를 'HH:MM:SS' 형식에서 'HH:MM' 형식으로 변환
+const formatTime = (time) => {
+    if (!time) return ''; // null 또는 undefined 처리
+    const [hour, minute] = time.split(':'); // ':'를 기준으로 분할
+    return `${hour}:${minute}`; // 시간과 분을 합쳐서 반환
+  };
+  
+  // 사용 예시
+  const weekdayOpenTime = formatTime(business.weekday_open_time);
+  const weekdayCloseTime = formatTime(business.weekday_close_time);
+  const weekendOpenTime = formatTime(business.weekend_open_time);
+  const weekendCloseTime = formatTime(business.weekend_close_time);
+
     return (
         <div lang='ko'>
             <div className='mid'>
@@ -79,24 +115,19 @@ const EventDetailPage = () => {
                     <img src={eventImgUrl} alt='event' />
                 </div>
                 <div className='event-title'>
-                    <div>한라마운틴미용실</div>
+                    <div>{business.name}</div>
                     <div className={`event-title-button ${isButtonClicked ? 'clicked' : ''}`} onClick={handleButtonClick}>
                         {isButtonClicked ? '예약대기' : '예약가능'}
                     </div>
                 </div>
                 <div className='event-address'>
-                    <div>제주특별자치도 한라시 한라읍 한라동</div>
-                    <div>387-8번지 101호 백록담</div>
+                    <span>{business.location}</span>
                     <div className='event-tag-container'>
-                        <div className='list-tag'>소형견</div>
-                        <div className='list-tag'>대형견</div>
-                        <div className='list-tag'>예약제</div>
-                        <div className='list-tag'>상담가능</div>
-                        <div className='list-tag'>연중무휴</div>
+                        <EventTags tags={business.tags} />
                     </div>
-                    <p>평일｜9:00~18:00</p>
-                    <p>주말｜9:00~18:00</p>
-                    <p>매주 목요일 휴무</p>
+                    <p>평일｜{weekdayOpenTime}~{weekdayCloseTime}</p>
+                    <p>주말｜{weekendOpenTime}~{weekendCloseTime}</p>
+                    <p>{business.dayoff} 휴무</p>
                 </div>
                 <div className='event-button-container'>
                     <div className='event-button'>
@@ -125,7 +156,7 @@ const EventDetailPage = () => {
                     </div>
                 </div>
                 <div className="event-text-box">
-                    우리 아이처럼 소중하게 미용하겠습니다~! 
+                    {business.contents}
                 </div>
                 <div className="album-text">
                     Album

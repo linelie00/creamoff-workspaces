@@ -30,7 +30,7 @@ const Event = ({ event }) => {
             <div className='text-container'>
                 <div className='list-title-container'>
                     <div className='list-title'>{event.name}</div>
-                    <EventTags tags={event.tags} views='100' />
+                    <EventTags tags={event.tags} />
                     <div className='list-content'>{event.location}</div>
                 </div>
             </div>

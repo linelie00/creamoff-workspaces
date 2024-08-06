@@ -80,7 +80,34 @@ const getTagsForBusinesses = async () => {
     }
 };
 
+const getTagsByBusinessId = async (businessId) => {
+    try {
+        // 주어진 비즈니스 ID에 대한 태그 관계를 가져옵니다.
+        const tagRelations = await BeautyTagRS.findAll({
+            where: { business_id: businessId }, // 비즈니스 ID로 필터링
+            attributes: ['tag_id'], // tag_id만 가져옴
+        });
 
+        // 비즈니스에 연결된 태그 정보를 가져옵니다.
+        const tags = [];
+        for (const relation of tagRelations) {
+            const beautyTag = await BeautyTag.findOne({
+                where: { tag_id: relation.tag_id }, // tag_id로 필터링
+                attributes: ['tag_name'],
+            });
+
+            // 태그가 존재하면 결과에 추가합니다.
+            if (beautyTag) {
+                tags.push(beautyTag.tag_name);
+            }
+        }
+
+        return tags; // 태그 이름 배열 반환
+    } catch (error) {
+        console.error('Error fetching tags:', error);
+        throw new Error('Failed to fetch tags');
+    }
+};
 
 // 특정 아이디의 사업자명, 사업자아이디, 대표명을 제외한 정보를 가지고 오는 함수
 const getBusinessDetailsById = async (id) => {
@@ -91,14 +118,31 @@ const getBusinessDetailsById = async (id) => {
                 exclude: ['business_registration_name', 'business_registration_number', 'business_owner']
             }
         });
+        // 이미지 데이터를 가져와서 타입별로 분류
         const images = await Image.findAll({
             where: { business_id: id },
+            attributes: ['endpoint', 'image_type'],
         });
-        business.dataValues.images = images;
-        if (!business) {
-            throw new Error('Business not found');
-        }
-        return business;
+
+        // 이미지 타입별 분류
+        const imagesByType = images.reduce((acc, image) => {
+            const { image_type, endpoint } = image;
+            if (!acc[image_type]) {
+                acc[image_type] = [];
+            }
+            acc[image_type].push(endpoint);
+            return acc;
+        }, {});
+
+        // 태그 데이터 가져오기
+        const tags = await getTagsByBusinessId(id);
+
+        // 비즈니스 객체에 이미지와 태그 정보 추가
+        business.dataValues.images = imagesByType; // 타입별로 분류된 이미지 추가
+        business.dataValues.tags = tags; // 태그 추가
+        
+        console.log(business.dataValues);
+        return business.dataValues;
     } catch (error) {
         throw new Error('Failed to fetch business details');
     }

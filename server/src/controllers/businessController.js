@@ -17,7 +17,7 @@ const getAllBusinesses = async (req, res) => {
 const getBusinessById = async (req, res) => {
     const { id } = req.params;
     try {
-        const business = await businessService.getBusinessById(id);
+        const business = await businessService.getBusinessDetailsById(id);
         res.json(business);
     } catch (error) {
         res.status(500).json({ error: error.message });

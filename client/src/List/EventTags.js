@@ -1,15 +1,17 @@
 import React from 'react';
 
-const EventTags = ({ tags, views }) => {
-    const eventTags = views >= 100 ? [...tags] : tags;
-
+const EventTags = ({ tags = [] }) => {
     return (
-        <div className='list-tag-container'>
-            {eventTags.map(tag => (
-                <div key={tag} className='list-tag'>
-                    {tag}
-                </div>
-            ))}
+        <div className="list-tag-container">
+            {tags.length > 0 ? (
+                tags.map((tag, index) => (
+                    <div key={index} className='list-tag'>
+                        {tag}
+                    </div>
+                ))
+            ) : (
+                <div>No Tags Available</div> // 태그가 없을 경우 표시
+            )}
         </div>
     );
 };
