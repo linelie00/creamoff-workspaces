@@ -22,7 +22,6 @@ const Event = ({ event }) => {
                     <img
                         src={event.mainImage}
                         alt={event.name}
-                        style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // 스타일은 필요에 따라 조정
                     />
                 ) : (
                     <div>No Image Available</div> // 이미지가 없는 경우 대체 텍스트

@@ -37,7 +37,7 @@ function App() {
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/edit-user" element={<EditUserPage />} />
                 <Route path="/my-page" element={<MyPage />} />
-                <Route path="/list-map" element={<ListMapPage />} />
+                <Route path="/list-map/:id" element={<ListMapPage />} />
                 <Route path="/events/:id" element={<EventDetailPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/pet-list" element={<PetListPage />} />
