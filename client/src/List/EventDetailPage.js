@@ -26,7 +26,20 @@ const EventDetailPage = () => {
 
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-    const [business, setBusiness] = useState([]);
+    const [business, setBusiness] = useState({
+        id: '',
+        name: '',
+        location: '',
+        tags: [],
+        images: { main: '', sub: [], album: [], review: [], pricing: [] }, // 기본 구조 설정
+        weekday_open_time: '',
+        weekday_close_time: '',
+        weekend_open_time: '',
+        weekend_close_time: '',
+        dayoff: '',
+        contents: '',
+    });
+    
 
     const accordionRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -81,6 +94,7 @@ const EventDetailPage = () => {
                 }
             });
             setBusiness(response.data);
+            console.log('Business fetched:', response.data);
         } catch (error) {
             console.error('Error fetching business:', error);
         }
@@ -112,7 +126,11 @@ const formatTime = (time) => {
                     <div></div>
                 </div>
                 <div className='event-img'>
-                    <img src={eventImgUrl} alt='event' />
+                    {business.images.main ? (
+                        <img src={business.images.main} alt='Main Event' />
+                    ) : (
+                        <p>이미지가 없습니다</p> // 이미지가 없는 경우에 대한 대체 텍스트
+                    )}
                 </div>
                 <div className='event-title'>
                     <div>{business.name}</div>
@@ -162,15 +180,15 @@ const formatTime = (time) => {
                     Album
                 </div>
                 <div className="grid-container">
-                    <div className="grid-item"><img src={image1Url} alt="" /></div>
-                    <div className="grid-item"><img src={image2Url} alt="" /></div>
-                    <div className="grid-item"><img src={image3Url} alt="" /></div>
-                    <div className="grid-item"><img src={image4Url} alt="" /></div>
-                    <div className="grid-item"><img src={image5Url} alt="" /></div>
-                    <div className="grid-item"><img src={image6Url} alt="" /></div>
-                    <div className="grid-item"><img src={image7Url} alt="" /></div>
-                    <div className="grid-item"><img src={image8Url} alt="" /></div>
-                    <div className="grid-item"><img src={image9Url} alt="" /></div>
+                    {business.images.album && business.images.album.length > 0 ? (
+                        business.images.album.map((imageUrl, index) => (
+                            <div className="grid-item" key={index}>
+                                <img src={imageUrl} alt={`Album Image ${index + 1}`} />
+                            </div>
+                        ))
+                    ) : (
+                        <p>앨범 사진이 없습니다</p> // 앨범 사진이 없을 경우 메시지 표시
+                    )}
                 </div>
                 <div className='album-more'>
                     더보기∨
