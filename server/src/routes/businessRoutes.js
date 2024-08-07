@@ -13,9 +13,9 @@ router.get('/businesses', authMiddleware, businessController.getAllBusinesses);
 router.get('/businesses/:id', authMiddleware, businessController.getBusinessById);
 router.post('/businesses', upload.fields([
     { name: 'main', maxCount: 1 },
-    { name: 'sub', maxCount: 10 },
-    { name: 'album', maxCount: 10 },
-    { name: 'review', maxCount: 10 },
+    { name: 'sub', maxCount: 50 },
+    { name: 'album', maxCount: 50 },
+    { name: 'review', maxCount: 50 },
     { name: 'pricing', maxCount: 10 }
 ]), businessController.createBusiness);
 

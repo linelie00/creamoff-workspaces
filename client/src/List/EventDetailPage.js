@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import EventTags from './EventTags';
 import axios from 'axios';
 import '../styles/listPage.css';
-
 import Table from './EventDetailTable';
 
 const EventDetailPage = () => {
@@ -18,12 +17,13 @@ const EventDetailPage = () => {
 
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const [showAllImages, setShowAllImages] = useState(false); // 이미지 상태 추가
     const [business, setBusiness] = useState({
         id: '',
         name: '',
         location: '',
         tags: [],
-        images: { main: '', sub: [], album: [], review: [], pricing: [] }, // 기본 구조 설정
+        images: { main: '', sub: [], album: [], review: [], pricing: [] },
         weekday_open_time: '',
         weekday_close_time: '',
         weekend_open_time: '',
@@ -31,7 +31,6 @@ const EventDetailPage = () => {
         dayoff: '',
         contents: '',
     });
-    
 
     const accordionRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -44,6 +43,10 @@ const EventDetailPage = () => {
 
     const toggleAccordion = () => {
         setIsAccordionOpen(!isAccordionOpen);
+    };
+
+    const toggleShowAllImages = () => {
+        setShowAllImages(!showAllImages);
     };
 
     const handleMouseDown = (e) => {
@@ -69,50 +72,53 @@ const EventDetailPage = () => {
     };
 
     // 뒤로 가기
-  const goBack = () => {
-    navigate(-1);
-  };
+    const goBack = () => {
+        navigate(-1);
+    };
 
-  useEffect(() => {
-    const fetchBusiness = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                throw new Error('No token found.');
-            }
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/businesses/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
+    useEffect(() => {
+        const fetchBusiness = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found.');
                 }
-            });
-            setBusiness(response.data);
-            console.log('Business fetched:', response.data);
-        } catch (error) {
-            console.error('Error fetching business:', error);
-        }
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/businesses/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+                setBusiness(response.data);
+                console.log('Business fetched:', response.data);
+            } catch (error) {
+                console.error('Error fetching business:', error);
+            }
         };
         fetchBusiness();
     }, [id]);
 
     // 주어진 시간 데이터를 'HH:MM:SS' 형식에서 'HH:MM' 형식으로 변환
-const formatTime = (time) => {
-    if (!time) return ''; // null 또는 undefined 처리
-    const [hour, minute] = time.split(':'); // ':'를 기준으로 분할
-    return `${hour}:${minute}`; // 시간과 분을 합쳐서 반환
-  };
-  
-  // 사용 예시
-  const weekdayOpenTime = formatTime(business.weekday_open_time);
-  const weekdayCloseTime = formatTime(business.weekday_close_time);
-  const weekendOpenTime = formatTime(business.weekend_open_time);
-  const weekendCloseTime = formatTime(business.weekend_close_time);
+    const formatTime = (time) => {
+        if (!time) return ''; // null 또는 undefined 처리
+        const [hour, minute] = time.split(':'); // ':'를 기준으로 분할
+        return `${hour}:${minute}`; // 시간과 분을 합쳐서 반환
+    };
+
+    // 사용 예시
+    const weekdayOpenTime = formatTime(business.weekday_open_time);
+    const weekdayCloseTime = formatTime(business.weekday_close_time);
+    const weekendOpenTime = formatTime(business.weekend_open_time);
+    const weekendCloseTime = formatTime(business.weekend_close_time);
+
+    // 표시할 이미지 배열 (처음엔 최대 9개, 더보기 클릭 시 모든 이미지)
+    const displayedImages = showAllImages ? business.images.album : business.images.album.slice(0, 9);
 
     return (
         <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>
-                        <img src={arrowButtonUrl} alt='' onClick={goBack}/>
+                        <img src={arrowButtonUrl} alt='' onClick={goBack} />
                     </button>
                     상세보기
                     <div></div>
@@ -172,19 +178,17 @@ const formatTime = (time) => {
                     Album
                 </div>
                 <div className="grid-container">
-                    {business.images.album && business.images.album.length > 0 ? (
-                        business.images.album.map((imageUrl, index) => (
-                            <div className="grid-item" key={index}>
-                                <img src={imageUrl} alt='' />
-                            </div>
-                        ))
-                    ) : (
-                        <p>앨범 사진이 없습니다</p> // 앨범 사진이 없을 경우 메시지 표시
-                    )}
+                    {displayedImages.map((imageUrl, index) => (
+                        <div className="grid-item" key={index}>
+                            <img src={imageUrl} alt='' />
+                        </div>
+                    ))}
                 </div>
-                <div className='album-more'>
-                    더보기∨
-                </div>
+                {business.images.album.length > 9 && (
+                    <div className='album-more' onClick={toggleShowAllImages}>
+                        {showAllImages ? '접기∧' : '더보기∨'}
+                    </div>
+                )}
                 <div className='information-text'>
                     Price information
                 </div>
@@ -195,13 +199,13 @@ const formatTime = (time) => {
                 {isAccordionOpen && (
                     <div className='accordion-hidden-div'>
                         <div className="table-container"
-                        ref={accordionRef}
-                        onMouseDown={handleMouseDown}
-                        onMouseLeave={handleMouseLeave}
-                        onMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
+                            ref={accordionRef}
+                            onMouseDown={handleMouseDown}
+                            onMouseLeave={handleMouseLeave}
+                            onMouseUp={handleMouseUp}
+                            onMouseMove={handleMouseMove}
                         >
-                        <Table event={business.images.pricing} />  
+                            <Table event={business.images.pricing} />
                         </div>
                     </div>
                 )}
@@ -210,7 +214,7 @@ const formatTime = (time) => {
                 </div>
                 <div className='writing-div'>
                     <div className='writing'>
-                        <img src={noteUrl} alt=''/>
+                        <img src={noteUrl} alt='' />
                         작성된 글이 없습니다.
                     </div>
                 </div>
