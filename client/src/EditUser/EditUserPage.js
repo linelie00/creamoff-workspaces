@@ -20,6 +20,19 @@ const EditUserPage = () => {
     const [isEditingNickname, setIsEditingNickname] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
 
+    const updateUserInfo = (address, zonecode) => {
+        console.log('Updating user info with:', userInfo, address, zonecode);
+        setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            address: `${address} (${zonecode})`
+        }));
+        console.log('Updated user info:', userInfo);
+    };
+
+    useEffect(() => {
+        console.log('Updated user info:', userInfo);
+    }, [userInfo]);
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -41,6 +54,13 @@ const EditUserPage = () => {
                     address: userData.user_address,
                     email: userData.user_email
                 });
+
+                // 주소와 zonecode가 있으면 userInfo 업데이트
+                if (location.state && (location.state.address || location.state.zonecode)) {
+                    const { address, zonecode } = location.state;
+                    console.log('Received address:', address, zonecode);
+                    updateUserInfo(address, zonecode);
+                }
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 // 오류 처리 로직 추가
@@ -48,15 +68,6 @@ const EditUserPage = () => {
         };
 
         fetchUserData();
-    }, []);
-
-    useEffect(() => {
-        if (location.state?.address) {
-            setUserInfo(prevUserInfo => ({
-                ...prevUserInfo,
-                address: location.state.address
-            }));
-        }
     }, [location.state]);
 
     const handleNicknameChange = (e) => {
@@ -100,6 +111,11 @@ const EditUserPage = () => {
     const navigateToEditAddress = () => {
         navigate('/edit-address', { state: { prevPath: '/edit-user' } });
     };
+
+    const Logout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
 
     return (
         <div lang='ko' className='mid'>
@@ -182,7 +198,7 @@ const EditUserPage = () => {
                             <p>로그아웃</p>
                         </div>
                         <div className='edit-textbox'>
-                            <p>탈퇴</p>
+                            <p onClick={Logout}>탈퇴</p>
                         </div>
                     </div>
                 </div>

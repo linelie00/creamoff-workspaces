@@ -1,29 +1,36 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import EventTags from './EventTags';
+import axios from 'axios';
 import '../styles/listPage.css';
+import Table from './EventDetailTable';
 
 const EventDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
-    const eventImgUrl = `${process.env.PUBLIC_URL}/images/list/event_img.svg`;
     const locationUrl = `${process.env.PUBLIC_URL}/images/list/location.svg`;
     const callUrl = `${process.env.PUBLIC_URL}/images/list/call.svg`;
     const shareUrl = `${process.env.PUBLIC_URL}/images/list/share.svg`;
     const heartUrl = `${process.env.PUBLIC_URL}/images/list/heart.svg`;
-    const image1Url = `${process.env.PUBLIC_URL}/images/list/pictures/image1.jpg`;
-    const image2Url = `${process.env.PUBLIC_URL}/images/list/pictures/image2.jpg`;
-    const image3Url = `${process.env.PUBLIC_URL}/images/list/pictures/image3.jpg`;
-    const image4Url = `${process.env.PUBLIC_URL}/images/list/pictures/image4.jpg`;
-    const image5Url = `${process.env.PUBLIC_URL}/images/list/pictures/image5.jpg`;
-    const image6Url = `${process.env.PUBLIC_URL}/images/list/pictures/image6.jpg`;
-    const image7Url = `${process.env.PUBLIC_URL}/images/list/pictures/image7.jpg`;
-    const image8Url = `${process.env.PUBLIC_URL}/images/list/pictures/image8.jpg`;
-    const image9Url = `${process.env.PUBLIC_URL}/images/list/pictures/image9.jpg`;
     const noteUrl = `${process.env.PUBLIC_URL}/images/list/note.svg`;
 
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+    const [showAllImages, setShowAllImages] = useState(false); // 이미지 상태 추가
+    const [business, setBusiness] = useState({
+        id: '',
+        name: '',
+        location: '',
+        tags: [],
+        images: { main: '', sub: [], album: [], review: [], pricing: [] },
+        weekday_open_time: '',
+        weekday_close_time: '',
+        weekend_open_time: '',
+        weekend_close_time: '',
+        dayoff: '',
+        contents: '',
+    });
 
     const accordionRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -36,6 +43,10 @@ const EventDetailPage = () => {
 
     const toggleAccordion = () => {
         setIsAccordionOpen(!isAccordionOpen);
+    };
+
+    const toggleShowAllImages = () => {
+        setShowAllImages(!showAllImages);
     };
 
     const handleMouseDown = (e) => {
@@ -60,38 +71,79 @@ const EventDetailPage = () => {
         accordionRef.current.scrollLeft = scrollLeft - walk;
     };
 
+    // 뒤로 가기
+    const goBack = () => {
+        navigate(-1);
+    };
+
+    useEffect(() => {
+        const fetchBusiness = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found.');
+                }
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/businesses/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+                setBusiness(response.data);
+                console.log('Business fetched:', response.data);
+            } catch (error) {
+                console.error('Error fetching business:', error);
+            }
+        };
+        fetchBusiness();
+    }, [id]);
+
+    // 주어진 시간 데이터를 'HH:MM:SS' 형식에서 'HH:MM' 형식으로 변환
+    const formatTime = (time) => {
+        if (!time) return ''; // null 또는 undefined 처리
+        const [hour, minute] = time.split(':'); // ':'를 기준으로 분할
+        return `${hour}:${minute}`; // 시간과 분을 합쳐서 반환
+    };
+
+    // 사용 예시
+    const weekdayOpenTime = formatTime(business.weekday_open_time);
+    const weekdayCloseTime = formatTime(business.weekday_close_time);
+    const weekendOpenTime = formatTime(business.weekend_open_time);
+    const weekendCloseTime = formatTime(business.weekend_close_time);
+
+    // 표시할 이미지 배열 (처음엔 최대 9개, 더보기 클릭 시 모든 이미지)
+    const displayedImages = showAllImages ? business.images.album : business.images.album.slice(0, 9);
+
     return (
         <div lang='ko'>
             <div className='mid'>
                 <div className='navigation'>
                     <button>
-                        <img src={arrowButtonUrl} alt='' onClick={() => navigate('/list')}/>
+                        <img src={arrowButtonUrl} alt='' onClick={goBack} />
                     </button>
                     상세보기
                     <div></div>
                 </div>
                 <div className='event-img'>
-                    <img src={eventImgUrl} alt='event' />
+                    {business.images.main ? (
+                        <img src={business.images.main} alt='Main Event' />
+                    ) : (
+                        <p>이미지가 없습니다</p> // 이미지가 없는 경우에 대한 대체 텍스트
+                    )}
                 </div>
                 <div className='event-title'>
-                    <div>한라마운틴미용실</div>
+                    <div>{business.name}</div>
                     <div className={`event-title-button ${isButtonClicked ? 'clicked' : ''}`} onClick={handleButtonClick}>
                         {isButtonClicked ? '예약대기' : '예약가능'}
                     </div>
                 </div>
                 <div className='event-address'>
-                    <div>제주특별자치도 한라시 한라읍 한라동</div>
-                    <div>387-8번지 101호 백록담</div>
+                    <span>{business.location}</span>
                     <div className='event-tag-container'>
-                        <div className='list-tag'>소형견</div>
-                        <div className='list-tag'>대형견</div>
-                        <div className='list-tag'>예약제</div>
-                        <div className='list-tag'>상담가능</div>
-                        <div className='list-tag'>연중무휴</div>
+                        <EventTags tags={business.tags} />
                     </div>
-                    <p>평일｜9:00~18:00</p>
-                    <p>주말｜9:00~18:00</p>
-                    <p>매주 목요일 휴무</p>
+                    <p>평일｜{weekdayOpenTime}~{weekdayCloseTime}</p>
+                    <p>주말｜{weekendOpenTime}~{weekendCloseTime}</p>
+                    <p>{business.dayoff} 휴무</p>
                 </div>
                 <div className='event-button-container'>
                     <div className='event-button'>
@@ -120,25 +172,23 @@ const EventDetailPage = () => {
                     </div>
                 </div>
                 <div className="event-text-box">
-                    우리 아이처럼 소중하게 미용하겠습니다~! 
+                    {business.contents}
                 </div>
                 <div className="album-text">
                     Album
                 </div>
                 <div className="grid-container">
-                    <div className="grid-item"><img src={image1Url} alt="" /></div>
-                    <div className="grid-item"><img src={image2Url} alt="" /></div>
-                    <div className="grid-item"><img src={image3Url} alt="" /></div>
-                    <div className="grid-item"><img src={image4Url} alt="" /></div>
-                    <div className="grid-item"><img src={image5Url} alt="" /></div>
-                    <div className="grid-item"><img src={image6Url} alt="" /></div>
-                    <div className="grid-item"><img src={image7Url} alt="" /></div>
-                    <div className="grid-item"><img src={image8Url} alt="" /></div>
-                    <div className="grid-item"><img src={image9Url} alt="" /></div>
+                    {displayedImages.map((imageUrl, index) => (
+                        <div className="grid-item" key={index}>
+                            <img src={imageUrl} alt='' />
+                        </div>
+                    ))}
                 </div>
-                <div className='album-more'>
-                    더보기∨
-                </div>
+                {business.images.album.length > 9 && (
+                    <div className='album-more' onClick={toggleShowAllImages}>
+                        {showAllImages ? '접기∧' : '더보기∨'}
+                    </div>
+                )}
                 <div className='information-text'>
                     Price information
                 </div>
@@ -149,97 +199,13 @@ const EventDetailPage = () => {
                 {isAccordionOpen && (
                     <div className='accordion-hidden-div'>
                         <div className="table-container"
-                        ref={accordionRef}
-                        onMouseDown={handleMouseDown}
-                        onMouseLeave={handleMouseLeave}
-                        onMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
+                            ref={accordionRef}
+                            onMouseDown={handleMouseDown}
+                            onMouseLeave={handleMouseLeave}
+                            onMouseUp={handleMouseUp}
+                            onMouseMove={handleMouseMove}
                         >
-                            <table className='custom-table'>
-                                <tbody>
-                                    <tr className='gray-row'>
-                                        <td>무게</td>
-                                        <td>목록</td>
-                                        <td>위생</td>
-                                        <td>위생+목욕</td>
-                                        <td>전체커트</td>
-                                        <td>스포팅</td>
-                                        <td>부분컷</td>
-                                    </tr>
-                                    <tr>
-                                        <td>소형</td>
-                                        <td>25.0</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>대형</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~4.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~6.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~7.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~8.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~9.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~10kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <Table event={business.images.pricing} />
                         </div>
                     </div>
                 )}
@@ -248,7 +214,7 @@ const EventDetailPage = () => {
                 </div>
                 <div className='writing-div'>
                     <div className='writing'>
-                        <img src={noteUrl} alt=''/>
+                        <img src={noteUrl} alt='' />
                         작성된 글이 없습니다.
                     </div>
                 </div>

@@ -1,7 +1,9 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const Beauty = require('./Beauty');
-const BeautyTag = require('./BeautyTag');
+// models/BeautyTagRS.js
+
+const { DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
+const Business = require('./Business');
+const BeautyTag = require('./BeautyTag');
 
 const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
     id: {
@@ -10,28 +12,29 @@ const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
         primaryKey: true,
         autoIncrement: true,
     },
-    beauty_id: {
-        type: DataTypes.INTEGER,
+    business_id: {
+        type: DataTypes.STRING(200),
         allowNull: false,
         references: {
-            model: 'TB_BEAUTIES',
-            key: 'beauty_id',
+            model: Business,
+            key: 'id',
         },
     },
     tag_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'TB_BEAUTY_TAGS',
+            model: BeautyTag,
             key: 'tag_id',
         },
     },
 }, {
+    tableName: 'TB_BEAUTY_TAG_RS', // 테이블 이름 확인
     timestamps: false,
 });
 
 // 외래 키 관계 정의
-BeautyTagRS.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'beauty_id' });
-BeautyTagRS.belongsTo(BeautyTag, { foreignKey: 'tag_id', targetKey: 'tag_id' });
+BeautyTagRS.belongsTo(Business, { foreignKey: 'business_id' });
+BeautyTagRS.belongsTo(BeautyTag, { foreignKey: 'tag_id' });
 
 module.exports = BeautyTagRS;

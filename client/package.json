@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
+    "iamport-rest-client-nodejs": "^0.9.12",
     "jsonwebtoken": "^9.0.2",
     "mariadb": "^3.3.1",
     "moment": "^2.30.1",

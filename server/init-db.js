@@ -12,12 +12,10 @@ const Community = require('./models/Community');
 const CommunityTag = require('./models/CommunityTag');
 const CommunityTagRS = require('./models/CommunityTagRS');
 const Comment = require('./models/Comment');
-const BeautyImage = require('./models/BeautyImage');
-const Beauty = require('./models/Beauty');
+const Business = require('./models/Business');
 const Saved = require('./models/Saved');
 const BeautyTag = require('./models/BeautyTag');
 const BeautyTagRS = require('./models/BeautyTagRS');
-const BeautyImageRS = require('./models/BeautyImageRS');
 const BeautyReview = require('./models/BeautyReview');
 const BeautyWeight = require('./models/BeautyWeight');
 const BeautyStyle = require('./models/BeautyStyle');
@@ -34,6 +32,7 @@ const Notice = require('./models/Notice');
 const LogLogin = require('./models/LogLogin');
 const PathList = require('./models/PathList');
 const LogVisitPath = require('./models/LogVisitPath');
+const image = require('./models/Image');
 
 async function initializeDatabase() {
   try {

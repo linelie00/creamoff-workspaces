@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import List from './List';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
+import useFetchBusinesses from './useFetchBusinesses';
 
 const ListPage = () => {
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { id } = useParams(); // URL에서 id 매개변수 가져오기
+  const { listEvents, loading, error } = useFetchBusinesses(id); // 커스텀 훅 사용
+
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
   const arrowUrl = `${process.env.PUBLIC_URL}/images/list/arrow_fill_down.svg`;
   const mapUrl = `${process.env.PUBLIC_URL}/images/list/map.svg`;
 
+  // 드롭다운 토글
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // 뒤로 가기
   const goBack = () => {
-    navigate(-1); // 뒤로 가기
+    navigate(-1);
   };
+
+  const handleItemClick = (id) => {
+    navigate(`/list-map/${id}`);
+  };
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <div lang='ko'>
@@ -36,8 +49,8 @@ const ListPage = () => {
             </button>
           </div>
           <button>
-          <img src={mapUrl} alt='map' onClick={() => navigate('/list-map')}/>
-        </button>
+            <img src={mapUrl} alt='map' onClick={() => handleItemClick(id)}/>
+          </button>
         </div>
         {isDropdownOpen && (
           <div className='dropdown-menu'>
@@ -51,7 +64,8 @@ const ListPage = () => {
         )}
       </div>
       <div className="list-mid-h">
-        <List />
+        {/* List 컴포넌트에 데이터를 전달 */}
+        <List listEvents={listEvents} />
       </div>
       <NButtonContainer />
     </div>

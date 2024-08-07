@@ -15,7 +15,7 @@ const EditAddressPage = () => {
 
     const completeHandler = (data) => {
         const { address, zonecode } = data;
-        navigate(prevPath, { state: { address } });
+        navigate(prevPath, { state: { address, zonecode } });
     };
 
     return (
@@ -25,6 +25,7 @@ const EditAddressPage = () => {
                     <img src={arrowButtonUrl} alt='' />
                 </button>
                 주소 입력
+                <div></div>
             </div>
             <div className='edit-mid'>
                 <DaumPostcode 

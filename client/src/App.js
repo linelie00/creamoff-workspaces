@@ -23,6 +23,7 @@ import SelectDatePage from './Reservation/SelectDatePage';
 import ReservatinConfirm from './Reservation/ReservationConfirmPage';
 import ReservationPage from './Reservation/ReservationPage';
 import CancleReservationPage from './Reservation/CancleReservationPage';
+import UploadPage from './File/UploadPage';
 import './App.css';
 
 function App() {
@@ -32,11 +33,11 @@ function App() {
             <Router>
               <Routes>
                 <Route path="/home" element={<HomePage />} />
-                <Route path="/list" element={<ListPage />} />
+                <Route path="/list/:id" element={<ListPage />} />
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/edit-user" element={<EditUserPage />} />
                 <Route path="/my-page" element={<MyPage />} />
-                <Route path="/list-map" element={<ListMapPage />} />
+                <Route path="/list-map/:id" element={<ListMapPage />} />
                 <Route path="/events/:id" element={<EventDetailPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/pet-list" element={<PetListPage />} />
@@ -53,8 +54,9 @@ function App() {
                 <Route path="/saved" element={<SavedPage />} />
                 <Route path="/auth/*" element={<Redirection />} />
                 <Route path="/login-success" element={<KoginSuccess />} />
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<LoginPage />} />
                 <Route path="/edit-address" element={<EditAdressPage />} />
+                <Route path="/upload" element={<UploadPage />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>

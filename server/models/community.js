@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../models').sequelize;
+const sequelize = require('.').sequelize;
 
 const Community = sequelize.define('TB_COMMUNITIES', {
     id: {

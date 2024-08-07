@@ -145,7 +145,7 @@ router.get('/naver', async (req, res) => {
     const user = await findOrCreateUser({
       platform_id: userInfo.id.toString(),
       user_email: userInfo.email || '', // 이메일 정보가 없으면 빈 문자열로 설정
-      user_phone: userInfo.mobile || '1111', // 전화번호 정보가 없으면 빈 문자열로 설정
+      user_phone: userInfo.mobile || '', // 전화번호 정보가 없으면 빈 문자열로 설정
       user_name: userInfo.name,
       user_nickname: userInfo.nickname,
       platform: 'naver',
@@ -209,6 +209,7 @@ router.get('/google', async (req, res) => {
       const user = await findOrCreateUser({
           platform_id: userInfo.id.toString(),
           user_email: userInfo.email || '',
+          user_phone: userInfo.mobile || '',
           user_name: userInfo.name,
           user_nickname: userInfo.name,
           platform: 'google',

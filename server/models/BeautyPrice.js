@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const Beauty = require('./Beauty');
+const Beauty = require('./Business');
 const BeautyStyle = require('./BeautyStyle');
 const BeautyWeight = require('./BeautyWeight');
 
@@ -12,11 +12,11 @@ const BeautyPrice = sequelize.define('TB_BEAUTY_PRICES', {
         autoIncrement: true,
     },
     beauty_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(200),
         allowNull: false,
         references: {
-            model: 'TB_BEAUTIES',
-            key: 'beauty_id',
+            model: 'TB_BUSINESSES',
+            key: 'id',
         },
     },
     weight_id: {
@@ -45,7 +45,7 @@ const BeautyPrice = sequelize.define('TB_BEAUTY_PRICES', {
 });
 
 // 외래 키 관계 정의
-BeautyPrice.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'beauty_id' });
+BeautyPrice.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'id' });
 BeautyPrice.belongsTo(BeautyStyle, { foreignKey: 'style_id', targetKey: 'style_id' });
 BeautyPrice.belongsTo(BeautyWeight, { foreignKey: 'weight_id', targetKey: 'weight_id' });
 
