@@ -112,6 +112,11 @@ const EditUserPage = () => {
         navigate('/edit-address', { state: { prevPath: '/edit-user' } });
     };
 
+    const Logout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
+
     return (
         <div lang='ko' className='mid'>
             <div className='navigation'>
@@ -193,7 +198,7 @@ const EditUserPage = () => {
                             <p>로그아웃</p>
                         </div>
                         <div className='edit-textbox'>
-                            <p>탈퇴</p>
+                            <p onClick={Logout}>탈퇴</p>
                         </div>
                     </div>
                 </div>
