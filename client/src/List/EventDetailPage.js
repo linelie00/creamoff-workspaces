@@ -4,24 +4,16 @@ import EventTags from './EventTags';
 import axios from 'axios';
 import '../styles/listPage.css';
 
+import Table from './EventDetailTable';
+
 const EventDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
-    const eventImgUrl = `${process.env.PUBLIC_URL}/images/list/event_img.svg`;
     const locationUrl = `${process.env.PUBLIC_URL}/images/list/location.svg`;
     const callUrl = `${process.env.PUBLIC_URL}/images/list/call.svg`;
     const shareUrl = `${process.env.PUBLIC_URL}/images/list/share.svg`;
     const heartUrl = `${process.env.PUBLIC_URL}/images/list/heart.svg`;
-    const image1Url = `${process.env.PUBLIC_URL}/images/list/pictures/image1.jpg`;
-    const image2Url = `${process.env.PUBLIC_URL}/images/list/pictures/image2.jpg`;
-    const image3Url = `${process.env.PUBLIC_URL}/images/list/pictures/image3.jpg`;
-    const image4Url = `${process.env.PUBLIC_URL}/images/list/pictures/image4.jpg`;
-    const image5Url = `${process.env.PUBLIC_URL}/images/list/pictures/image5.jpg`;
-    const image6Url = `${process.env.PUBLIC_URL}/images/list/pictures/image6.jpg`;
-    const image7Url = `${process.env.PUBLIC_URL}/images/list/pictures/image7.jpg`;
-    const image8Url = `${process.env.PUBLIC_URL}/images/list/pictures/image8.jpg`;
-    const image9Url = `${process.env.PUBLIC_URL}/images/list/pictures/image9.jpg`;
     const noteUrl = `${process.env.PUBLIC_URL}/images/list/note.svg`;
 
     const [isButtonClicked, setIsButtonClicked] = useState(false);
@@ -183,7 +175,7 @@ const formatTime = (time) => {
                     {business.images.album && business.images.album.length > 0 ? (
                         business.images.album.map((imageUrl, index) => (
                             <div className="grid-item" key={index}>
-                                <img src={imageUrl} alt={`Album Image ${index + 1}`} />
+                                <img src={imageUrl} alt='' />
                             </div>
                         ))
                     ) : (
@@ -209,91 +201,7 @@ const formatTime = (time) => {
                         onMouseUp={handleMouseUp}
                         onMouseMove={handleMouseMove}
                         >
-                            <table className='custom-table'>
-                                <tbody>
-                                    <tr className='gray-row'>
-                                        <td>무게</td>
-                                        <td>목록</td>
-                                        <td>위생</td>
-                                        <td>위생+목욕</td>
-                                        <td>전체커트</td>
-                                        <td>스포팅</td>
-                                        <td>부분컷</td>
-                                    </tr>
-                                    <tr>
-                                        <td>소형</td>
-                                        <td>25.0</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>대형</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~4.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~6.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~7.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~8.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~9.9kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>~10kg</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <Table event={business.images.pricing} />  
                         </div>
                     </div>
                 )}

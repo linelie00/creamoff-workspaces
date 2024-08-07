@@ -216,7 +216,6 @@
     margin-bottom: 16px;
     scroll-snap-type: x mandatory; /* 스크롤 스냅 활성화 */
     -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
-    cursor: grab; /* 기본 상태에서 커서를 손 모양으로 설정 */
     flex-shrink: 0;
 }
 
