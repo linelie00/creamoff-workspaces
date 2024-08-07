@@ -1,10 +1,5 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
-const { getAllPetSpecies } = require('../services/petService');
-
-// 모든 펫 품종 가져오기
-=======
 const { 
     getAllPetSpecies, 
     getSpeciesIdByName, 
@@ -14,7 +9,6 @@ const {
 } = require('../services/petService');
 
 // 모든 species 가져오기
->>>>>>> e28fafaac610ae8109394cd57087c21a01428bdd
 const getAllPetSpeciesHandler = async (req, res) => {
     try {
         const species = await getAllPetSpecies();
@@ -25,12 +19,6 @@ const getAllPetSpeciesHandler = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-router.get('/pet-species', getAllPetSpeciesHandler);
-router.get('/auto-complete/species', getAllPetSpeciesHandler);
-
-module.exports = router;
-=======
 // 특정 species에 따른 모든 breed 가져오기
 const getAllPetBreedsHandler = async (req, res) => {
     const speciesName = req.query.species;
@@ -73,4 +61,3 @@ module.exports = {
     getPetDetailsBySpeciesHandler,
     registerPetHandler
 };
->>>>>>> e28fafaac610ae8109394cd57087c21a01428bdd

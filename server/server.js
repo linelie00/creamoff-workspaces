@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // 라우트 설정
 app.use('/api', authRoutes);
-app.use('/api', petRoutes);
+app.use('/api/pet', petRoutes);
 app.use('/api', storageRoutes);
 app.use('/api', businessRoutes);
 

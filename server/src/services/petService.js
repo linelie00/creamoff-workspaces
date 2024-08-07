@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-const { Sequelize } = require('sequelize');
-const PetSpecies = require('../../models/PetSpecies'); // PetSpecies 모델 임포트
-
-=======
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('.').sequelize;
+//const { Sequelize, DataTypes } = require('sequelize');
+//const sequelize = require('.').sequelize;
 const PetSpecies = require('../../models/PetSpecies');
 const PetBreeds = require('../../models/PetBreed');
 const PetDetailInfo = require('../../models/PetDetailInfo');
@@ -13,7 +8,6 @@ const PetDetailInfoStatus = require('../../models/PetDetailInfoStatus');
 const Pet = require('../../models/Pet');
 
 // 모든 species를 가져오는 함수
->>>>>>> e28fafaac610ae8109394cd57087c21a01428bdd
 const getAllPetSpecies = async () => {
     try {
         const petSpecies = await PetSpecies.findAll({
@@ -25,10 +19,6 @@ const getAllPetSpecies = async () => {
     }
 };
 
-<<<<<<< HEAD
-module.exports = {
-    getAllPetSpecies,
-=======
 // 사용자가 입력한 species를 바탕으로 인덱스 값을 가져오는 함수
 const getSpeciesIdByName = async (speciesName) => {
     try {
@@ -122,5 +112,4 @@ module.exports = {
     getAllPetBreeds,
     getPetDetailsBySpecies,
     registerPet
->>>>>>> e28fafaac610ae8109394cd57087c21a01428bdd
 };

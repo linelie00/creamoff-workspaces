@@ -4,17 +4,20 @@ import '../styles/pet.css';
 import '../styles/autoComplete.css';
 import axios from 'axios';
 import _ from 'lodash';
-import RadioButton from './RadioButton'; // RadioButton 컴포넌트 import
+import RadioButton from './RadioButton';
 
 const PetRegistration = () => {
     const navigate = useNavigate();
     const { id } = useParams(); // URL에서 이벤트 ID 가져오기
+
+    // 이미지 URL
     const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/list/arrow_left.svg`;
     const petImgUrl = `${process.env.PUBLIC_URL}/images/pet/pet_img_L.png`;
     const photoUrl = `${process.env.PUBLIC_URL}/images/pet/photo.svg`;
 
+    // 상태 변수
     const [formData, setFormData] = useState({
-        name: '',
+        name: '', // 추가: 초기값 설정
         species: '',
         breed: '',
         birthDate: '',
@@ -26,15 +29,17 @@ const PetRegistration = () => {
         biting: '',
         patellarLuxation: '',
         additionalInfo: '',
-        etc: ''
+        etc: '',
     });
+    const [speciesDetails, setSpeciesDetails] = useState([]); // 종 정보
+    const [petSpecies, setPetSpecies] = useState([]); // 펫 종류 리스트
+    const [speciesInputValue, setSpeciesInputValue] = useState(''); // 종류 입력값
+    const [speciesSuggestions, setSpeciesSuggestions] = useState([]); // 종류 자동완성 리스트
+    const [breeds, setBreeds] = useState([]); // 품종 리스트
+    const [breedsInputValue, setBreedsInputValue] = useState(''); // 품종 입력값
+    const [breedsSuggestions, setBreedsSuggestions] = useState([]); // 품종 자동완성 리스트
 
-    // species 종류
-    const [isDog, setIsDog] = useState(false);
-    const [isCat, setIsCat] = useState(false);
-    const [isHamster, setIsHamster] = useState(false);
-    const [isRabbit, setIsRabbit]  = useState(false);
-
+    // 라디오 버튼과 체크박스 값과 한글 레이블의 매핑
     const valueToLabelMapping = {
         vaccination: '예방접종',
         neutered: '중성화',
@@ -43,101 +48,74 @@ const PetRegistration = () => {
         patellarLuxation: '슬개골탈구'
     };
 
-    // 선택된 species에 따른 특이사항 목록
-    const [speciesDetails, setSpeciesDetails] = useState([]);
-
-    useEffect(() => {
-        setIsDog(formData.species === '강아지');
-        setIsCat(formData.species === '고양이');
-        setIsHamster(formData.species === '햄스터');
-        setIsRabbit(formData.species === '토끼');
-
-        const fetchSpeciesDetails = async (species) => {
-            try {
-                const response = await axios.get('http://localhost:8282/api/pet/species-details', {
-                    params: { species }
-                });
-                setSpeciesDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching species details: ', error);
-            }
-        };
-    
-        if (formData.species) {
-            fetchSpeciesDetails(formData.species);
-        }
-    }, [formData.species]);
-
-    const [petSpecies, setPetSpecies] = useState([]);
+    // 펫 종류 데이터 가져오기
     useEffect(() => {
         const fetchPetSpecies = async () => {
-          try {
-            const response = await axios.get('http://localhost:8282/api/pet/pet-species');
-            console.log(response.data);
-            setPetSpecies(response.data);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-        fetchPetSpecies();
-    }, []);
-
-    // =================== 여기서부터 AutoComplete Component ===================
-    const [speciesInputValue, setSpeciesInputValue] = useState(''); // 품종 입력값
-    const [speciesSuggestions, setSpeciesSuggestions] = useState([]); // 품종 자동완성 리스트
-    const [allSpecies, setAllSpecies] = useState([]);
-    const [breeds, setBreeds] = useState([]);
-    const [breedsInputValue, setBreedsInputValue] = useState(''); // 품종 입력값
-    const [breedsSuggestions, setBreedsSuggestions] = useState([]); // 품종 자동완성 리스트
-
-    useEffect(() => {
-        const fetchAllSpecies = async() => {
             try {
-                const response = await axios.get('http://localhost:8282/api/pet/auto-complete/species');
-                setAllSpecies(response.data);
+                const response = await axios.get('http://localhost:8282/api/pet/pet-species');
+                console.log(response.data);
+                setPetSpecies(response.data);
             } catch (error) {
-                console.error('Error fetching all species: ', error);
+                console.error('데이터 가져오기 에러:', error);
             }
         };
-        fetchAllSpecies();
+        fetchPetSpecies();
     }, []);
 
     const handleSpeciesInputChange = (e) => {
         const value = e.target.value;
         setSpeciesInputValue(value);
-        if (value.trim().length === 0) {
-            setSpeciesSuggestions([]);
-        } else {
-            const filteredSpecies = allSpecies.filter(species =>
+
+        if (value.trim().length !== 0) {
+            const filteredSpecies = petSpecies.filter(species =>
                 species.toLowerCase().includes(value.toLowerCase())
             );
             setSpeciesSuggestions(filteredSpecies);
+        } else {
+            setSpeciesSuggestions([]);
         }
     };
 
-    const fetchBreeds = useCallback (async (speciesName) => {
+    // 사용자가 특정 종을 선택했을 때만 호출
+    const handleSuggestionClick = async (species) => {
+        setSpeciesInputValue(species);
+        setSpeciesSuggestions([]);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            species
+        }));
+
+        try {
+            const response = await axios.get('http://localhost:8282/api/pet/species-details', {
+                params: { species }
+            });
+            setSpeciesDetails(response.data);
+        } catch (error) {
+            console.error('종 세부 정보 가져오기 에러: ', error);
+        }
+
+        fetchBreeds(species); // 종 선택 시 품종 데이터도 가져오기
+    };
+
+    // 품종 데이터 가져오기
+    const fetchBreeds = useCallback(async (speciesName) => {
         try {
             const response = await axios.get(`http://localhost:8282/api/pet/auto-complete/breeds`, {
                 params: { species: speciesName }
             });
+            console.log('품종 가져오기:', response.data);
             setBreeds(response.data);
             setBreedsSuggestions(response.data);
         } catch (error) {
-            console.error('Error fetching breeds: ', error);
+            console.error('품종 가져오기 에러: ', error);
         }
     }, []);
 
-    const debouncedFetchBreeds = useCallback(_.debounce(fetchBreeds, 500), []);
-
-    useEffect(() => {
-        if (speciesInputValue) { // speciesInputValue가 비어있지 않을 때만 호출
-            debouncedFetchBreeds(speciesInputValue);
-        }
-    }, [speciesInputValue, debouncedFetchBreeds]);
-
+    // 품종 입력 변화 처리
     const handleBreedInputChange = (e) => {
         const value = e.target.value;
         setBreedsInputValue(value);
+
         if (value.trim().length === 0) {
             setBreedsSuggestions([]);
         } else {
@@ -148,8 +126,9 @@ const PetRegistration = () => {
         }
     };
 
+    // 품종 클릭 처리
     const handleBreedClick = (breed) => {
-        console.log('Selected breed:', breed);
+        console.log('선택된 품종:', breed);
         setBreedsInputValue(breed);
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -158,21 +137,12 @@ const PetRegistration = () => {
         setBreedsSuggestions([]);
     };
 
-    const handleSuggestionClick = (species) => {
-        setSpeciesInputValue(species);
-        setSpeciesSuggestions([]);
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            species
-        }));
-        fetchBreeds(species);
-    };
-    // =================== 여기까지 AutoComplete Component ===================
-
+    // 뒤로 가기 버튼 클릭 시
     const goBack = () => {
         navigate(-1); // 뒤로 가기
     };
 
+    // 입력 필드 변화 처리
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -181,6 +151,7 @@ const PetRegistration = () => {
         });
     };
 
+    // 라디오 버튼 선택 처리
     const handleRadioSelect = (key, value) => {
         setFormData({
             ...formData,
@@ -224,6 +195,7 @@ const PetRegistration = () => {
         { label: '없어요', value: '없어요' },
     ];
 
+    // 폼 제출 처리
     const handleSubmit = async () => {
         const petData = {
             name: formData.name,
@@ -242,7 +214,7 @@ const PetRegistration = () => {
             await axios.post('http://localhost:8282/api/register-pet', petData);
             navigate('/pet-list');
         } catch (error) {
-            console.error('Error saving pet details: ', error);
+            console.error('펫 정보 저장 에러: ', error);
         }
     };
 
@@ -280,45 +252,44 @@ const PetRegistration = () => {
                     <div className='PetRegistration-container2'>
                         <p>종류</p>
                         <div style={{ position: 'relative', zIndex: 1 }} className='PetRegistration-container'>
-                        <input
-                            type="text"
-                            className="textbox-gray"
-                            value={speciesInputValue}
-                            placeholder="종을 적어주세요. (ex. 강아지, 고양이 등)"
-                            onChange={handleSpeciesInputChange}
-                        />
-                        {speciesSuggestions.length > 0 && (
-                        <ul style={{ zIndex: -1 }} className="auto-complete-component">
-                            {speciesSuggestions.map((species, index) => (
-                                <li key={index} onClick={() => handleSuggestionClick(species)}>
-                                    {species}
-                                </li>
-                            ))}
-                        </ul>
-                        )}
+                            <input
+                                type="text"
+                                className="textbox-gray"
+                                value={speciesInputValue}
+                                placeholder="종을 적어주세요. (ex. 강아지, 고양이 등)"
+                                onChange={handleSpeciesInputChange}
+                            />
+                            {speciesSuggestions.length > 0 && (
+                                <ul style={{ zIndex: -1 }} className="auto-complete-component">
+                                    {speciesSuggestions.map((species, index) => (
+                                        <li key={index} onClick={() => handleSuggestionClick(species)}>
+                                            {species}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </div>
                     <div className='PetRegistration-container2'>
                         <p>품종</p>
                         <div style={{ position: 'relative', zIndex: 1 }} className='PetRegistration-container'>
-                        <input
-                            type="text"
-                            className="textbox-gray"
-                            placeholder="품종을 적어주세요. (ex. 말티즈, 믹스 등)"
-                            name="breed"
-                            value={formData.breed}
-                            onChange={handleInputChange}
-                            onInput={handleBreedInputChange} 
-                        />
-                        {breedsInputValue.trim() !== '' && breedsSuggestions.length > 0 && (
-                            <ul style={{ position: 'absolute', top: '70%', zIndex: 1 }} className="auto-complete-component">
-                                {breedsSuggestions.map((breed, index) => (
-                                    <li key={index} onClick={() => handleBreedClick(breed)}>
-                                        {breed}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                            <input
+                                type="text"
+                                className="textbox-gray"
+                                placeholder="품종을 적어주세요. (ex. 말티즈, 믹스 등)"
+                                name="breed"
+                                value={breedsInputValue}
+                                onChange={handleBreedInputChange} // 변경된 부분
+                            />
+                            {breedsInputValue.trim() !== '' && breedsSuggestions.length > 0 && (
+                                <ul style={{ position: 'absolute', top: '70%', zIndex: 1 }} className="auto-complete-component">
+                                    {breedsSuggestions.map((breed, index) => (
+                                        <li key={index} onClick={() => handleBreedClick(breed)}>
+                                            {breed}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </div>
                     <div className='PetRegistration-container2'>
@@ -388,16 +359,14 @@ const PetRegistration = () => {
                                 onSelect={(value) => handleRadioSelect('biting', value)}
                             />
                         </div>
-                        {isDog && (
-                            <div className='PetRegistration-container2'>
-                                <p>슬개골탈구가</p>
-                                <RadioButton
-                                    options={patellarLuxationOptions}
-                                    selectedOption={formData.patellarLuxation}
-                                    onSelect={(value) => handleRadioSelect('patellarLuxation', value)}
-                                />
-                            </div>
-                        )}
+                        <div className='PetRegistration-container2'>
+                            <p>슬개골탈구가</p>
+                            <RadioButton
+                                options={patellarLuxationOptions}
+                                selectedOption={formData.patellarLuxation}
+                                onSelect={(value) => handleRadioSelect('patellarLuxation', value)}
+                            />
+                        </div>
                         <div className='PetRegistration-container2'>
                             <p>기타 추가 사항이</p>
                             <RadioButton
@@ -407,14 +376,14 @@ const PetRegistration = () => {
                             />
                         </div>
                         <div className='PetRegistration-container2'>
-                        <input
-                            type="text"
-                            className="textbox-gray2"
-                            placeholder="예) 피부병,심장질환,마킹,마운팅 등"
-                            name="etc"
-                            value={formData.etc}
-                            onChange={handleInputChange}
-                        />
+                            <input
+                                type="text"
+                                className="textbox-gray2"
+                                placeholder="예) 피부병,심장질환,마킹,마운팅 등"
+                                name="etc"
+                                value={formData.etc}
+                                onChange={handleInputChange}
+                            />
                         </div>
                     </div>
                     <div className='Nbutton3' onClick={handleSubmit}>등록하기</div>
