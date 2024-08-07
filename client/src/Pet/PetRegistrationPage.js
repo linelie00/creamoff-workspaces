@@ -35,11 +35,37 @@ const PetRegistration = () => {
     const [isHamster, setIsHamster] = useState(false);
     const [isRabbit, setIsRabbit]  = useState(false);
 
+    const valueToLabelMapping = {
+        vaccination: '예방접종',
+        neutered: '중성화',
+        grooming: '미용경험',
+        biting: '입질',
+        patellarLuxation: '슬개골탈구'
+    };
+
+    // 선택된 species에 따른 특이사항 목록
+    const [speciesDetails, setSpeciesDetails] = useState([]);
+
     useEffect(() => {
         setIsDog(formData.species === '강아지');
         setIsCat(formData.species === '고양이');
         setIsHamster(formData.species === '햄스터');
         setIsRabbit(formData.species === '토끼');
+
+        const fetchSpeciesDetails = async (species) => {
+            try {
+                const response = await axios.get('http://localhost:8282/api/pet/species-details', {
+                    params: { species }
+                });
+                setSpeciesDetails(response.data);
+            } catch (error) {
+                console.error('Error fetching species details: ', error);
+            }
+        };
+    
+        if (formData.species) {
+            fetchSpeciesDetails(formData.species);
+        }
     }, [formData.species]);
 
     const [petSpecies, setPetSpecies] = useState([]);
@@ -48,6 +74,7 @@ const PetRegistration = () => {
           try {
             const response = await axios.get('http://localhost:8282/api/pet/pet-species');
             console.log(response.data);
+            setPetSpecies(response.data);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -196,6 +223,28 @@ const PetRegistration = () => {
         { label: '있어요', value: '있어요' },
         { label: '없어요', value: '없어요' },
     ];
+
+    const handleSubmit = async () => {
+        const petData = {
+            name: formData.name,
+            species: formData.species,
+            breed: formData.breed,
+            birthDate: formData.birthDate,
+            weight: formData.weight,
+            gender: formData.gender,
+            details: speciesDetails.map((detail) => ({
+                id: detail.id,
+                value: formData[valueToLabelMapping[detail]] === '있어요' ? 1 : 0  // formData에 따른 value
+            }))
+        };
+
+        try {
+            await axios.post('http://localhost:8282/api/register-pet', petData);
+            navigate('/pet-list');
+        } catch (error) {
+            console.error('Error saving pet details: ', error);
+        }
+    };
 
     return (
         <div lang='ko'>
@@ -368,7 +417,7 @@ const PetRegistration = () => {
                         />
                         </div>
                     </div>
-                    <div className='Nbutton3' onClick={() => navigate('/pet-list')}>등록하기</div>
+                    <div className='Nbutton3' onClick={handleSubmit}>등록하기</div>
                 </div>
             </div>
         </div>
