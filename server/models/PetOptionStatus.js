@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../models').sequelize;
+const sequelize = require('.').sequelize;
 const Pet = require('./Pet');
-const PetDetailInfo = require('./PetDetailInfo');
+const PetOptions = require('./PetOption');
 
-const PetDetailInfoStatus = sequelize.define('TB_PET_DETAIL_INFO_STATUS', {
+const PetDetailInfoStatus = sequelize.define('TB_PET_OPTION_STATUS', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,11 +18,11 @@ const PetDetailInfoStatus = sequelize.define('TB_PET_DETAIL_INFO_STATUS', {
             key: 'pet_id',
         },
     },
-    species_information: {
+    option_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'TB_PET_DETAIL_INFOS',
+            model: 'TB_PET_OPTIONS',
             key: 'id',
         },
     },
@@ -36,6 +36,6 @@ const PetDetailInfoStatus = sequelize.define('TB_PET_DETAIL_INFO_STATUS', {
 });
 
 PetDetailInfoStatus.belongsTo(Pet, { foreignKey: 'pet_id', targetKey: 'pet_id' });
-PetDetailInfoStatus.belongsTo(PetDetailInfo, { foreignKey: 'species_information', targetKey: 'id' });
+PetDetailInfoStatus.belongsTo(PetOptions, { foreignKey: 'option_id', targetKey: 'id' });
 
 module.exports = PetDetailInfoStatus;

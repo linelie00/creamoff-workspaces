@@ -90,6 +90,7 @@ const PetRegistration = () => {
                 params: { species }
             });
             setSpeciesDetails(response.data);
+            console.log('종 세부 정보:', response.data);
         } catch (error) {
             console.error('종 세부 정보 가져오기 에러: ', error);
         }
