@@ -2,12 +2,10 @@
 //const sequelize = require('.').sequelize;
 const PetSpecies = require('../../models/PetSpecies');
 const PetBreeds = require('../../models/PetBreed');
-const PetDetailInfo = require('../../models/PetOption');
-const PetSpeciesInfoRS = require('../../models/PetOptionRS');
-const PetDetailInfoStatus = require('../../models/PetOptionStatus');
 const Pet = require('../../models/Pet');
 const PetOptions = require('../../models/PetOption');
 const PetOptionRS = require('../../models/PetOptionRS');
+const PetOptionStatus = require('../../models/PetOptionStatus');
 const { at } = require('lodash');
 
 // 모든 species를 가져오는 함수
@@ -46,9 +44,12 @@ const getAllPetBreeds = async (speciesId) => {
     try {
         const petBreeds = await PetBreeds.findAll({
             where: { pet_species: speciesId},
-            attributes: ['breed']
+            attributes: ['id','breed']
         });
-        return petBreeds.map(breed => breed.breed);
+        return petBreeds.map(breed => ({
+            id: breed.id,
+            breed: breed.breed
+        }));
     } catch (error) {
         throw new Error(`Failed to fetch pet breeds: ${error.message}`);
     }
@@ -88,37 +89,41 @@ const getPetOptionsBySpecies = async (species_id) => {
 
  // 펫 등록 함수
  const registerPet = async (petData) => {
-    const { name, species, breed, birthDate, weight, gender, haveEtc, contents, details } = petData;
     try {
+        // 생일 파싱 - YY/MM/DD 형식으로 가정한 경우
+        const [year, month, day] = petData.birthDate.split('/');
+        const parsedYear = parseInt(year, 10) < 50 ? `20${year}` : `19${year}`; // 50년 이전은 2000년대, 그 이후는 1900년대
+        const birthDate = new Date(`${parsedYear}-${month}-${day}`);
+        console.log('Parsed birth date:', birthDate);
+
         const pet = await Pet.create({
-            pet_name: name,
-            pet_species: species,
-            pet_breed: breed,
-            pet_birth: birthDate,
-            pet_weight: weight,
-            pet_gender: gender,
-            have_etc: haveEtc,
-            contents: contents
+            platform_id: petData.platform_id,
+            platform: petData.platform,
+            pet_name: petData.name,
+            pet_species: petData.species,
+            pet_breed: petData.breed,
+            pet_birth: birthDate.toISOString().split('T')[0],
+            pet_weight: petData.weight,
+            pet_gender: petData.gender,
+            pet_etc: petData.etc,
         });
-        const availableDetails = await PetOptionRS.findAll({
-            where: { species_id: speciesId },
-            attributes: ['option_id']
-        });
-        const availableDetailIds = availableDetails.map(detail => detail.information_id);
-        for (const detail of details) {
-            if (availableDetailIds.includes(detail.id)) {
-                await PetDetailInfoStatus.create({
-                    pet_id: pet.pet_id,
-                    option_id: detail.id,
-                    whether: detail.value
-                });
-            }
-        }
+        
+        const petId = pet.pet_id;
+        console.log('petId:', petId);
+
+        const petDetails = petData.details.map(detail => ({
+            pet_id: petId,
+            option_id: detail.id,
+            whether: detail.value === 1,
+        }));
+
+        await PetOptionStatus.bulkCreate(petDetails);
+
         return pet;
     } catch (error) {
         throw new Error(`Failed to register pet: ${error.message}`);
     }
- };
+};
 
 module.exports = {
     getAllPetSpecies,

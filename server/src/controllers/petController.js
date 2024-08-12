@@ -59,7 +59,11 @@ const getPetOptionsHandler = async (req, res) => {
 
 // 펫 등록하기
 const registerPetHandler = async (req, res) => {
+    const { id, platform } = req.user;
     const petData = req.body;
+    petData.platform_id = id;
+    petData.platform = platform;
+    console.log('Received request to register pet:', petData);
     try {
         const pet = await petService.registerPet(petData);
         res.status(201).json(pet);

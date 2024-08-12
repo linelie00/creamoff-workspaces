@@ -21,6 +21,7 @@ const PetRegistration = () => {
         species: '',
         speciesId: '',
         breed: '',
+        breedId: '',
         birthDate: '',
         weight: '',
         gender: '',
@@ -64,6 +65,21 @@ const PetRegistration = () => {
         }
     };
 
+    // 품종 입력 변화 처리
+    const handleBreedInputChange = (e) => {
+        const value = e.target.value;
+        setBreedsInputValue(value);
+
+        if (value.trim().length !== 0) {
+            const filteredBreeds = breeds.filter(breed =>
+                breed.breed && breed.breed.toLowerCase().includes(value.toLowerCase())
+            );
+            setBreedsSuggestions(filteredBreeds);
+        } else {
+            setBreedsSuggestions([]);
+        }
+    };
+
     // 사용자가 특정 종을 선택했을 때만 호출
     const handleSuggestionClick = async (speciesItem) => {
         setSpeciesInputValue(speciesItem.species);
@@ -102,28 +118,14 @@ const PetRegistration = () => {
         }
     }, []);
 
-    // 품종 입력 변화 처리
-    const handleBreedInputChange = (e) => {
-        const value = e.target.value;
-        setBreedsInputValue(value);
-
-        if (value.trim().length === 0) {
-            setBreedsSuggestions([]);
-        } else {
-            const filteredBreeds = breeds.filter(breed =>
-                breed.toLowerCase().includes(value.toLowerCase())
-            );
-            setBreedsSuggestions(filteredBreeds);
-        }
-    };
-
     // 품종 클릭 처리
     const handleBreedClick = (breed) => {
         console.log('선택된 품종:', breed);
-        setBreedsInputValue(breed);
+        setBreedsInputValue(breed.breed); // 품종 이름을 입력 필드에 설정
         setFormData(prevFormData => ({
             ...prevFormData,
-            breed
+            breed: breed.breed,    // 품종 이름을 formData에 설정
+            breedId: breed.id      // 품종 ID를 formData에 설정
         }));
         setBreedsSuggestions([]);
     };
@@ -154,21 +156,29 @@ const PetRegistration = () => {
     const handleSubmit = async () => {
         const petData = {
             name: formData.name,
-            species: formData.species,
-            breed: formData.breed,
+            species: formData.speciesId,
+            breed: formData.breedId,
             birthDate: formData.birthDate,
             weight: formData.weight,
-            gender: formData.gender,
+            gender: formData.gender === '남자' ? 1 : 0, // '남자'일 때 1, '여자'일 때 0
             details: speciesDetails.map((detail) => ({
                 id: detail.optionId, // 'detail.id' 대신 'detail.optionId' 사용
                 value: formData[detail.option] === 'true' ? 1 : 0 // formData에 따른 value
             })),
-            additionalInfo: formData.additionalInfo,
-            etc: formData.etc,
+            etc: formData.additionalInfo === 'true' ?  formData.etc : '',
+            
         };
         console.log('펫 데이터:', petData);
         try {
-            await axios.post('http://localhost:8282/api/register-pet', petData);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No token found.');
+            }
+            await axios.post('http://localhost:8282/api/pet/register-pet', petData, {
+                headers: {
+                    Authorization: `Bearer ${token}` // 인증 토큰 추가
+                }
+            });
             navigate('/pet-list');
         } catch (error) {
             console.error('펫 정보 저장 에러: ', error);
@@ -242,7 +252,7 @@ const PetRegistration = () => {
                                 <ul style={{ position: 'absolute', top: '70%', zIndex: 1 }} className="auto-complete-component">
                                     {breedsSuggestions.map((breed, index) => (
                                         <li key={index} onClick={() => handleBreedClick(breed)}>
-                                            {breed}
+                                            {breed.breed}  {/* breed 객체의 breed 속성을 텍스트로 렌더링 */}
                                         </li>
                                     ))}
                                 </ul>
