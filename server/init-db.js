@@ -5,6 +5,7 @@ const UserAuthority = require('./models/UserAuthority');
 const PetSpecies = require('./models/PetSpecies');
 const PetBreed = require('./models/PetBreed');
 const Pet = require('./models/Pet');
+const PetImage = require('./models/PetImage');
 const PetDetailInfo = require('./models/PetOption');
 const PetSpeciesInfoRS = require('./models/PetOptionRS');
 const PetDetailInfoStatus = require('./models/PetOptionStatus');

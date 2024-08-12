@@ -7,6 +7,7 @@ const PetOptions = require('../../models/PetOption');
 const PetOptionRS = require('../../models/PetOptionRS');
 const PetOptionStatus = require('../../models/PetOptionStatus');
 const { at } = require('lodash');
+const imageService = require('../services/imgService');
 
 // 모든 species를 가져오는 함수
 const getAllPetSpecies = async () => {
@@ -87,12 +88,12 @@ const getPetOptionsBySpecies = async (species_id) => {
     }
 };
 
- // 펫 등록 함수
- const registerPet = async (petData) => {
+// 펫 등록 함수
+const registerPet = async (petData) => {
     try {
-        // 생일 파싱 - YY/MM/DD 형식으로 가정한 경우
+        // 생일 파싱 - YY/MM/DD 형식으로 가정
         const [year, month, day] = petData.birthDate.split('/');
-        const parsedYear = parseInt(year, 10) < 50 ? `20${year}` : `19${year}`; // 50년 이전은 2000년대, 그 이후는 1900년대
+        const parsedYear = parseInt(year, 10) < 50 ? `20${year}` : `19${year}`; // 50년 이전은 2000년대, 이후는 1900년대
         const birthDate = new Date(`${parsedYear}-${month}-${day}`);
         console.log('Parsed birth date:', birthDate);
 
@@ -102,15 +103,21 @@ const getPetOptionsBySpecies = async (species_id) => {
             pet_name: petData.name,
             pet_species: petData.species,
             pet_breed: petData.breed,
-            pet_birth: birthDate.toISOString().split('T')[0],
+            pet_birth: birthDate.toISOString().split('T')[0], // 날짜 형식 변환
             pet_weight: petData.weight,
             pet_gender: petData.gender,
             pet_etc: petData.etc,
         });
-        
-        const petId = pet.pet_id;
-        console.log('petId:', petId);
 
+        const petId = pet.pet_id;
+
+        // 이미지 처리
+        let petImg = null;
+        if (petData.image) {
+            petImg = await imageService.uploadPetImage(petData.image, petId, 'pet');
+        }
+
+        // 펫 상세 정보 데이터베이스에 저장
         const petDetails = petData.details.map(detail => ({
             pet_id: petId,
             option_id: detail.id,
@@ -119,7 +126,7 @@ const getPetOptionsBySpecies = async (species_id) => {
 
         await PetOptionStatus.bulkCreate(petDetails);
 
-        return pet;
+        return { pet, petImg, petDetails };
     } catch (error) {
         throw new Error(`Failed to register pet: ${error.message}`);
     }

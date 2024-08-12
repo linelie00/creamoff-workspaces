@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const petService = require('../services/petService');
+const multer = require('multer');
+const upload = multer();
+
 // 모든 species 가져오기
 const getAllPetSpeciesHandler = async (req, res) => {
     try {
@@ -61,17 +64,32 @@ const getPetOptionsHandler = async (req, res) => {
 const registerPetHandler = async (req, res) => {
     const { id, platform } = req.user;
     const petData = req.body;
+
+    if (req.file) {
+        console.log('Uploaded file info:', req.file); // 업로드된 파일의 정보 출력
+        petData.image = {
+            buffer: req.file.buffer, // 이미지 데이터
+            originalname: req.file.originalname, // 업로드된 파일의 이름
+            folder: 'pet_images' // 이미지 저장할 폴더 이름
+        };
+    } else {
+        console.log('No file uploaded');
+    }
+
     petData.platform_id = id;
     petData.platform = platform;
-    console.log('Received request to register pet:', petData);
+
+    console.log('Processed pet data:', petData);
+
     try {
         const pet = await petService.registerPet(petData);
         res.status(201).json(pet);
     } catch (error) {
         console.error('Failed to register pet error: ', error);
-        res.status(500).json({ message: 'Failed to register pet.'});
+        res.status(500).json({ message: 'Failed to register pet.' });
     }
 };
+
 
 module.exports = {
     getAllPetSpeciesHandler,

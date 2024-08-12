@@ -47,6 +47,7 @@ const createBusiness = async (req, res) => {
         });
 
         const imageUploadResults = await imageService.uploadMultipleImages(fileArray, uniqueId);
+        
         // 비즈니스 데이터 생성
         const businessData = {
             ...formData,

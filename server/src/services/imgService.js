@@ -5,6 +5,7 @@ const { PassThrough } = require('stream');
 const { generateUniqueFileName } = require('../utils/fileUtils');
 const { accessKey, secretKey, region, service, endpoint, bucketName } = require('../config/awsConfig');
 const Image = require('../../models/Image'); // Sequelize 모델 임포트
+const PetImage = require('../../models/PetImage'); // Sequelize 모델 임포트
 const { create } = require('domain');
 
 const sign = (key, msg) => crypto.createHmac('sha256', key).update(msg, 'utf8').digest();
@@ -73,12 +74,33 @@ const uploadMultipleImages = async (files, businessId) => {
     return results;
 };
 
+const uploadPetImage = async (file, id, folder) => {
+    const objectName = `${folder}/${generateUniqueFileName(file.originalname)}`;
+    const url = await uploadImageToBucket(file.buffer, objectName);
+    console.log('Uploaded:', url);
+
+    // DB에 이미지 정보 저장
+    const petImage = await PetImage.create({
+        pet_id: id,
+        endpoint: url
+    });
+
+    return { url, imageId: petImage.id };
+};
+
 const LookupImageById = async (id) => {
     const image = await Image.findByPk(id);
     return image;
 };
 
+const LookupPetImageById = async (id) => {
+    const image = await PetImage.findByPk(id);
+    return image;
+}
+
 module.exports = {
     uploadMultipleImages,
-    LookupImageById
+    LookupImageById,
+    uploadPetImage,
+    LookupPetImageById
 };
