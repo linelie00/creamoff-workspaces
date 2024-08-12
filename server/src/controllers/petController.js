@@ -1,17 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { 
-    getAllPetSpecies, 
-    getSpeciesIdByName, 
-    getAllPetBreeds,
-    getPetDetailsBySpecies,
-    registerPet
-} = require('../services/petService');
-
+const petService = require('../services/petService');
 // 모든 species 가져오기
 const getAllPetSpeciesHandler = async (req, res) => {
     try {
-        const species = await getAllPetSpecies();
+        const species = await petService.getAllPetSpecies();
         res.json(species);
     } catch (error) {
         console.error('Failed to fetch pet species error: ', error);
@@ -21,9 +14,10 @@ const getAllPetSpeciesHandler = async (req, res) => {
 
 // 특정 species에 따른 모든 breed 가져오기
 const getAllPetBreedsHandler = async (req, res) => {
-    const speciesName = req.query.species;
+    const speciesID = req.query.species;
+    console.log('speciesID: ', speciesID);
     try {
-        const breeds = await getAllPetBreeds(speciesName);
+        const breeds = await petService.getAllPetBreeds(speciesID);
         res.json(breeds);
     } catch (error) {
         console.error('Failed to fetch pet breeds error: ', error);
@@ -35,7 +29,7 @@ const getAllPetBreedsHandler = async (req, res) => {
 const getPetDetailsBySpeciesHandler = async (req, res) => {
     const speciesName = req.query.species;
     try {
-        const details = await getPetDetailsBySpecies(speciesName);
+        const details = await petService.getPetDetailsBySpecies(speciesName);
         res.json(details);
     } catch (error) {
         console.error('Failed to fetch pet detail informations error: ', error);
@@ -43,11 +37,31 @@ const getPetDetailsBySpeciesHandler = async (req, res) => {
     }
 };
 
+// Controller에서 species_id를 가져오는 방법
+const getPetOptionsHandler = async (req, res) => {
+    try {
+        // 쿼리 파라미터에서 species_id 가져오기
+        const species_id = req.query.species;
+        console.log('speciesID:', species_id); // 디버그용 콘솔 로그
+
+        if (!species_id) {
+            return res.status(400).json({ error: 'species_id is required' });
+        }
+
+        const options = await petService.getPetOptionsBySpecies(species_id);
+        res.json(options);
+    } catch (error) {
+        console.error('Failed to fetch pet options error: ', error);
+        res.status(500).json({ error: 'Failed to fetch pet options' });
+    }
+};
+
+
 // 펫 등록하기
 const registerPetHandler = async (req, res) => {
     const petData = req.body;
     try {
-        const pet = await registerPet(petData);
+        const pet = await petService.registerPet(petData);
         res.status(201).json(pet);
     } catch (error) {
         console.error('Failed to register pet error: ', error);
@@ -59,5 +73,6 @@ module.exports = {
     getAllPetSpeciesHandler,
     getAllPetBreedsHandler,
     getPetDetailsBySpeciesHandler,
+    getPetOptionsHandler,
     registerPetHandler
 };

@@ -17,17 +17,13 @@ const PetRegistration = () => {
 
     // 상태 변수
     const [formData, setFormData] = useState({
-        name: '', // 추가: 초기값 설정
+        name: '', // 초기값 설정
         species: '',
+        speciesId: '',
         breed: '',
         birthDate: '',
         weight: '',
         gender: '',
-        vaccination: '',
-        neutered: '',
-        grooming: '',
-        biting: '',
-        patellarLuxation: '',
         additionalInfo: '',
         etc: '',
     });
@@ -38,15 +34,6 @@ const PetRegistration = () => {
     const [breeds, setBreeds] = useState([]); // 품종 리스트
     const [breedsInputValue, setBreedsInputValue] = useState(''); // 품종 입력값
     const [breedsSuggestions, setBreedsSuggestions] = useState([]); // 품종 자동완성 리스트
-
-    // 라디오 버튼과 체크박스 값과 한글 레이블의 매핑
-    const valueToLabelMapping = {
-        vaccination: '예방접종',
-        neutered: '중성화',
-        grooming: '미용경험',
-        biting: '입질',
-        patellarLuxation: '슬개골탈구'
-    };
 
     // 펫 종류 데이터 가져오기
     useEffect(() => {
@@ -62,13 +49,14 @@ const PetRegistration = () => {
         fetchPetSpecies();
     }, []);
 
+    // 종 입력 필드 변화 처리
     const handleSpeciesInputChange = (e) => {
         const value = e.target.value;
         setSpeciesInputValue(value);
 
         if (value.trim().length !== 0) {
             const filteredSpecies = petSpecies.filter(species =>
-                species.toLowerCase().includes(value.toLowerCase())
+                species.species.toLowerCase().includes(value.toLowerCase())
             );
             setSpeciesSuggestions(filteredSpecies);
         } else {
@@ -77,17 +65,19 @@ const PetRegistration = () => {
     };
 
     // 사용자가 특정 종을 선택했을 때만 호출
-    const handleSuggestionClick = async (species) => {
-        setSpeciesInputValue(species);
+    const handleSuggestionClick = async (speciesItem) => {
+        setSpeciesInputValue(speciesItem.species);
         setSpeciesSuggestions([]);
         setFormData(prevFormData => ({
             ...prevFormData,
-            species
+            species: speciesItem.species,
+            speciesId: speciesItem.id
         }));
 
         try {
-            const response = await axios.get('http://localhost:8282/api/pet/species-details', {
-                params: { species }
+            console.log('종 세부 정보 가져오기:', speciesItem.id);
+            const response = await axios.get('http://localhost:8282/api/pet/pet-options', {
+                params: { species: speciesItem.id }
             });
             setSpeciesDetails(response.data);
             console.log('종 세부 정보:', response.data);
@@ -95,14 +85,14 @@ const PetRegistration = () => {
             console.error('종 세부 정보 가져오기 에러: ', error);
         }
 
-        fetchBreeds(species); // 종 선택 시 품종 데이터도 가져오기
+        fetchBreeds(speciesItem.id); // 종 선택 시 품종 데이터도 가져오기
     };
 
     // 품종 데이터 가져오기
-    const fetchBreeds = useCallback(async (speciesName) => {
+    const fetchBreeds = useCallback(async (speciesId) => {
         try {
             const response = await axios.get(`http://localhost:8282/api/pet/auto-complete/breeds`, {
-                params: { species: speciesName }
+                params: { species: speciesId }
             });
             console.log('품종 가져오기:', response.data);
             setBreeds(response.data);
@@ -160,42 +150,6 @@ const PetRegistration = () => {
         });
     };
 
-    // 각 옵션 배열
-    const genderOptions = [
-        { label: '남자', value: '남자' },
-        { label: '여자', value: '여자' },
-    ];
-
-    const vaccinationOptions = [
-        { label: '했어요', value: '했어요' },
-        { label: '안했어요', value: '안했어요' },
-    ];
-
-    const neuteredOptions = [
-        { label: '했어요', value: '했어요' },
-        { label: '안했어요', value: '안했어요' },
-    ];
-
-    const groomingOptions = [
-        { label: '있어요', value: '있어요' },
-        { label: '없어요', value: '없어요' },
-    ];
-
-    const bitingOptions = [
-        { label: '있어요', value: '있어요' },
-        { label: '없어요', value: '없어요' },
-    ];
-
-    const patellarLuxationOptions = [
-        { label: '있어요', value: '있어요' },
-        { label: '없어요', value: '없어요' },
-    ];
-
-    const additionalInfoOptions = [
-        { label: '있어요', value: '있어요' },
-        { label: '없어요', value: '없어요' },
-    ];
-
     // 폼 제출 처리
     const handleSubmit = async () => {
         const petData = {
@@ -206,18 +160,20 @@ const PetRegistration = () => {
             weight: formData.weight,
             gender: formData.gender,
             details: speciesDetails.map((detail) => ({
-                id: detail.id,
-                value: formData[valueToLabelMapping[detail]] === '있어요' ? 1 : 0  // formData에 따른 value
-            }))
+                id: detail.optionId, // 'detail.id' 대신 'detail.optionId' 사용
+                value: formData[detail.option] === 'true' ? 1 : 0 // formData에 따른 value
+            })),
+            additionalInfo: formData.additionalInfo,
+            etc: formData.etc,
         };
-
+        console.log('펫 데이터:', petData);
         try {
             await axios.post('http://localhost:8282/api/register-pet', petData);
             navigate('/pet-list');
         } catch (error) {
             console.error('펫 정보 저장 에러: ', error);
         }
-    };
+    };    
 
     return (
         <div lang='ko'>
@@ -262,9 +218,9 @@ const PetRegistration = () => {
                             />
                             {speciesSuggestions.length > 0 && (
                                 <ul style={{ zIndex: -1 }} className="auto-complete-component">
-                                    {speciesSuggestions.map((species, index) => (
-                                        <li key={index} onClick={() => handleSuggestionClick(species)}>
-                                            {species}
+                                    {speciesSuggestions.map((speciesItem, index) => (
+                                        <li key={index} onClick={() => handleSuggestionClick(speciesItem)}>
+                                            {speciesItem.species}  {/* speciesItem 객체의 species 필드를 렌더링 */}
                                         </li>
                                     ))}
                                 </ul>
@@ -323,55 +279,34 @@ const PetRegistration = () => {
                         <div className='PetRegistration-container2'>
                             <p>성별은</p>
                             <RadioButton
-                                options={genderOptions}
+                                options={[
+                                    { label: '남자', value: '남자' },
+                                    { label: '여자', value: '여자' },
+                                ]}
                                 selectedOption={formData.gender}
                                 onSelect={(value) => handleRadioSelect('gender', value)}
                             />
                         </div>
-                        <div className='PetRegistration-container2'>
-                            <p>예방접종을</p>
-                            <RadioButton
-                                options={vaccinationOptions}
-                                selectedOption={formData.vaccination}
-                                onSelect={(value) => handleRadioSelect('vaccination', value)}
-                            />
-                        </div>
-                        <div className='PetRegistration-container2'>
-                            <p>중성화를</p>
-                            <RadioButton
-                                options={neuteredOptions}
-                                selectedOption={formData.neutered}
-                                onSelect={(value) => handleRadioSelect('neutered', value)}
-                            />
-                        </div>
-                        <div className='PetRegistration-container2'>
-                            <p>미용경험이</p>
-                            <RadioButton
-                                options={groomingOptions}
-                                selectedOption={formData.grooming}
-                                onSelect={(value) => handleRadioSelect('grooming', value)}
-                            />
-                        </div>
-                        <div className='PetRegistration-container2'>
-                            <p>입질이</p>
-                            <RadioButton
-                                options={bitingOptions}
-                                selectedOption={formData.biting}
-                                onSelect={(value) => handleRadioSelect('biting', value)}
-                            />
-                        </div>
-                        <div className='PetRegistration-container2'>
-                            <p>슬개골탈구가</p>
-                            <RadioButton
-                                options={patellarLuxationOptions}
-                                selectedOption={formData.patellarLuxation}
-                                onSelect={(value) => handleRadioSelect('patellarLuxation', value)}
-                            />
-                        </div>
+                        {speciesDetails.map((detail, index) => (
+                            <div key={index} className='PetRegistration-container2'>
+                                <p>{detail.option}</p>
+                                <RadioButton
+                                    options={[
+                                        { label: detail.true, value: 'true' },
+                                        { label: detail.false, value: 'false' }
+                                    ]}
+                                    selectedOption={formData[detail.option]}
+                                    onSelect={(value) => handleRadioSelect(detail.option, value)}
+                                />
+                            </div>
+                        ))}
                         <div className='PetRegistration-container2'>
                             <p>기타 추가 사항이</p>
                             <RadioButton
-                                options={additionalInfoOptions}
+                                options={[
+                                    { label: '있어요', value: 'true' },
+                                    { label: '없어요', value: 'false' }
+                                ]}
                                 selectedOption={formData.additionalInfo}
                                 onSelect={(value) => handleRadioSelect('additionalInfo', value)}
                             />
