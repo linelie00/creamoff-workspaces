@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pet.css';
 import '../styles/autoComplete.css';
 import axios from 'axios';
-import _ from 'lodash';
 import RadioButton from './RadioButton';
+import api from '../Api';
 
 const PetRegistration = () => {
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ const PetRegistration = () => {
     useEffect(() => {
         const fetchPetSpecies = async () => {
             try {
-                const response = await axios.get('http://localhost:8282/api/pet/pet-species');
+                const response = await api.get('http://localhost:8282/api/pet/pet-species');
                 setPetSpecies(response.data);
             } catch (error) {
                 console.error('데이터 가져오기 에러:', error);
@@ -87,7 +87,7 @@ const PetRegistration = () => {
         }));
 
         try {
-            const response = await axios.get('http://localhost:8282/api/pet/pet-options', {
+            const response = await api.get('http://localhost:8282/api/pet/pet-options', {
                 params: { species: speciesItem.id }
             });
             setSpeciesDetails(response.data);
@@ -100,7 +100,7 @@ const PetRegistration = () => {
 
     const fetchBreeds = useCallback(async (speciesId) => {
         try {
-            const response = await axios.get(`http://localhost:8282/api/pet/auto-complete/breeds`, {
+            const response = await api.get(`http://localhost:8282/api/pet/auto-complete/breeds`, {
                 params: { species: speciesId }
             });
             setBreeds(response.data);
@@ -181,7 +181,7 @@ const PetRegistration = () => {
             if (!token) {
                 throw new Error('No token found.');
             }
-            const response = await axios.post('http://localhost:8282/api/pet/register-pet', petData, {
+            const response = await api.post('http://localhost:8282/api/pet/register-pet', petData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data', // multipart/form-data 형식으로 전송

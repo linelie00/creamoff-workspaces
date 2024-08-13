@@ -88,6 +88,23 @@ const uploadPetImage = async (file, id, folder) => {
     return { url, imageId: petImage.id };
 };
 
+const getPetImages = async (petIds) => {
+    const images = await PetImage.findAll({
+        where: { pet_id: petIds },
+        attributes: ['pet_id', 'endpoint']
+    });
+
+    console.log('Pet images:', images);
+
+    // petIds를 key로 하고, 이미지를 value로 하는 객체 생성
+    const imageMap = images.reduce((map, image) => {
+        map[image.pet_id] = image.endpoint;
+        return map;
+    }, {});
+
+    return imageMap; // 객체 반환
+};
+
 const LookupImageById = async (id) => {
     const image = await Image.findByPk(id);
     return image;
@@ -102,5 +119,6 @@ module.exports = {
     uploadMultipleImages,
     LookupImageById,
     uploadPetImage,
+    getPetImages,
     LookupPetImageById
 };

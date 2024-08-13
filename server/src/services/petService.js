@@ -132,10 +132,43 @@ const registerPet = async (petData) => {
     }
 };
 
+// 자신의 펫 조회
+const getMyPets = async (id, platform) => {
+    try {
+        // 1. Pet 데이터 조회
+        const pets = await Pet.findAll({
+            where: { platform_id: id, platform: platform },
+            attributes: ['pet_id', 'pet_name', 'pet_species', 'pet_breed', 'pet_weight', 'pet_gender'],
+        });
+
+        // 2. pet_breed에 따라 품종 이름 조회 및 추가
+        for (let pet of pets) {
+            const breedInfo = await PetBreeds.findOne({
+                where: { id: pet.pet_breed },
+                attributes: ['breed']
+            });
+            pet.dataValues.breedName = breedInfo ? breedInfo.breed : null;
+        }
+
+        // 3. pet_id에 따라 이미지 조회 및 추가
+        const petIds = pets.map(pet => pet.pet_id);
+        const petImages = await imageService.getPetImages(petIds);
+
+        pets.forEach(pet => {
+            pet.dataValues.image = petImages[pet.pet_id] || null;
+        });
+
+        return pets;
+    } catch (error) {
+        throw new Error(`Failed to fetch pets: ${error.message}`);
+    }
+};
+
 module.exports = {
     getAllPetSpecies,
     getSpeciesIdByName,
     getAllPetBreeds,
     getPetOptionsBySpecies,
-    registerPet
+    registerPet,
+    getMyPets
 };

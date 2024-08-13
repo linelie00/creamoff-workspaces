@@ -90,11 +90,25 @@ const registerPetHandler = async (req, res) => {
     }
 };
 
+//자신의 펫 조회
+const getMyPetsHandler = async (req, res) => {
+    const { id, platform } = req.user;
+
+    try {
+        const pets = await petService.getMyPets(id, platform);
+        res.json(pets);
+    } catch (error) {
+        console.error('Failed to fetch my pets error: ', error);
+        res.status(500).json({ message: 'Failed to fetch my pets.' });
+    }
+};
+
 
 module.exports = {
     getAllPetSpeciesHandler,
     getAllPetBreedsHandler,
     getPetDetailsBySpeciesHandler,
     getPetOptionsHandler,
-    registerPetHandler
+    registerPetHandler,
+    getMyPetsHandler
 };

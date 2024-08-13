@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../Api';
 
 const PetListSection = ({ isSelectable, onSelectPet }) => {
     const petUrl = `${process.env.PUBLIC_URL}/images/pet/pet_img.png`;
+    const [myPet, setMyPet] = useState([]);
 
-    const dogPets = [
-        { id: 1, name: '누렁이', breed: '리트리버', weight: '7kg', gender: '남', age: '2살' },
-        { id: 2, name: '망고', breed: '골든리트리버', weight: '5kg', gender: '여', age: '3살' },
-    ];
+    useEffect(() => {
+        const fetchPetSpecies = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No token found.');
+                }
+                const response = await api.get('http://localhost:8282/api/pet/my-pets', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log('내 펫 데이터:', response.data);
+                setMyPet(response.data);
+            } catch (error) {
+                console.error('데이터 가져오기 에러:', error);
+            }
+        };
+        fetchPetSpecies();
+    }, []);
 
-    const catPets = [
-        { id: 3, name: '야옹이', breed: '샴', weight: '4kg', gender: '남', age: '1살' },
-        { id: 4, name: '초코', breed: '페르시안', weight: '3kg', gender: '여', age: '2살' },
-    ];
+    // 강아지와 고양이 데이터를 필터링
+    const dogPets = myPet.filter(pet => pet.pet_species === 1);
+    const catPets = myPet.filter(pet => pet.pet_species === 2);
 
     const [accordionState, setAccordionState] = useState({
         dog: false,
@@ -29,7 +46,7 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
 
     const handlePetSelect = (pet) => {
         if (isSelectable) {
-            setSelectedPetId(pet.id);
+            setSelectedPetId(pet.pet_id);
             onSelectPet(pet);
         }
     };
@@ -44,16 +61,16 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
                 <div className='pet-accordion-content'>
                     {dogPets.map((pet) => (
                         <div
-                            className={`pet-contents ${selectedPetId === pet.id ? 'selected' : ''}`}
-                            key={pet.id}
+                            className={`pet-contents ${selectedPetId === pet.pet_id ? 'selected' : ''}`}
+                            key={pet.pet_id}
                             onClick={() => handlePetSelect(pet)}
                         >
                             <div className='pet-contents-img'>
-                                <img src={petUrl} alt='' />
+                                <img src={pet.image || petUrl} alt='' />
                             </div>
                             <div className='pet-contents-info'>
-                                <h1>{pet.name}</h1>
-                                <p>{`${pet.breed}/${pet.weight}/${pet.gender}/${pet.age}`}</p>
+                                <h1>{pet.pet_name}</h1>
+                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}`}</p>
                             </div>
                         </div>
                     ))}
@@ -67,16 +84,16 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
                 <div className='pet-accordion-content'>
                     {catPets.map((pet) => (
                         <div
-                            className={`pet-contents ${selectedPetId === pet.id ? 'selected' : ''}`}
-                            key={pet.id}
+                            className={`pet-contents ${selectedPetId === pet.pet_id ? 'selected' : ''}`}
+                            key={pet.pet_id}
                             onClick={() => handlePetSelect(pet)}
                         >
                             <div className='pet-contents-img'>
-                                <img src={petUrl} alt='' />
+                                <img src={pet.image || petUrl} alt='' />
                             </div>
                             <div className='pet-contents-info'>
-                                <h1>{pet.name}</h1>
-                                <p>{`${pet.breed}/${pet.weight}/${pet.gender}/${pet.age}`}</p>
+                                <h1>{pet.pet_name}</h1>
+                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}`}</p>
                             </div>
                         </div>
                     ))}
@@ -87,4 +104,3 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
 };
 
 export default PetListSection;
-
