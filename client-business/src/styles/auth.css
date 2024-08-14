@@ -39,8 +39,48 @@
     height: 56px;
 }
 
-.find-id-pw {
+.find-id-pw-text {
     font-size: 12px;
     margin-top: 16px;
     text-decoration: underline;
+}
+
+.find-id-pw-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 60%;
+}
+
+.customer-service-text {
+    color: #000000;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.service-number-text {
+    color: #F0663F;
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 2%;
+}
+
+.find-id-pw-form button {
+    box-sizing: border-box;
+    border: 1px solid #F0663F;
+    border-radius: 200px;
+    color: #FFFFFF;
+    background-color: #F0663F;
+    padding: 8px 24px;
+    font-size: 16px;
+    width: 402px;
+    height: 56px;
+    margin-top: 5%;
+}
+
+.find-id-pw-form img {
+    position: absolute;
+    width: 30%;
+    height: auto;
+    bottom: 5%;
 }

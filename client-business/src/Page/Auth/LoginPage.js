@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/auth.css'
 
 const Login = () => {
@@ -17,8 +18,8 @@ const Login = () => {
         <input type='password' id='password' name='password' placeholder='PW'/>
         <button type='submit'>로그인 하기</button>
       </div>
-      <div className='find-id-pw'>
-        아이디/비밀번호 찾기
+      <div className='find-id-pw-text'>
+        <Link to="/find-admin-account">아이디/비밀번호 찾기</Link>
       </div>
     </div>
   );
