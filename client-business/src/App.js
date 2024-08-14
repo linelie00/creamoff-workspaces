@@ -6,6 +6,7 @@ import './styles/main.css';
 import './Fonts/font.css';
 import Login from './Page/Auth/LoginPage';
 import FindIDPW from './Page/Auth/FindIDPW';
+import AdminMenu from './Page/Main/MenuPage';
 import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
 
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/register" element={<Register imageFiles={imageFiles} />} />
                 <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
                 <Route path="/find-admin-account" element={<FindIDPW />} />
+                <Route path="/admin-menu" element={<AdminMenu />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
