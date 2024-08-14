@@ -4,7 +4,7 @@ import './App.css';
 import './styles/page.css';
 import './styles/main.css';
 import './Fonts/font.css';
-import LoginPage from './Page/Auth/LoginPage';
+import Login from './Page/Auth/LoginPage';
 import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
 
@@ -31,7 +31,7 @@ function App() {
           <ImageProvider>
             <Router>
               <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/adminlogin" element={<Login />} />
                   <Route path="/register" element={<Register imageFiles={imageFiles} />} />
                   <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
                 {/* 다른 라우트들 추가 */}
