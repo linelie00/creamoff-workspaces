@@ -24,7 +24,7 @@ const PetSelectPage = () => {
             setShowWarning(true); // 선택된 펫이 없으면 경고 메시지 표시
             setTimeout(() => {
                 setShowWarning(false);
-            }, 1000); // 3초 후에 경고 메시지 숨김
+            }, 1000); // 1초 후에 경고 메시지 숨김
         }
     };
 

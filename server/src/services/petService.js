@@ -138,7 +138,7 @@ const getMyPets = async (id, platform) => {
         // 1. Pet 데이터 조회
         const pets = await Pet.findAll({
             where: { platform_id: id, platform: platform },
-            attributes: ['pet_id', 'pet_name', 'pet_species', 'pet_breed', 'pet_weight', 'pet_gender'],
+            attributes: ['pet_id', 'pet_name', 'pet_species', 'pet_breed', 'pet_weight', 'pet_gender', 'pet_birth'],
         });
 
         // 2. pet_breed에 따라 품종 이름 조회 및 추가

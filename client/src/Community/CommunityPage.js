@@ -5,7 +5,7 @@ import CommunityList from './Components/List/CommunityList';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import Header from './Components/Header/Head';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../Api';
 
 const CommunityPage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const CommunityPage = () => {
                 throw new Error('No token found.');
             }
 
-            const response = await axios.get('http://localhost:8282/api/user/profile', {
+            const response = await api.get('/api/user/profile', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

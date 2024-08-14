@@ -12,7 +12,7 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
                 if (!token) {
                     throw new Error('No token found.');
                 }
-                const response = await api.get('http://localhost:8282/api/pet/my-pets', {
+                const response = await api.get('/api/pet/my-pets', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -25,6 +25,21 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
         };
         fetchPetSpecies();
     }, []);
+
+    // 나이 계산 함수
+    const calculateAge = (birthDate) => {
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        // 생일이 지나지 않았으면 나이에서 1살 뺌
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        return age;
+    };
 
     // 강아지와 고양이 데이터를 필터링
     const dogPets = myPet.filter(pet => pet.pet_species === 1);
@@ -70,7 +85,7 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
                             </div>
                             <div className='pet-contents-info'>
                                 <h1>{pet.pet_name}</h1>
-                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}`}</p>
+                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}/${calculateAge(pet.pet_birth)}살`}</p>
                             </div>
                         </div>
                     ))}
@@ -93,7 +108,7 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
                             </div>
                             <div className='pet-contents-info'>
                                 <h1>{pet.pet_name}</h1>
-                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}`}</p>
+                                <p>{`${pet.breedName}/${pet.pet_weight}kg/${pet.pet_gender ? '남' : '여'}/${calculateAge(pet.pet_birth)}살`}</p>
                             </div>
                         </div>
                     ))}

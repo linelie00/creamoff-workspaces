@@ -86,7 +86,7 @@ const EditUserPage = () => {
                 throw new Error('No token found.');
             }
 
-            const response = await api.put('http://localhost:8282/api/user/profile', userInfo, {
+            const response = await api.put('/api/user/profile', userInfo, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

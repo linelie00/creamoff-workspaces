@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../styles/myPage.css';
 import NButtonContainer from '../Components/NavigatorBar/NButtonContainer';
 import { useNavigate } from 'react-router-dom';
+import api from '../Api';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const MyPage = () => {
         throw new Error('No token found.');
       }
 
-      const response = await axios.get('http://localhost:8282/api/user/profile', {
+      const response = await api.get('/api/user/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +48,7 @@ const MyPage = () => {
         throw new Error('No token found.');
       }
 
-      const response = await axios.put('http://localhost:8282/api/user/profile', {
+      const response = await api.put('/api/user/profile', {
         user_nickname: newNickname,
       }, {
         headers: {
