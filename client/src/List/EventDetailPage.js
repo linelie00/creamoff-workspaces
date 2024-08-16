@@ -76,6 +76,10 @@ const EventDetailPage = () => {
         navigate(-1);
     };
 
+    const handleItemClick = (id) => {
+        navigate(`/pet-select/${id}`);
+    };
+
     useEffect(() => {
         const fetchBusiness = async () => {
             try {
@@ -219,7 +223,7 @@ const EventDetailPage = () => {
                     </div>
                 </div>
             </div>
-            <div className='Nbutton' onClick={() => navigate('/pet-select')}>예약하기</div>
+            <div className='Nbutton' onClick={() => handleItemClick(id)}>예약하기</div>
         </div>
     );
 };

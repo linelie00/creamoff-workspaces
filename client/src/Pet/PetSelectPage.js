@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PetInfo from './PetInfo';
 
 const PetSelectPage = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
     const [selectedPet, setSelectedPet] = useState(null);
     const [showWarning, setShowWarning] = useState(false);
@@ -17,9 +18,9 @@ const PetSelectPage = () => {
         setShowWarning(false); // 펫을 선택할 때 경고 메시지 숨김
     };
 
-    const handleNext = () => {
+    const handleNext = (id) => {
         if (selectedPet) {
-            navigate('/reservation-request', { state: { selectedPet } });
+            navigate(`/reservation-request/${id}`, { state: { selectedPet } });
         } else {
             setShowWarning(true); // 선택된 펫이 없으면 경고 메시지 표시
             setTimeout(() => {
@@ -39,7 +40,7 @@ const PetSelectPage = () => {
             </div>
             <PetInfo isSelectable={true} onSelectPet={handleSelectPet} />
             {showWarning && <p className='warning'>펫을 선택해주세요.</p>}
-            <div className='Nbutton' onClick={handleNext}>다음</div>
+            <div className='Nbutton' onClick={() => handleNext(id)}>다음</div>
         </div>
     );
 };

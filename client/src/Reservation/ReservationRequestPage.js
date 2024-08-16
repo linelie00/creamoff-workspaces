@@ -4,6 +4,7 @@ import Checkbox from './CheckboxGroup.js';
 import '../styles/reservation.css';
 
 const ReservationRequestPage = () => {
+    const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
     const { selectedPet } = location.state || {};
