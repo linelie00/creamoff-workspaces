@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 const Beauty = require('./Business');
 const BeautyStyle = require('./BeautyOption');
-const BeautyWeight = require('./BeautyWeight');
+const BeautyWeight = require('./PetWeight');
 
 const BeautyPrice = sequelize.define('TB_BEAUTY_PRICES', {
     id: {
