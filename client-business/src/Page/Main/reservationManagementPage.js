@@ -45,7 +45,7 @@ const ReservationManagement = () => {
                 <div className='reservation-item'>{reservation.desiredTime}</div>
                 <div className='reservation-item'>{reservation.status}</div>
                 <div className='reservation-item'>
-                    <button className='detail-button'>{reservation.detailButton}</button>
+                    <button className='detail-button' onClick={()=>navigate('/reservation-detail')}>{reservation.detailButton}</button>
                 </div>
             </div>
         ))}
