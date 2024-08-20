@@ -9,7 +9,7 @@ import FindIDPW from './Page/Auth/FindIDPW';
 import AdminMenu from './Page/Main/MenuPage';
 import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
-import ReservationManagement from './Page/Main/reservationManagementPage';
+import ReservationManagement from './Page/Main/ReservationManagementPage';
 
 import { ImageProvider } from './Contexts/ImageContext';
 function App() {
