@@ -43,6 +43,7 @@
     border: 1px solid #F0663F;
     border-radius: 16px;
     font-size: 24px;
+    cursor: pointer;
 }
 
 .menu-tbt-btn2 {
@@ -53,6 +54,7 @@
     border-radius: 16px;
     font-size: 24px;
     margin-top: 20px;
+    cursor: pointer;
 }
 
 .menu-icon {
