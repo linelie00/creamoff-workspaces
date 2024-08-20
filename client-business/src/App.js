@@ -9,6 +9,7 @@ import FindIDPW from './Page/Auth/FindIDPW';
 import AdminMenu from './Page/Main/MenuPage';
 import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
+import ReservationManagement from './Page/Main/reservationManagementPage';
 
 import { ImageProvider } from './Contexts/ImageContext';
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
                 <Route path="/find-admin-account" element={<FindIDPW />} />
                 <Route path="/admin-menu" element={<AdminMenu />} />
+                <Route path="/reservation-management" element={<ReservationManagement />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
