@@ -100,11 +100,15 @@
     justify-content: center;
 }
 
-.refuse-btn {
+.reject-btn {
     width: 196px;
     height: 35px;
     font-size: 12px;
     margin-right: 10px;
+    border-color: #ADADAD;
+    background-color: #ffffff;
+    color: #7B7B7B;
+    cursor: pointer;
 }
 
 .accept-btn {
@@ -113,4 +117,6 @@
     width: 196px;
     height: 35px;
     font-size: 12px;
+    border: none;
+    cursor: pointer;
 }

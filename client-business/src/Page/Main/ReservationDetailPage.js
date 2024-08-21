@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth.css'
 import '../../styles/reservation.css'
+import ReservationAcceptModal from '../Modal/ReservationAccept';
+import ReservationRejectModal from '../Modal/ReservationReject';
+import '../../styles/reservationModal.css'
 
 const ReservationDetails = () => {
 
   const navigate = useNavigate();
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/button/arrow_left.svg`;
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [actionType, setActionType] = useState('');
 
   const reservatioInfo = [
     { title: '보호자 연락처', info: '010-5659-9852' },
@@ -30,6 +36,23 @@ const ReservationDetails = () => {
     ));
   };
 
+  const openModal = (type) => {
+    setActionType(type);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => setModalOpen(false);
+
+  const handleConfirm = () => {
+    console.log('수락');
+    closeModal();
+  };
+
+  const handleReject = () => {
+    console.log('거절');
+    closeModal();
+  };
+
   return (
     <div className='page-container2' lang='ko'>
         <div className='navigation'>
@@ -48,9 +71,21 @@ const ReservationDetails = () => {
             ))}
         </div>
         <div className='footer-button'>
-            <button className='refuse-btn'>거절</button>
-            <button className='accept-btn'>수락</button>
+            <button className='reject-btn' onClick={() => openModal('reject')}>거절</button>
+            <button className='accept-btn' onClick={() => openModal('accept')}>수락</button>
         </div>
+        <ReservationAcceptModal 
+            isOpen={isModalOpen && actionType === 'accept'}
+            onClose={closeModal}
+            onConfirm={handleConfirm}
+            actionType={actionType}
+        />
+        <ReservationRejectModal
+            isOpen={isModalOpen && actionType === 'reject'}
+            onClose={closeModal}
+            onConfirm={handleReject}
+            actionType={actionType}
+        />
     </div>
   );
 };
