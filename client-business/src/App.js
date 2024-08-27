@@ -12,6 +12,7 @@ import ImgUpload from './Page/Main/ImgUpload';
 import ReservationManagement from './Page/Main/ReservationManagementPage';
 import ReservationDetails from './Page/Main/ReservationDetailPage';
 import CustomerManagement from './Page/Main/CustomerManagementPage';
+import ReviewManagement from './Page/Main/ReviewManagementPage';
 import { ImageProvider } from './Contexts/ImageContext';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/reservation-management" element={<ReservationManagement />} />
                 <Route path="/reservation-detail" element={<ReservationDetails />} />
                 <Route path="/customer-management" element={<CustomerManagement />} />
+                <Route path="/review-management" element={<ReviewManagement />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
