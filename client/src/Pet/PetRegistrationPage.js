@@ -42,6 +42,7 @@ const PetRegistration = () => {
             try {
                 const response = await api.get('/api/pet/pet-species');
                 setPetSpecies(response.data);
+                console.log('펫 종류:', response.data);
             } catch (error) {
                 console.error('데이터 가져오기 에러:', error);
             }
