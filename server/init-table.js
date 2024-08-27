@@ -3,24 +3,82 @@ const sequelize = require('./models').sequelize; // 적절한 경로로 수정�
 const PetWeight = require('./models/PetWeight'); // 모델 파일 경로를 적절하게 수정하세요
 const BeautyOption = require('./models/BeautyOption'); // 모델 파일 경로를 적절하게 수정하세요
 const BeautyPrice = require('./models/BeautyPrice'); // 모델 파일 경로를 적절하게 수정하세요
+const PetSpecies = require('./models/PetSpecies');
+const PetBreed = require('./models/PetBreed');
+
+async function initPetSpecies() {
+    const petSpecies = [
+        { species: '강아지' },
+        { species: '고양이' },
+    ];
+
+    try {
+        await PetSpecies.bulkCreate(petSpecies);
+        console.log('Pet species inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet species:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
+async function initPetBreeds() {
+    const petBreeds = [
+        { breed: '말티즈', pet_species: 1 },
+        { breed: '푸들', pet_species: 1 },
+        { breed: '시츄', pet_species: 1 },
+        { breed: '요크셔테리어', pet_species: 1 },
+        { breed: '비숑프리제', pet_species: 1 },
+        { breed: '포메라니안', pet_species: 1 },
+        { breed: '닥스훈트', pet_species: 1 },
+        { breed: '치와와', pet_species: 1 },
+        { breed: '시바견', pet_species: 1 },
+        { breed: '웰시코기', pet_species: 1 },
+        { breed: '골든리트리버', pet_species: 1 },
+        { breed: '시베리안허스키', pet_species: 1 },
+        { breed: '말라뮤트', pet_species: 1 },
+        { breed: '보더콜리', pet_species: 1 },
+        { breed: '코리안숏헤어', pet_species: 2 },
+        { breed: '러시안블루', pet_species: 2 },
+        { breed: '스코티쉬폴드', pet_species: 2 },
+        { breed: '먼치킨', pet_species: 2 },
+        { breed: '시암', pet_species: 2 },
+        { breed: '뱅갈', pet_species: 2 },
+        { breed: '페르시안', pet_species: 2 },
+        { breed: '스핑크스', pet_species: 2 },
+        { breed: '아비시니안', pet_species: 2 },
+        { breed: '메인쿤', pet_species: 2 },
+        { breed: '노르웨이숲', pet_species: 2 },
+        { breed: '먼치킨', pet_species: 2 },
+    ];
+
+    try {
+        await PetBreed.bulkCreate(petBreeds);
+        console.log('Pet breeds inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet breeds:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
 
 async function insertPetWeights() {
     const petWeights = [
         // 강아지 - 소형견
-        { size_category: '소형견', min_weight: 0, max_weight: 10, species_id: 1 },
+        { size_category: '소형견', min_weight: 0, max_weight: 10, pet_species: 1 },
         // 강아지 - 중형견
-        { size_category: '중형견', min_weight: 10, max_weight: 25, species_id: 1 },
+        { size_category: '중형견', min_weight: 10, max_weight: 25, pet_species: 1 },
         // 강아지 - 대형견
-        { size_category: '대형견', min_weight: 25, max_weight: 45, species_id: 1 },
+        { size_category: '대형견', min_weight: 25, max_weight: 45, pet_species: 1 },
         // 강아지 - 초대형견
-        { size_category: '초대형견', min_weight: 45, max_weight: 90, species_id: 1 },
+        { size_category: '초대형견', min_weight: 45, max_weight: 90, pet_species: 1 },
 
         // 고양이 - 소형묘
-        { size_category: '소형묘', min_weight: 0, max_weight: 4, species_id: 2 },
+        { size_category: '소형묘', min_weight: 0, max_weight: 4, pet_species: 2 },
         // 고양이 - 중형묘
-        { size_category: '중형묘', min_weight: 4, max_weight: 6, species_id: 2 },
+        { size_category: '중형묘', min_weight: 4, max_weight: 6, pet_species: 2 },
         // 고양이 - 대형묘
-        { size_category: '대형묘', min_weight: 6, max_weight: 10, species_id: 2 },
+        { size_category: '대형묘', min_weight: 6, max_weight: 10, pet_species: 2 },
     ];
 
     try {
@@ -125,7 +183,8 @@ async function initBeautyPrices() {
     }
 }
 
-
+initPetSpecies();
+initPetBreeds();
 //insertPetWeights();
 //initBeautyOptions();
-initBeautyPrices();
+//initBeautyPrices();
