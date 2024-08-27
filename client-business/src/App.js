@@ -11,8 +11,9 @@ import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
 import ReservationManagement from './Page/Main/ReservationManagementPage';
 import ReservationDetails from './Page/Main/ReservationDetailPage';
-
+import CustomerManagement from './Page/Main/CustomerManagementPage';
 import { ImageProvider } from './Contexts/ImageContext';
+
 function App() {
   const [imageFiles, setImageFiles] = useState({
     main: [],
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/admin-menu" element={<AdminMenu />} />
                 <Route path="/reservation-management" element={<ReservationManagement />} />
                 <Route path="/reservation-detail" element={<ReservationDetails />} />
+                <Route path="/customer-management" element={<CustomerManagement />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
