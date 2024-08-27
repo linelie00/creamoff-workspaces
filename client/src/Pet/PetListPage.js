@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PetInfo from './PetInfo';
+import api from '../Api';
 
 const PetListPage = () => {
     const navigate = useNavigate();

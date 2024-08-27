@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../Api';
 
 const EditUserPage = () => {
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ const EditUserPage = () => {
                     throw new Error('No token found.');
                 }
 
-                const response = await axios.get('http://localhost:8282/api/user/profile', {
+                const response = await api.get('/api/user/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -86,7 +86,7 @@ const EditUserPage = () => {
                 throw new Error('No token found.');
             }
 
-            const response = await axios.put('http://localhost:8282/api/user/profile', userInfo, {
+            const response = await api.put('/api/user/profile', userInfo, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

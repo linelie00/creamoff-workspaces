@@ -5,9 +5,10 @@ const UserAuthority = require('./models/UserAuthority');
 const PetSpecies = require('./models/PetSpecies');
 const PetBreed = require('./models/PetBreed');
 const Pet = require('./models/Pet');
-const PetDetailInfo = require('./models/PetDetailInfo');
-const PetSpeciesInfoRS = require('./models/PetSpeciesInfoRS');
-const PetDetailInfoStatus = require('./models/PetDetailInfoStatus');
+const PetImage = require('./models/PetImage');
+const PetDetailInfo = require('./models/PetOption');
+const PetSpeciesInfoRS = require('./models/PetOptionRS');
+const PetDetailInfoStatus = require('./models/PetOptionStatus');
 const Community = require('./models/Community');
 const CommunityTag = require('./models/CommunityTag');
 const CommunityTagRS = require('./models/CommunityTagRS');
@@ -17,14 +18,12 @@ const Saved = require('./models/Saved');
 const BeautyTag = require('./models/BeautyTag');
 const BeautyTagRS = require('./models/BeautyTagRS');
 const BeautyReview = require('./models/BeautyReview');
-const BeautyWeight = require('./models/BeautyWeight');
-const BeautyStyle = require('./models/BeautyStyle');
+const PetWeight = require('./models/PetWeight');
+const BeautyOption = require('./models/BeautyOption');
 const BeautyPrice = require('./models/BeautyPrice');
-const ReservationSpecialNote = require('./models/ReservationSpecialNote');
 const Reservation = require('./models/Reservation');
 const ReservationPriceRS = require('./models/ReservationPriceRS');
-const PetSpeciesSpecialNote = require('./models/PetSpeciesSpecialNote');
-const ReservationSpeciesSpecialNote = require('./models/ReservationSpeciesSpecialNote');
+const ReservationStatus = require('./models/ReservationStatus');
 const NoticePart = require('./models/NoticePart');
 const NoticeStatus = require('./models/NoticeStatus');
 const NoticeStatusOfPart = require('./models/NoticeStatusOfPart');
@@ -40,7 +39,7 @@ async function initializeDatabase() {
     console.log('DB 연결 성공!');
 
     // Force: true로 설정하면 기존 테이블을 삭제하고 새로 생성합니다.
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
 
     console.log('테이블이 성공적으로 생성되었습니다.');
     process.exit(); // 프로세스 종료

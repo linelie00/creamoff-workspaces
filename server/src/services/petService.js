@@ -2,22 +2,27 @@
 //const sequelize = require('.').sequelize;
 const PetSpecies = require('../../models/PetSpecies');
 const PetBreeds = require('../../models/PetBreed');
-const PetDetailInfo = require('../../models/PetDetailInfo');
-const PetSpeciesInfoRS = require('../../models/PetSpeciesInfoRS');
-const PetDetailInfoStatus = require('../../models/PetDetailInfoStatus');
 const Pet = require('../../models/Pet');
+const PetOptions = require('../../models/PetOption');
+const PetOptionRS = require('../../models/PetOptionRS');
+const PetOptionStatus = require('../../models/PetOptionStatus');
+const { at } = require('lodash');
+const imageService = require('../services/imgService');
 
 // 모든 species를 가져오는 함수
 const getAllPetSpecies = async () => {
     try {
         const petSpecies = await PetSpecies.findAll({
-            attributes: ['species'] // species 필드만 선택
+            attributes: ['id', 'species'],
+            raw: true  // raw: true를 사용하여 단순한 데이터 객체 배열을 반환받음
         });
-        return petSpecies.map(species => species.species);
+
+        return petSpecies;  // pet_id와 species를 포함한 객체 배열을 그대로 반환
     } catch (error) {
         throw new Error(`Failed to fetch pet species: ${error.message}`);
     }
 };
+
 
 // 사용자가 입력한 species를 바탕으로 인덱스 값을 가져오는 함수
 const getSpeciesIdByName = async (speciesName) => {
@@ -35,81 +40,135 @@ const getSpeciesIdByName = async (speciesName) => {
     }
 };
 
-// 특정 species에 포함된 모든 breed를 가져오는 함수 
-const getAllPetBreeds = async (speciesName) => {
+// 특정 species에 포함된 모든 breed를 가져오는 함수
+const getAllPetBreeds = async (speciesId) => {
     try {
-        const speciesId = await getSpeciesIdByName(speciesName);
         const petBreeds = await PetBreeds.findAll({
-            attributes: ['breed'],
-            where: { pet_species: speciesId}
+            where: { pet_species: speciesId},
+            attributes: ['id','breed']
         });
-        return petBreeds.map(breed => breed.breed);
+        return petBreeds.map(breed => ({
+            id: breed.id,
+            breed: breed.breed
+        }));
     } catch (error) {
         throw new Error(`Failed to fetch pet breeds: ${error.message}`);
     }
 };
 
 // 특정 species에 따른 특이사항 목록을 가져오는 함수
- const getPetDetailsBySpecies = async (speciesName) => {
+const getPetOptionsBySpecies = async (species_id) => {
     try {
-        const speciesId = await getSpeciesIdByName(speciesName);
-        const details = await PetDetailInfo.findAll({
-            attributes: ['id', 'information'],
-            include: [{
-                model: PetSpeciesInfoRS,
-                where: { species_id: speciesId },
-                attributes: []
-            }]
+        // 첫 번째 쿼리: 해당 species_id에 대한 option_id를 가져옵니다.
+        const OptionID = await PetOptionRS.findAll({
+            where: { species_id },
+            attributes: ['option_id'],
         });
-        return details.map(detail => ({ id: detail.id, information: detail.information }));
-    } catch (error) {
-        throw new Error(`Failed to fetch pet detail informations: &{error.message}`);
-    }
- };
 
- // 펫 등록 함수
- const registerPet = async (petData) => {
-    const { name, species, breed, birthDate, weight, gender, haveEtc, contents, details } = petData;
+        // 가져온 option_id 목록을 배열로 추출합니다.
+        const optionIds = OptionID.map(option => option.option_id);
+
+        // 두 번째 쿼리: 위에서 얻은 option_id 목록에 해당하는 옵션을 가져옵니다.
+        const petOptions = await PetOptions.findAll({
+            where: {
+                id: optionIds,
+            },
+            attributes: ['id', 'option', 'true', 'false'],
+        });
+
+        // 가져온 옵션 데이터를 반환합니다.
+        return petOptions.map(petOption => ({
+            optionId: petOption.id,
+            option: petOption.option,
+            true: petOption.true,
+            false: petOption.false,
+        }));
+    } catch (error) {
+        throw new Error(`Failed to fetch pet options for species_id ${species_id}: ${error.message}`);
+    }
+};
+
+// 펫 등록 함수
+const registerPet = async (petData) => {
     try {
-        const speciesId = await getSpeciesIdByName(species);
-        const breedRecord = await PetBreeds.findOne({ where: {breed} });
-        if (!breedRecord) {
-            throw new Error(`Breed not found: ${breed}`);
-        }
+        // 생일 파싱 - YY/MM/DD 형식으로 가정
+        const [year, month, day] = petData.birthDate.split('/');
+        const parsedYear = parseInt(year, 10) < 50 ? `20${year}` : `19${year}`; // 50년 이전은 2000년대, 이후는 1900년대
+        const birthDate = new Date(`${parsedYear}-${month}-${day}`);
+        console.log('Parsed birth date:', birthDate);
+
         const pet = await Pet.create({
-            pet_name: name,
-            pet_species: speciesId,
-            pet_breed: breedRecord.id,
-            pet_birth: birthDate,
-            pet_weight: weight,
-            pet_gender: gender === '남자',
-            have_etc: haveEtc,
-            contents: contents
+            platform_id: petData.platform_id,
+            platform: petData.platform,
+            pet_name: petData.name,
+            pet_species: petData.species,
+            pet_breed: petData.breed,
+            pet_birth: birthDate.toISOString().split('T')[0], // 날짜 형식 변환
+            pet_weight: petData.weight,
+            pet_gender: petData.gender,
+            pet_etc: petData.etc,
         });
-        const availableDetails = await PetSpeciesInfoRS.findAll({
-            where: { species_id: speciesId },
-            attributes: ['information_id']
-        });
-        const availableDetailIds = availableDetails.map(detail => detail.information_id);
-        for (const detail of details) {
-            if (availableDetailIds.includes(detail.id)) {
-                await PetDetailInfoStatus.create({
-                    pet_id: pet.pet_id,
-                    species_information: detail.id,
-                    whether: detail.value
-                });
-            }
+
+        const petId = pet.pet_id;
+
+        // 이미지 처리
+        let petImg = null;
+        if (petData.image) {
+            petImg = await imageService.uploadPetImage(petData.image, petId, 'pet');
         }
-        return pet;
+
+        // 펫 상세 정보 데이터베이스에 저장
+        const petDetails = petData.details.map(detail => ({
+            pet_id: petId,
+            option_id: detail.id,
+            whether: detail.value === 1,
+        }));
+
+        await PetOptionStatus.bulkCreate(petDetails);
+
+        return { pet, petImg, petDetails };
     } catch (error) {
         throw new Error(`Failed to register pet: ${error.message}`);
     }
- };
+};
+
+// 자신의 펫 조회
+const getMyPets = async (id, platform) => {
+    try {
+        // 1. Pet 데이터 조회
+        const pets = await Pet.findAll({
+            where: { platform_id: id, platform: platform },
+            attributes: ['pet_id', 'pet_name', 'pet_species', 'pet_breed', 'pet_weight', 'pet_gender', 'pet_birth'],
+        });
+
+        // 2. pet_breed에 따라 품종 이름 조회 및 추가
+        for (let pet of pets) {
+            const breedInfo = await PetBreeds.findOne({
+                where: { id: pet.pet_breed },
+                attributes: ['breed']
+            });
+            pet.dataValues.breedName = breedInfo ? breedInfo.breed : null;
+        }
+
+        // 3. pet_id에 따라 이미지 조회 및 추가
+        const petIds = pets.map(pet => pet.pet_id);
+        const petImages = await imageService.getPetImages(petIds);
+
+        pets.forEach(pet => {
+            pet.dataValues.image = petImages[pet.pet_id] || null;
+        });
+
+        return pets;
+    } catch (error) {
+        throw new Error(`Failed to fetch pets: ${error.message}`);
+    }
+};
 
 module.exports = {
     getAllPetSpecies,
     getSpeciesIdByName,
     getAllPetBreeds,
-    getPetDetailsBySpecies,
-    registerPet
+    getPetOptionsBySpecies,
+    registerPet,
+    getMyPets
 };

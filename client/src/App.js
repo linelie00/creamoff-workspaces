@@ -44,8 +44,8 @@ function App() {
                 <Route path="/notice" element={<NoticePage />} />
                 <Route path="/events/:id/review" element={<ReviewPage />} />
                 <Route path="/events/:id/view-details" element={<ViewDetailsPage />} />
-                <Route path="/pet-select" element={<PetSelectPage />} />
-                <Route path="/reservation-request" element={<ReservationRequestPage />} />
+                <Route path="/pet-select/:id" element={<PetSelectPage />} />
+                <Route path="/reservation-request/:id" element={<ReservationRequestPage />} />
                 <Route path="/select-date" element={<SelectDatePage />} />
                 <Route path="/reservation-confirm" element={<ReservatinConfirm />} />
                 <Route path="/reservation" element={<ReservationPage />} />

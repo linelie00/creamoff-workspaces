@@ -176,6 +176,14 @@
     background-color: #c4c4c4;
 }
 
+.pet-contents-img img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover; /* 이미지가 원형 안에서 잘리지 않게 조정 */
+    overflow: hidden; /* 원형 안에서 넘치는 부분 숨김 */
+}
+
 .pet-contents-info {
     display: flex;
     flex-direction: row;

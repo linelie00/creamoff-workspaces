@@ -4,6 +4,7 @@ import Checkbox from './CheckboxGroup.js';
 import '../styles/reservation.css';
 
 const ReservationRequestPage = () => {
+    const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
     const { selectedPet } = location.state || {};
@@ -100,6 +101,21 @@ const ReservationRequestPage = () => {
         }));
     };
 
+    // 나이 계산 함수
+    const calculateAge = (birthDate) => {
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+
+        // 생일이 지나지 않았으면 나이에서 1살 뺌
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        return age;
+    };
+
     return (
         <div lang='ko'>
             <div className='navigation'>
@@ -114,8 +130,8 @@ const ReservationRequestPage = () => {
                     한라마운틴미용실
                 </div>
                 <div className='view-pet'>
-                    {selectedPet.name}
-                    <p>{selectedPet.breed}/{selectedPet.weight}/{selectedPet.gender}/{selectedPet.age}</p>
+                    {selectedPet.pet_name}
+                    <p>{selectedPet.breedName}/{selectedPet.pet_weight}kg/{selectedPet.pet_gender ? '남' : '여'}/{calculateAge(selectedPet.pet_birth)}살</p>
                 </div>
                 <div className='blank'></div>
                 <Checkbox groupName="스타일" checkboxes={initialCheckboxes} checkboxState={checkboxState} onChange={handleCheckboxChange} />

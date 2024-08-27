@@ -40,7 +40,7 @@ const Pet = sequelize.define('TB_PETS', {
         defaultValue: '',
     },
     pet_birth: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
         defaultValue: '2000-01-01',
     },
@@ -54,12 +54,7 @@ const Pet = sequelize.define('TB_PETS', {
         allowNull: false,
         defaultValue: true,
     },
-    have_etc: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-    },
-    contents: {
+    pet_etc: {
         type: DataTypes.TEXT,
         allowNull: true,
     },

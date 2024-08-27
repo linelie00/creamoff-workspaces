@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
 const Pet = require('./Pet');
-const ReservationSpecialNote = require('./ReservationSpecialNote');
 
 const Reservation = sequelize.define('TB_RESERVATIONS', {
     reservation_id: {
@@ -13,10 +12,6 @@ const Reservation = sequelize.define('TB_RESERVATIONS', {
     pet_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'TB_PETS',
-            key: 'pet_id',
-        },
     },
     platform_id: {
         type: DataTypes.STRING(200),
@@ -25,14 +20,6 @@ const Reservation = sequelize.define('TB_RESERVATIONS', {
     platform: {
         type: DataTypes.STRING(20),
         allowNull: false,
-    },
-    special_note: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'TB_RESERVATION_SPECIAL_NOTES',
-            key: 'id',
-        },
     },
     attention_note: {
         type: DataTypes.TEXT,
@@ -67,9 +54,5 @@ const Reservation = sequelize.define('TB_RESERVATIONS', {
 }, {
     timestamps: false,
 });
-
-// 외래 키 관계 정의
-Reservation.belongsTo(Pet, { foreignKey: 'pet_id', targetKey: 'pet_id' });
-Reservation.belongsTo(ReservationSpecialNote, { foreignKey: 'special_note', targetKey: 'id' });
 
 module.exports = Reservation;
