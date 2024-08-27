@@ -4,6 +4,7 @@ import '../../styles/auth.css'
 import '../../styles/reservation.css'
 import ReservationAcceptModal from '../Modal/ReservationAccept';
 import ReservationRejectModal from '../Modal/ReservationReject';
+import ReservationCheckModal from '../Modal/ReservationCheck';
 import '../../styles/reservationModal.css'
 
 const ReservationDetails = () => {
@@ -12,6 +13,8 @@ const ReservationDetails = () => {
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/button/arrow_left.svg`;
 
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isCheckModalOpen, setCheckModalOpen] = useState(false);
+  const [checkMessage, setCheckMessage] = useState('');
   const [actionType, setActionType] = useState('');
 
   const reservatioInfo = [
@@ -45,12 +48,16 @@ const ReservationDetails = () => {
 
   const handleConfirm = () => {
     console.log('수락');
-    closeModal();
+    setCheckMessage('확정되었습니다.');
+    setModalOpen(false);
+    setCheckModalOpen(true);
   };
 
   const handleReject = () => {
     console.log('거절');
-    closeModal();
+    setCheckMessage('거절사유를 전송했습니다.');
+    setModalOpen(false);
+    setCheckModalOpen(true);
   };
 
   return (
@@ -76,15 +83,20 @@ const ReservationDetails = () => {
         </div>
         <ReservationAcceptModal 
             isOpen={isModalOpen && actionType === 'accept'}
-            onClose={closeModal}
+            onClose={() => setModalOpen(false)}
             onConfirm={handleConfirm}
             actionType={actionType}
         />
         <ReservationRejectModal
             isOpen={isModalOpen && actionType === 'reject'}
-            onClose={closeModal}
+            onClose={() => setModalOpen(false)}
             onConfirm={handleReject}
             actionType={actionType}
+        />
+        <ReservationCheckModal 
+            isOpen={isCheckModalOpen}
+            onClose={() => setCheckModalOpen(false)}
+            message={checkMessage}
         />
     </div>
   );
