@@ -16,4 +16,14 @@ router.post('/saved', async (req, res) => {
     }
 });
 
+router.get('/saved', async (req, res) => {
+    try {
+        const { id, platform } = req.user;
+        const saved = await savedService.getSaved(id, platform);
+        res.json(saved);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;
