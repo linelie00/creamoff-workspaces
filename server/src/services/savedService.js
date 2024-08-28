@@ -1,9 +1,9 @@
 const Saved = require('../../models/Saved');
 const Business = require('../../models/Business');
 
+// 찜 항목 등록
 const registerSaved = async (id, platform, businessId) => {
     try {
-        // findOrCreate를 사용하여 찜 항목을 검색하거나 새로 생성
         const [saved, created] = await Saved.findOrCreate({
             where: {
                 platform_id: id,
@@ -18,20 +18,18 @@ const registerSaved = async (id, platform, businessId) => {
         });
 
         if (!created) {
-            // 이미 존재하는 경우 메시지를 반환
             return { message: '이미 찜한 업체입니다.' };
         }
 
-        // 새로 생성된 경우 레코드 반환
         return saved;
     } catch (error) {
         throw new Error(`Failed to save business: ${error.message}`);
     }
 };
 
+// 찜한 목록 조회
 const getSaved = async (id, platform) => {
     try {
-        // 사용자 ID와 플랫폼을 기반으로 찜 목록을 조회
         const savedId = await Saved.findAll({
             where: {
                 platform_id: id,
@@ -53,7 +51,27 @@ const getSaved = async (id, platform) => {
     }
 };
 
+// 찜한 항목 삭제
+const deleteSaved = async (id, platform, businessId) => {
+    try {
+        const result = await Saved.destroy({
+            where: {
+                platform_id: id,
+                platform: platform,
+                business_id: businessId,
+            },
+        });
+
+        if (result === 0) {
+            throw new Error('찜한 항목을 찾을 수 없습니다.');
+        }
+    } catch (error) {
+        throw new Error(`Failed to delete saved business: ${error.message}`);
+    }
+};
+
 module.exports = {
     registerSaved,
     getSaved,
+    deleteSaved,
 };
