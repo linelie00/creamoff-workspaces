@@ -195,10 +195,10 @@ const EditUserPage = () => {
                             <button>변경</button>
                         </div>
                         <div className='edit-textbox2'>
-                            <p>로그아웃</p>
+                            <p onClick={Logout}>로그아웃</p>
                         </div>
                         <div className='edit-textbox'>
-                            <p onClick={Logout}>탈퇴</p>
+                            <p>탈퇴</p>
                         </div>
                     </div>
                 </div>

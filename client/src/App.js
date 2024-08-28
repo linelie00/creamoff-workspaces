@@ -25,6 +25,7 @@ import ReservationPage from './Reservation/ReservationPage';
 import CancleReservationPage from './Reservation/CancleReservationPage';
 import UploadPage from './File/UploadPage';
 import './App.css';
+import './styles/components.css';
 
 function App() {
     return (

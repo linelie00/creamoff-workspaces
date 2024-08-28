@@ -1,5 +1,4 @@
 import React from "react";
-import '../components.css';
 import { useNavigate } from "react-router-dom";
 
 const NButtonContainer = () => {

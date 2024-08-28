@@ -255,6 +255,7 @@ button.verified {
     font-weight: 400;
     height: 20px;
     width: 100%;
+    cursor: default;
 }
 
 .edit-textbox2 p {
