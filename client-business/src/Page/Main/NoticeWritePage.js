@@ -23,7 +23,7 @@ const WriteNotice = () => {
         <div className='page-container2'>
             <div className='navigation'>
                 <button>
-                    <img src={arrowButtonUrl} alt='' onClick={()=>navigate('/home')} />
+                    <img src={arrowButtonUrl} alt='' onClick={()=>navigate('/customer-management')} />
                 </button>
                 알림장 작성
                 <div> </div>
