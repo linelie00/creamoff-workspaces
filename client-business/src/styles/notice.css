@@ -76,6 +76,7 @@
     font-size: 16px;
     margin-left: 30px;
     margin-top: 10px;
+    margin-bottom: 100px;
     padding: 10px;
     width: 370px;
     height: 300px;
@@ -149,4 +150,14 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.send-btn {
+    background-color: #F0663F;
+    color: #ffffff;
+    width: 400px;
+    height: 40px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
 }

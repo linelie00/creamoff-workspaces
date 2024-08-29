@@ -45,7 +45,7 @@ const CustomerManagement = () => {
                 <div className='customer-item'>
                     <button 
                         className={`result-button ${customer.resultButton === '내용쓰기' ? 'write-mode' : 'view-mode'}`}
-                        onClick={() => navigate('/admin-menu')}
+                        onClick={() => navigate('/write-notice')}
                     >
                         {customer.resultButton}
                     </button>

@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/notice.css'
+import '../../styles/noticeModal.css'
+import NoticeSendModal from '../Modal/NoticeSend';
 
 const WriteNotice = () => {
-
+  
   const navigate = useNavigate();
   const arrowButtonUrl = `${process.env.PUBLIC_URL}/images/button/arrow_left.svg`;
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const handleConfirm = () => {
+    console.log('보내기 작업 수행');
+    closeModal();
+  };
 
   return (
     <div className='page-container' lang='ko'>
@@ -159,7 +170,14 @@ const WriteNotice = () => {
             <div className='notice-title2'>기타 특이사항</div>
             <textarea className='notice-textbox2' type='text' id='etc-meno' name='etc-meno' placeholder='전달사항을 입력해주세요.'/>
         </div>
-        <div className='footer'> 니얼굴</div>
+        <div className='footer'>
+            <button className='send-btn' onClick={openModal}>보내기</button>
+        </div>
+        <NoticeSendModal 
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onConfirm={handleConfirm}
+        />
     </div>
   );
 };
