@@ -32,7 +32,7 @@ const AdminMenu = () => {
             <img src={reviewIcon} alt="review icon" className='menu-icon'/>
             <span className='menu-text'><br/>후기관리</span>
           </button>
-          <button className='menu-tbt-btn'>
+          <button className='menu-tbt-btn' onClick={()=>navigate('/calculation-management')}>
             <img src={calculateIcon} alt="calculate icon" className='menu-icon'/>
             <span className='menu-text'><br/>정산관리</span>
           </button>
