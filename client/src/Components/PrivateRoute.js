@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import api from '../Api'; // axios 인스턴스나 API 호출 모듈
-import Popup from './Popup'; // 팝업 컴포넌트
+import Popup from './PopupModal'; // 팝업 컴포넌트
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,7 +12,6 @@ const PrivateRoute = ({ element: Component, ...rest }) => {
     const verifyToken = async () => {
       try {
         const token = localStorage.getItem('token');
-        console.log('토큰:', token);
 
         if (token) {
           const response = await api.get('/api/verify-token', {
