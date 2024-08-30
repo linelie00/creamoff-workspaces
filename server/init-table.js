@@ -5,6 +5,8 @@ const BeautyOption = require('./models/BeautyOption'); // 모델 파일 경로�
 const BeautyPrice = require('./models/BeautyPrice'); // 모델 파일 경로를 적절하게 수정하세요
 const PetSpecies = require('./models/PetSpecies');
 const PetBreed = require('./models/PetBreed');
+const PetOption = require('./models/PetOption');
+const PetOptionRS = require('./models/PetOptionRS');
 
 async function initPetSpecies() {
     const petSpecies = [
@@ -61,6 +63,47 @@ async function initPetBreeds() {
         await sequelize.close();
     }
 }
+
+async function initPetOptions() {
+    const petOptions = [
+        { option: '예방접종을', true: '했어요', false: '안했어요' },
+        { option: '중성화를', true: '했어요', false: '안했어요' },
+        { option: '미용경험이', true: '있어요', false: '없어요' },
+        { option: '입질이', true: '있어요', false: '없어요' },
+        { option: '슬개골탈구가', true: '있어요', false: '없어요' },
+    ];
+    try {
+        await PetOption.bulkCreate(petOptions);
+        console.log('Pet options inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet options:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
+async function initPetOptionRS() {
+    const petOptionRS = [
+        { species_id: 1, option_id: 1 },
+        { species_id: 1, option_id: 2 },
+        { species_id: 1, option_id: 3 },
+        { species_id: 1, option_id: 4 },
+        { species_id: 1, option_id: 5 },
+        { species_id: 2, option_id: 1 },
+        { species_id: 2, option_id: 2 },
+        { species_id: 2, option_id: 3 },
+        { species_id: 2, option_id: 4 },
+    ];
+    try {
+        await PetOptionRS.bulkCreate(petOptionRS);
+        console.log('Pet optionRS inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet optionRS:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
 
 async function insertPetWeights() {
     const petWeights = [
@@ -217,9 +260,10 @@ async function initBeautyPrices() {
         await sequelize.close();
     }
 }
-
-initPetSpecies();
-initPetBreeds();
+initPetOptions()
+initPetOptionRS()
+//initPetSpecies();
+//initPetBreeds();
 //insertPetWeights();
 //initBeautyOptions();
 //initBeautyPrices();

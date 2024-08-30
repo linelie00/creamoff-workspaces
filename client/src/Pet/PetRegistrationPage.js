@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pet.css';
 import '../styles/autoComplete.css';
-import axios from 'axios';
 import RadioButton from './RadioButton';
 import api from '../Api';
 
