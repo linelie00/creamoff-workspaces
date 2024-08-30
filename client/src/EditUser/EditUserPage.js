@@ -114,7 +114,7 @@ const EditUserPage = () => {
 
     const Logout = () => {
         localStorage.removeItem('token');
-        navigate('/login');
+        navigate('/');
     }
 
     return (

@@ -251,7 +251,7 @@
 /* 모달 내용 컨테이너 */
 .modal-content {
     background-color: #fff;
-    padding: 24px;
+    padding: 28px;
     border-radius: 12px;
     width: 343px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -262,8 +262,8 @@
 /* 닫기 버튼 */
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 14px;
     background: transparent;
     border: none;
     font-size: 16px;
@@ -323,4 +323,19 @@
 /* 확인 버튼이 일반 모달일 때 스타일 */
 .modal-confirm-button.n {
     background-color: #eb944d; /* 주황색 */
+}
+
+.modal-text.w {
+    color: #EA4335;
+}
+
+.modal-text.n {
+    color: black;
+}
+
+.modal-footer p {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
 }
