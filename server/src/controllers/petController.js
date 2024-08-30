@@ -103,6 +103,18 @@ const getMyPetsHandler = async (req, res) => {
     }
 };
 
+const getPetDetailsHandler = async (req, res) => {
+    const petId = req.params.id;
+
+    try {
+        const pet = await petService.getPetDetails(petId);
+        res.json(pet);
+    } catch (error) {
+        console.error('Failed to fetch pet details error: ', error);
+        res.status(500).json({ message: 'Failed to fetch pet details.' });
+    }
+};
+
 
 module.exports = {
     getAllPetSpeciesHandler,
@@ -110,5 +122,6 @@ module.exports = {
     getPetDetailsBySpeciesHandler,
     getPetOptionsHandler,
     registerPetHandler,
-    getMyPetsHandler
+    getMyPetsHandler,
+    getPetDetailsHandler
 };

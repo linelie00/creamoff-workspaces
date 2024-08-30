@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 훅을 임포트합니다.
 import api from '../Api';
 
 const PetListSection = ({ isSelectable, onSelectPet }) => {
     const petUrl = `${process.env.PUBLIC_URL}/images/pet/pet_img.png`;
     const [myPet, setMyPet] = useState([]);
+    const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수 생성
 
     useEffect(() => {
         const fetchPetSpecies = async () => {
@@ -26,14 +28,12 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
         fetchPetSpecies();
     }, []);
 
-    // 나이 계산 함수
     const calculateAge = (birthDate) => {
         const birth = new Date(birthDate);
         const today = new Date();
         let age = today.getFullYear() - birth.getFullYear();
         const monthDiff = today.getMonth() - birth.getMonth();
 
-        // 생일이 지나지 않았으면 나이에서 1살 뺌
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
             age--;
         }
@@ -41,7 +41,6 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
         return age;
     };
 
-    // 강아지와 고양이 데이터를 필터링
     const dogPets = myPet.filter(pet => pet.pet_species === 1);
     const catPets = myPet.filter(pet => pet.pet_species === 2);
 
@@ -63,6 +62,9 @@ const PetListSection = ({ isSelectable, onSelectPet }) => {
         if (isSelectable) {
             setSelectedPetId(pet.pet_id);
             onSelectPet(pet);
+        } else {
+            // 펫이 선택된 경우 해당 펫의 상세 페이지로 이동합니다.
+            navigate(`/pet-detail/${pet.pet_id}`); // 해당 펫의 ID로 상세 페이지로 이동
         }
     };
 

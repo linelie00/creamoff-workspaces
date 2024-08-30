@@ -18,6 +18,8 @@ import Redirection from './Login/Redirection';
 import PetListPage from './Pet/PetListPage';
 import PetSelectPage from './Pet/PetSelectPage';
 import PetRegistrationPage from './Pet/PetRegistrationPage';
+import PetDetailPage from './Pet/PetDetailPage';
+import PetEditPage from './Pet/PetEditPage';
 import ReservationRequestPage from './Reservation/ReservationRequestPage';
 import SelectDatePage from './Reservation/SelectDatePage';
 import ReservatinConfirm from './Reservation/ReservationConfirmPage';
@@ -61,6 +63,8 @@ function App() {
                 <Route path="/saved" element={<PrivateRoute element={SavedPage} />} />
                 <Route path="/edit-address" element={<PrivateRoute element={EditAdressPage} />} />
                 <Route path="/upload" element={<PrivateRoute element={UploadPage} />} />
+                <Route path="/pet-detail/:id" element={<PrivateRoute element={PetDetailPage} />} />
+                <Route path="/pet-edit/:id" element={<PrivateRoute element={PetEditPage} />} />
                 {/* 추가 라우트도 PrivateRoute로 보호 */}
               </Routes>
             </Router>

@@ -63,7 +63,6 @@ const PrivateRoute = ({ element: Component, ...rest }) => {
             로그인이 필요합니다
           </Popup>
         )}
-        {/* Optional: Return null to avoid rendering the component if not authenticated */}
         {null}
       </>
     );
