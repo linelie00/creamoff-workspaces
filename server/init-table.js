@@ -108,20 +108,20 @@ async function initPetOptionRS() {
 async function insertPetWeights() {
     const petWeights = [
         // 강아지 - 소형견
-        { size_category: '소형견', min_weight: 0, max_weight: 10, pet_species: 1 },
+        { size_category: '소형견', min_weight: 0, max_weight: 10, species_id: 1 },
         // 강아지 - 중형견
-        { size_category: '중형견', min_weight: 10, max_weight: 25, pet_species: 1 },
+        { size_category: '중형견', min_weight: 10, max_weight: 25, species_id: 1 },
         // 강아지 - 대형견
-        { size_category: '대형견', min_weight: 25, max_weight: 45, pet_species: 1 },
+        { size_category: '대형견', min_weight: 25, max_weight: 45, species_id: 1 },
         // 강아지 - 초대형견
-        { size_category: '초대형견', min_weight: 45, max_weight: 90, pet_species: 1 },
+        { size_category: '초대형견', min_weight: 45, max_weight: 90, species_id: 1 },
 
         // 고양이 - 소형묘
-        { size_category: '소형묘', min_weight: 0, max_weight: 4, pet_species: 2 },
+        { size_category: '소형묘', min_weight: 0, max_weight: 4, species_id: 2 },
         // 고양이 - 중형묘
-        { size_category: '중형묘', min_weight: 4, max_weight: 6, pet_species: 2 },
+        { size_category: '중형묘', min_weight: 4, max_weight: 6, species_id: 2 },
         // 고양이 - 대형묘
-        { size_category: '대형묘', min_weight: 6, max_weight: 10, pet_species: 2 },
+        { size_category: '대형묘', min_weight: 6, max_weight: 10, species_id: 2 },
     ];
 
     try {
@@ -260,10 +260,11 @@ async function initBeautyPrices() {
         await sequelize.close();
     }
 }
-initPetOptions()
-initPetOptionRS()
+//initPetOptions();
+//initPetOptionRS();
 //initPetSpecies();
+
+insertPetWeights();
 //initPetBreeds();
-//insertPetWeights();
 //initBeautyOptions();
 //initBeautyPrices();

@@ -51,7 +51,7 @@ const CommunityPage = () => {
           nickname={nickname}
           onProfilClick={onProfilClick}
         />
-        <CommunityList />
+        {/* <CommunityList /> */}
         <NButtonContainer />
         <button className='floating-button'>
             <img src={floatingButtonUrl} alt="Floating Button" />

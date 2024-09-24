@@ -27,7 +27,7 @@ sequelize.sync({ force: false })
 // CORS 설정
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+    if (!origin || /^http:\/\/223.130.150.169(:\d+)?$/.test(origin)) {
       // 로컬호스트에서 모든 포트 허용
       callback(null, true);
     } else {
