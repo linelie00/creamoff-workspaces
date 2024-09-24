@@ -25,13 +25,33 @@ import ReservationPage from "./Reservation/ReservationPage";
 import CancleReservationPage from "./Reservation/CancleReservationPage";
 import UploadPage from "./File/UploadPage";
 import PrivacyPolicy from "./PrivacyPolicy/privacyPolicy";
+import Landing from "./Landing/landing";
+import { useLocation } from "react-router-dom";
 import "./App.css";
 
 function App() {
   return (
+    <Router>
+      <MainApp />
+    </Router>
+  );
+}
+
+function MainApp() {
+  const location = useLocation(); // useLocation 호출은 이제 Router 내부에서 안전하게 가능합니다
+
+  return (
     <div className="App">
-      <div className="Container">
-        <Router>
+      {/* landing_container는 항상 렌더링 */}
+      <div className="landing_container">
+        <Routes>
+          <Route path="/landing" element={<Landing />} />
+        </Routes>
+      </div>
+
+      {/* 현재 경로가 /landing이 아닐 때만 Container 렌더링 */}
+      {location.pathname !== "/landing/" && (
+        <div className="Container">
           <Routes>
             <Route path="/home" element={<HomePage />} />
             <Route path="/list/:id" element={<ListPage />} />
@@ -71,10 +91,11 @@ function App() {
             <Route path="/edit-address" element={<EditAdressPage />} />
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+
             {/* 다른 라우트들 추가 */}
           </Routes>
-        </Router>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
