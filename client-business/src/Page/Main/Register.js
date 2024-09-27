@@ -59,7 +59,7 @@ function Register() {
     <div className='mid' lang='ko'>
       <div className='navigation'>
         <button>
-          <img src={arrowButtonUrl} alt='' onClick={()=>navigate('/home')} />
+          <img src={arrowButtonUrl} alt='' onClick={()=>navigate('/admin-menu')} />
         </button>
         등록자료 올리기
         <div onClick={handleSave}>저장</div>

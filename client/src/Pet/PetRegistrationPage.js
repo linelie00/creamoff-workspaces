@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/pet.css';
 import '../styles/autoComplete.css';
-import axios from 'axios';
 import RadioButton from './RadioButton';
 import api from '../Api';
 
@@ -42,6 +41,7 @@ const PetRegistration = () => {
             try {
                 const response = await api.get('/api/pet/pet-species');
                 setPetSpecies(response.data);
+                console.log('펫 종류:', response.data);
             } catch (error) {
                 console.error('데이터 가져오기 에러:', error);
             }

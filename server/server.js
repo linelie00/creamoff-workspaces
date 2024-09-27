@@ -8,6 +8,7 @@ const authRoutes = require('./src/routes/authRoutes');
 const petRoutes = require('./src/routes/petRoutes');
 const storageRoutes = require('./src/routes/storageRoutes');
 const businessRoutes = require('./src/routes/businessRoutes');
+const savedRoutes = require('./src/routes/savedRoutes');
 
 dotenv.config(); // .env 파일의 환경 변수 로드
 
@@ -26,7 +27,7 @@ sequelize.sync({ force: false })
 // CORS 설정
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+    if (!origin || /^http:\/\/223.130.150.169(:\d+)?$/.test(origin)) {
       // 로컬호스트에서 모든 포트 허용
       callback(null, true);
     } else {
@@ -48,6 +49,7 @@ app.use('/api', authRoutes);
 app.use('/api/pet', petRoutes);
 app.use('/api', storageRoutes);
 app.use('/api', businessRoutes);
+app.use('/api', savedRoutes);
 
 // 서버 실행
 app.listen(app.get('port'), () => {

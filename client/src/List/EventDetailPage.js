@@ -4,6 +4,7 @@ import EventTags from './EventTags';
 import axios from 'axios';
 import '../styles/listPage.css';
 import Table from './EventDetailTable';
+import api from '../Api';
 
 const EventDetailPage = () => {
     const { id } = useParams();
@@ -71,6 +72,29 @@ const EventDetailPage = () => {
         accordionRef.current.scrollLeft = scrollLeft - walk;
     };
 
+    const handleSavedClick = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No token found.');
+            }
+    
+            // 서버에 요청을 보낼 때 에러가 발생해도 앱이 멈추지 않도록 처리
+            await api.post(`/api/saved`, {
+                business_id: id,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+    
+            console.log('Saved:', id);
+        } catch (error) {
+            console.log('Error occurred during save operation.');
+            // 에러가 발생해도 사용자에게 표시하지 않고 로그로만 남김
+        }
+    };
+
     // 뒤로 가기
     const goBack = () => {
         navigate(-1);
@@ -87,7 +111,7 @@ const EventDetailPage = () => {
                 if (!token) {
                     throw new Error('No token found.');
                 }
-                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/businesses/${id}`, {
+                const response = await api.get(`/api/businesses/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
@@ -169,7 +193,7 @@ const EventDetailPage = () => {
                         <div className='event-button-text'>공유</div>
                     </div>
                     <div className='event-button'>
-                        <button>
+                        <button onClick={handleSavedClick}>
                             <img src={heartUrl} alt='' />
                         </button>
                         <div className='event-button-text'>찜</div>
@@ -190,7 +214,6 @@ const EventDetailPage = () => {
                 </div>
                 {business.images.album.length > 9 && (
                     <div className='album-more' onClick={toggleShowAllImages}>
-                        {showAllImages ? '접기∧' : '더보기∨'}
                     </div>
                 )}
                 <div className='information-text'>

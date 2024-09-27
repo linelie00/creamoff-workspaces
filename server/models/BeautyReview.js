@@ -12,10 +12,6 @@ const BeautyReview = sequelize.define('TB_BEAUTY_REVIEWS', {
     beauty_id: {
         type: DataTypes.STRING(200),
         allowNull: false,
-        references: {
-            model: 'TB_BUSINESSES',
-            key: 'id',
-        },
     },
     platform_id: {
         type: DataTypes.STRING(200),
@@ -38,8 +34,5 @@ const BeautyReview = sequelize.define('TB_BEAUTY_REVIEWS', {
 }, {
     timestamp: false,
 });
-
-// 외래 키 관계 정의
-BeautyReview.belongsTo(Beauty, { foreignKey: 'beauty_id', targetKey: 'id' });
 
 module.exports = BeautyReview;

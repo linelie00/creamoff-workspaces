@@ -15,5 +15,6 @@ router.get('/pet-details', petController.getPetDetailsBySpeciesHandler);
 router.get ('/pet-options', petController.getPetOptionsHandler);
 router.post('/register-pet', upload.single('image'), authMiddleware, petController.registerPetHandler);
 router.get('/my-pets', authMiddleware, petController.getMyPetsHandler);
+router.get('/:id', authMiddleware, petController.getPetDetailsHandler);
 
 module.exports = router;

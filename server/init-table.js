@@ -5,6 +5,8 @@ const BeautyOption = require('./models/BeautyOption'); // 모델 파일 경로�
 const BeautyPrice = require('./models/BeautyPrice'); // 모델 파일 경로를 적절하게 수정하세요
 const PetSpecies = require('./models/PetSpecies');
 const PetBreed = require('./models/PetBreed');
+const PetOption = require('./models/PetOption');
+const PetOptionRS = require('./models/PetOptionRS');
 
 async function initPetSpecies() {
     const petSpecies = [
@@ -61,6 +63,47 @@ async function initPetBreeds() {
         await sequelize.close();
     }
 }
+
+async function initPetOptions() {
+    const petOptions = [
+        { option: '예방접종을', true: '했어요', false: '안했어요' },
+        { option: '중성화를', true: '했어요', false: '안했어요' },
+        { option: '미용경험이', true: '있어요', false: '없어요' },
+        { option: '입질이', true: '있어요', false: '없어요' },
+        { option: '슬개골탈구가', true: '있어요', false: '없어요' },
+    ];
+    try {
+        await PetOption.bulkCreate(petOptions);
+        console.log('Pet options inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet options:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
+async function initPetOptionRS() {
+    const petOptionRS = [
+        { species_id: 1, option_id: 1 },
+        { species_id: 1, option_id: 2 },
+        { species_id: 1, option_id: 3 },
+        { species_id: 1, option_id: 4 },
+        { species_id: 1, option_id: 5 },
+        { species_id: 2, option_id: 1 },
+        { species_id: 2, option_id: 2 },
+        { species_id: 2, option_id: 3 },
+        { species_id: 2, option_id: 4 },
+    ];
+    try {
+        await PetOptionRS.bulkCreate(petOptionRS);
+        console.log('Pet optionRS inserted successfully.');
+    } catch (error) {
+        console.error('Error inserting pet optionRS:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
 
 async function insertPetWeights() {
     const petWeights = [
@@ -120,55 +163,90 @@ async function initBeautyOptions() {
 
 async function initBeautyPrices() {
     const beautyPrices = [
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 1, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 1, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 1, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 1, price: 80000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 1, price: 30000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 1, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 1, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 2, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 2, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 2, price: 80000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 2, price: 90000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 2, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 2, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 2, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 3, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 3, price: 80000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 3, price: 90000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 3, price: 100000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 3, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 3, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 3, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 4, price: 80000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 4, price: 90000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 4, price: 100000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 4, price: 110000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 4, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 4, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 4, price: 80000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 5, price: 30000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 5, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 5, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 5, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 5, price: 20000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 5, price: 30000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 5, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 6, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 6, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 6, price: 60000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 6, price: 70000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 6, price: 30000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 6, price: 40000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 6, price: 50000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 1, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 2, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 3, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 4, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 5, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 6, style_id: 7, price: 10000 },
-        { beauty_id: '88811167-34b9-4d86-bb55-10cab5feaf26', weight_id: 7, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 1, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 1, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 1, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 1, price: 80000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 1, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 1, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 1, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 2, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 2, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 2, price: 80000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 2, price: 90000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 2, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 2, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 2, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 3, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 3, price: 80000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 3, price: 90000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 3, price: 100000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 3, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 3, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 3, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 4, price: 80000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 4, price: 90000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 4, price: 100000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 4, price: 110000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 4, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 4, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 4, price: 80000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 5, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 5, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 5, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 5, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 5, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 5, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 5, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 6, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 6, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 6, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 6, price: 70000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 6, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 6, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 6, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 7, price: 10000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 8, price: 20000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 9, price: 30000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 10, price: 40000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 11, price: 50000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 1, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 2, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 3, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 4, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 5, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 6, style_id: 12, price: 60000 },
+        { beauty_id: '568aa3c3-616d-40c5-87c6-2e115117ed94', weight_id: 7, style_id: 12, price: 60000 },
     ];
 
     try {
@@ -182,9 +260,11 @@ async function initBeautyPrices() {
         await sequelize.close();
     }
 }
+//initPetOptions();
+//initPetOptionRS();
+//initPetSpecies();
 
-initPetSpecies();
-initPetBreeds();
-//insertPetWeights();
+insertPetWeights();
+//initPetBreeds();
 //initBeautyOptions();
 //initBeautyPrices();

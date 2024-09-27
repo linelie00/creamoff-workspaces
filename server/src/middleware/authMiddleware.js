@@ -3,6 +3,7 @@ const secretKey = process.env.JWT_SECRET;
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
+  console.log('Authorization header:', authHeader);
 
   if (!authHeader) {
     return res.status(401).json({ message: '인증 토큰을 찾을 수 없습니다.' });

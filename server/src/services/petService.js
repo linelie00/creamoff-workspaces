@@ -97,6 +97,7 @@ const registerPet = async (petData) => {
         const birthDate = new Date(`${parsedYear}-${month}-${day}`);
         console.log('Parsed birth date:', birthDate);
 
+        // 펫 기본 정보 저장
         const pet = await Pet.create({
             platform_id: petData.platform_id,
             platform: petData.platform,
@@ -117,14 +118,18 @@ const registerPet = async (petData) => {
             petImg = await imageService.uploadPetImage(petData.image, petId, 'pet');
         }
 
-        // 펫 상세 정보 데이터베이스에 저장
-        const petDetails = petData.details.map(detail => ({
-            pet_id: petId,
-            option_id: detail.id,
-            whether: detail.value === 1,
-        }));
+        // 펫 상세 정보 저장
+        if (Array.isArray(petData.details)) {
+            const petDetails = petData.details.map(detail => ({
+                pet_id: petId,
+                option_id: detail.id,
+                whether: detail.value === 1,
+            }));
 
-        await PetOptionStatus.bulkCreate(petDetails);
+            await PetOptionStatus.bulkCreate(petDetails);
+        } else {
+            console.warn('Pet details are missing or not an array');
+        }
 
         return { pet, petImg, petDetails };
     } catch (error) {
@@ -164,11 +169,55 @@ const getMyPets = async (id, platform) => {
     }
 };
 
+const getPetDetails = async (petId) => {
+    try {
+        // 펫 기본 정보 가져오기
+        const pet = await Pet.findOne({
+            where: { pet_id: petId },
+        });
+
+        if (!pet) {
+            throw new Error(`Pet with ID ${petId} not found.`);
+        }
+
+        // 펫 이미지 가져오기 (해당 펫 ID에 해당하는 이미지 링크)
+        const petImages = await imageService.getPetImages([petId]);
+        const petImage = petImages[petId] || null;
+
+        if (!petImage) {
+            console.warn(`No image found for pet with ID ${petId}.`);
+        }
+
+        // 펫 종 정보 가져오기
+        const petSpecies = await PetSpecies.findOne({
+            where: { id: pet.pet_species },
+            attributes: ['species'],
+        });
+
+        // 펫 품종 정보 가져오기
+        const petBreed = await PetBreeds.findOne({
+            where: { id: pet.pet_breed },
+            attributes: ['breed'],
+        });
+
+        // 결과 리턴
+        return {
+            ...pet.toJSON(),  // 펫 기본 정보
+            species: petSpecies ? petSpecies.species : null, // 종 정보 추가
+            breed: petBreed ? petBreed.breed : null,  // 품종 정보 추가
+            image: petImage || 'default_image_url',  // 이미지 정보 추가 (없으면 기본 이미지 URL 반환)
+        };
+    } catch (error) {
+        throw new Error(`Failed to fetch pet details: ${error.message}`);
+    }
+};
+
 module.exports = {
     getAllPetSpecies,
     getSpeciesIdByName,
     getAllPetBreeds,
     getPetOptionsBySpecies,
     registerPet,
-    getMyPets
+    getMyPets,
+    getPetDetails,
 };

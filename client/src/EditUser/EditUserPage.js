@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../Api';
+import Popup from '../Components/PopupModal'; // 팝업 컴포넌트
 
 const EditUserPage = () => {
     const navigate = useNavigate();
@@ -19,6 +20,8 @@ const EditUserPage = () => {
 
     const [isEditingNickname, setIsEditingNickname] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
 
     const updateUserInfo = (address, zonecode) => {
         console.log('Updating user info with:', userInfo, address, zonecode);
@@ -93,14 +96,15 @@ const EditUserPage = () => {
             });
 
             if (response.status === 200) {
-                alert('User information updated successfully');
-                // 필요한 경우, 추가적인 로직을 여기에 추가
+                setPopupMessage('유저 정보가 업데이트되었습니다.');
+                setShowPopup(true);
             } else {
-                throw new Error('Failed to update user information');
+                throw new Error('유저 정보 업데이트에 실패했습니다.');
             }
         } catch (error) {
             console.error('Error updating user information:', error);
-            alert('Failed to update user information');
+            setPopupMessage('유저 정보 업데이트에 실패했습니다.');
+            setShowPopup(true);
         }
     };
 
@@ -112,10 +116,18 @@ const EditUserPage = () => {
         navigate('/edit-address', { state: { prevPath: '/edit-user' } });
     };
 
-    const Logout = () => {
+    const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate('/login');
-    }
+        setPopupMessage('You have been logged out.');
+        setShowPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+        if (popupMessage === 'You have been logged out.') {
+            navigate('/'); // 로그아웃 후 홈 페이지로 이동
+        }
+    };
 
     return (
         <div lang='ko' className='mid'>
@@ -195,14 +207,19 @@ const EditUserPage = () => {
                             <button>변경</button>
                         </div>
                         <div className='edit-textbox2'>
-                            <p>로그아웃</p>
+                            <p onClick={handleLogout}>로그아웃</p>
                         </div>
                         <div className='edit-textbox'>
-                            <p onClick={Logout}>탈퇴</p>
+                            <p>탈퇴</p>
                         </div>
                     </div>
                 </div>
             </div>
+            {showPopup && (
+                <Popup closeModal={handleClosePopup} isWarning={popupMessage.includes('Failed')}>
+                    {popupMessage}
+                </Popup>
+            )}
         </div>
     );
 };

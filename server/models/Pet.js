@@ -21,18 +21,10 @@ const Pet = sequelize.define('TB_PETS', {
     pet_species: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'TB_PET_SPECIES',
-            key: 'id',
-        },
     },
     pet_breed: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'TB_PET_BREEDS',
-            key: 'id',
-        },
     },
     pet_name: {
         type: DataTypes.STRING(30),
@@ -61,9 +53,5 @@ const Pet = sequelize.define('TB_PETS', {
 }, {
     timestamps: false,
 });
-
-// 외래키 관계 설정
-Pet.belongsTo(PetSpecies, { foreignKey: 'pet_species', targetKey: 'id' });
-Pet.belongsTo(PetBreed, { foreignKey: 'pet_breed', targetKey: 'id' });
 
 module.exports = Pet;

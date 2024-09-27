@@ -20,10 +20,6 @@ const LogVisitPath = sequelize.define('TB_LOG_VISIT_PATHS', {
     visit_path: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'TB_PATH_LISTS',
-            key: 'id',
-        },
     },
     user_ip: {
         type: DataTypes.STRING(20),
@@ -39,8 +35,5 @@ const LogVisitPath = sequelize.define('TB_LOG_VISIT_PATHS', {
 }, {
     timestamps: false,
 });
-
-// 외래 키 관계 정의
-LogVisitPath.belongsTo(PathList, { foreignKey: 'visit_path', targetKey: 'id' });
 
 module.exports = LogVisitPath;

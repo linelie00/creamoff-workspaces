@@ -22,18 +22,9 @@ const UserAuthority = sequelize.define('TB_USER_AUTHS', {
         type: DataTypes.STRING(8),
         allowNull: false,
         unique: true,
-        references: {
-            model: 'TB_AUTHORITIES',
-            key: 'id'
-        }
     },
 }, {
     timestamps: false,
 });
-
-// 외래 키 관계 설정
-//UserAuthority.belongsTo(User, { foreignKey: 'platform_id', targetKey: 'platform_id' });
-//UserAuthority.belongsTo(User, { foreignKey: 'platform', targetKey: 'platform' });
-UserAuthority.belongsTo(Authority, { foreignKey: 'authority_id', targetKey: 'id' });
 
 module.exports = UserAuthority;
