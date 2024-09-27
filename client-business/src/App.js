@@ -39,7 +39,7 @@ function App() {
           <ImageProvider>
             <Router>
               <Routes>
-                <Route path="/adminlogin" element={<Login />} />
+                <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register imageFiles={imageFiles} />} />
                 <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
                 <Route path="/find-admin-account" element={<FindIDPW />} />
