@@ -4,11 +4,19 @@ import './App.css';
 import './styles/page.css';
 import './styles/main.css';
 import './Fonts/font.css';
-import LoginPage from './Page/Auth/LoginPage';
+import Login from './Page/Auth/LoginPage';
+import FindIDPW from './Page/Auth/FindIDPW';
+import AdminMenu from './Page/Main/MenuPage';
 import Register from './Page/Main/Register';
 import ImgUpload from './Page/Main/ImgUpload';
-
+import ReservationManagement from './Page/Main/ReservationManagementPage';
+import ReservationDetails from './Page/Main/ReservationDetailPage';
+import CustomerManagement from './Page/Main/CustomerManagementPage';
+import ReviewManagement from './Page/Main/ReviewManagementPage';
+import WriteNotice from './Page/Main/NoticeWritePage';
+import CalculationManagement from './Page/Main/CalculationManagementPage';
 import { ImageProvider } from './Contexts/ImageContext';
+
 function App() {
   const [imageFiles, setImageFiles] = useState({
     main: [],
@@ -31,9 +39,17 @@ function App() {
           <ImageProvider>
             <Router>
               <Routes>
-                <Route path="/" element={<LoginPage />} />
-                  <Route path="/register" element={<Register imageFiles={imageFiles} />} />
-                  <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
+                <Route path="/adminlogin" element={<Login />} />
+                <Route path="/register" element={<Register imageFiles={imageFiles} />} />
+                <Route path="/imgupload/:imageType" element={<ImgUpload setImageFiles={handleSetImageFiles} />} />
+                <Route path="/find-admin-account" element={<FindIDPW />} />
+                <Route path="/admin-menu" element={<AdminMenu />} />
+                <Route path="/reservation-management" element={<ReservationManagement />} />
+                <Route path="/reservation-detail" element={<ReservationDetails />} />
+                <Route path="/customer-management" element={<CustomerManagement />} />
+                <Route path="/review-management" element={<ReviewManagement />} />
+                <Route path="/write-notice" element={<WriteNotice />} />
+                <Route path="/calculation-management" element={<CalculationManagement />} />
                 {/* 다른 라우트들 추가 */}
               </Routes>
             </Router>
