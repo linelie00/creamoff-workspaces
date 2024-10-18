@@ -1,8 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const Pet = require('./Pet');
-const Reservation = require('./Reservation');
-const NoticeStatusOfPart = require('./NoticeStatusOfPart');
 
 const Notice = sequelize.define('TB_NOTICES', {
     notice_id: {

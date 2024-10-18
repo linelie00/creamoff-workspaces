@@ -1,7 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const User = require('./User');
-const Authority = require('./Authority');
 
 const UserAuthority = sequelize.define('TB_USER_AUTHS', {
     id: {
