@@ -44,7 +44,7 @@ const getSpeciesIdByName = async (speciesName) => {
 const getAllPetBreeds = async (speciesId) => {
     try {
         const petBreeds = await PetBreeds.findAll({
-            where: { pet_species: speciesId},
+            where: { species_id: speciesId},
             attributes: ['id','breed']
         });
         return petBreeds.map(breed => ({
@@ -88,7 +88,6 @@ const getPetOptionsBySpecies = async (species_id) => {
     }
 };
 
-// 펫 등록 함수
 const registerPet = async (petData) => {
     try {
         // 생일 파싱 - YY/MM/DD 형식으로 가정
@@ -119,11 +118,12 @@ const registerPet = async (petData) => {
         }
 
         // 펫 상세 정보 저장
+        let petDetails = null;  // petDetails 초기화
         if (Array.isArray(petData.details)) {
-            const petDetails = petData.details.map(detail => ({
+            petDetails = petData.details.map(detail => ({
                 pet_id: petId,
                 option_id: detail.id,
-                whether: detail.value === 1,
+                whether: detail.value === '1',  // `value`가 '1' 문자로 전달되는 경우 대응
             }));
 
             await PetOptionStatus.bulkCreate(petDetails);
