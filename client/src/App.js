@@ -16,6 +16,8 @@ import LoginPage from "./Login/LoginPage";
 import KoginSuccess from "./Login/LoginSuccessPage";
 import Redirection from "./Login/Redirection";
 import PetListPage from "./Pet/PetListPage";
+import PetDetailPage from "./Pet/PetDetailPage";
+import PetEditPage from "./Pet/PetEditPage";
 import PetSelectPage from "./Pet/PetSelectPage";
 import PetRegistrationPage from "./Pet/PetRegistrationPage";
 import ReservationRequestPage from "./Reservation/ReservationRequestPage";
@@ -63,6 +65,8 @@ function MainApp() {
             <Route path="/events/:id" element={<EventDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/pet-list" element={<PetListPage />} />
+            <Route path="/pet-detail/:id" element={<PetDetailPage />} />
+            <Route path="/pet-edit/:id" element={<PetEditPage />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/events/:id/review" element={<ReviewPage />} />
             <Route
