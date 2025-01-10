@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const Community = require('./Community');
 
 const Comment = sequelize.define('TB_COMMENTS', {
     id: {
@@ -12,10 +11,6 @@ const Comment = sequelize.define('TB_COMMENTS', {
     post_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'TB_COMMUNITIES',
-            key: 'id',
-        },
     },
     platform_id: {
         type: DataTypes.STRING(200),
@@ -38,8 +33,5 @@ const Comment = sequelize.define('TB_COMMENTS', {
 }, {
     timestamps: false,
 });
-
-// 외래 키 관계 정의
-Comment.belongsTo(Community, { foreignKey: 'post_id', targetKey: 'id' });
 
 module.exports = Comment;

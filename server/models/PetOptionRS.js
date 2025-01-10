@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('.').sequelize;
-const PetOptions = require('./PetOption');
 
 const PetOptionRS = sequelize.define('TB_PET_OPTION_RS', {
     id: {

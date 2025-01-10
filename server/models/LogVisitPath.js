@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const PathList = require('./PathList');
 
 const LogVisitPath = sequelize.define('TB_LOG_VISIT_PATHS', {
     id: {

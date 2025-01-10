@@ -14,6 +14,10 @@ const Review = () => {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+    const [period, setPeriod] = useState("오후");
+    const [hour, setHour] = useState(12);
+    const [minute, setMinute] = useState(30);
+
     const goBack = () => {
         navigate(-1);
     };
@@ -25,7 +29,6 @@ const Review = () => {
     const clearDate = (event) => {
         event.preventDefault();
         setSelectedDate(null);
-        setShowCalendar(false);
     };
 
     const cancelSelection = (event) => {
@@ -87,13 +90,6 @@ const Review = () => {
         </div>
     );
 
-    const customDayClassNames = (date) => {
-        if (date.getMonth() !== selectedDate.getMonth()) {
-            return 'outside-month';
-        }
-        return undefined;
-    };
-
     const openPaymentModal = () => {
         setShowPaymentModal(true);
     };
@@ -105,6 +101,18 @@ const Review = () => {
     const confirmPayment = () => {
         setShowPaymentModal(false);
         navigate('/reservation-confirm');
+    };
+
+    const togglePeriod = (event) => {
+        setPeriod(prev => (prev === "오전" ? "오후" : "오전"));
+    };
+
+    const scrollHour = (event) => {
+        setHour(prev => (event.deltaY > 0 ? (prev % 12) + 1 : (prev === 1 ? 12 : prev - 1)));
+    };
+
+    const scrollMinute = (event) => {
+        setMinute(prev => (prev === 0 ? 30 : 0));
     };
 
     return (
@@ -124,9 +132,9 @@ const Review = () => {
                                 date
                             </div>
                             <div className='schedule'>
-                                {selectedDate.toISOString().substring(0, 10)}
+                                {selectedDate ? selectedDate.toISOString().substring(0, 10) : '날짜 선택'}
                                 <button onClick={() => setShowCalendar(!showCalendar)}>
-                                    <img src={calenderUrl} alt=''/>
+                                    <img src={calenderUrl} alt='달력 아이콘' />
                                 </button>
                             </div>
                         </div>
@@ -154,7 +162,7 @@ const Review = () => {
                                             Clear
                                         </button>
                                         <div className='schedule-calendar-button-container'>
-                                            <button className="schedule-calendar-button " onClick={cancelSelection}>
+                                            <button className="schedule-calendar-button" onClick={cancelSelection}>
                                                 Cancel
                                             </button>
                                             <button className="schedule-calendar-button" onClick={confirmSelection}>
@@ -170,9 +178,9 @@ const Review = () => {
                                 time
                             </div>
                             <div className='schedule2'>
-                                <div>오후</div>
-                                <div>12시</div>
-                                <div>30분</div>
+                                <div onWheel={togglePeriod}>{period}</div>
+                                <div onWheel={scrollHour}>{hour}시</div>
+                                <div onWheel={scrollMinute}>{minute}분</div>
                             </div>
                         </div>
                     </div>
@@ -181,7 +189,7 @@ const Review = () => {
             <div className='Nbutton' onClick={openPaymentModal}>예약등록</div>
             {showPaymentModal && (
                 <Payments closePaymentModal={closePaymentModal} confirmPayment={confirmPayment} />
-                )}
+            )}
         </div>
     );
 };

@@ -1,9 +1,5 @@
-// models/BeautyTagRS.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../models').sequelize;
-const Business = require('./Business');
-const BeautyTag = require('./BeautyTag');
 
 const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
     id: {
@@ -21,7 +17,6 @@ const BeautyTagRS = sequelize.define('TB_BEAUTY_TAG_RS', {
         allowNull: false,
     },
 }, {
-    tableName: 'TB_BEAUTY_TAG_RS', // 테이블 이름 확인
     timestamps: false,
 });
 

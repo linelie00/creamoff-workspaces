@@ -80,7 +80,7 @@ const PetDetail = () => {
                     <div className='PetRegistration-img-container'>
                         <div className='PetRegistration-content'>
                             <div className='upload-img'>
-                                <img src={petData.image || defaultPetImgUrl} alt='펫 이미지' />
+                                <img src={petData.image && petData.image !== "default_image_url" ? petData.image : defaultPetImgUrl} alt='펫 이미지' />
                             </div>
                             <div className='photo'>
                                 <label htmlFor="imageUpload">
